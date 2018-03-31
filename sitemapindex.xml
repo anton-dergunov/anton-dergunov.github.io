@@ -6,15 +6,19 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>https://anton-dergunov.github.io/categories/test.xml</loc>
+  <lastmod>2018-03-31T12:24:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://anton-dergunov.github.io/galleries/rss.xml</loc>
-  <lastmod>2018-03-31T11:02:00Z</lastmod>
+  <lastmod>2018-03-31T11:45:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://anton-dergunov.github.io/rss.xml</loc>
-  <lastmod>2018-03-31T09:36:00Z</lastmod>
+  <lastmod>2018-03-31T12:24:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://anton-dergunov.github.io/sitemap.xml</loc>
-  <lastmod>2018-03-31T11:02:00Z</lastmod>
+  <lastmod>2018-03-31T12:24:00Z</lastmod>
  </sitemap>
 </sitemapindex>
