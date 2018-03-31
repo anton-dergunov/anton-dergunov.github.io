@@ -1,0 +1,4 @@
+Sitemap: https://anton-dergunov.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: anton-dergunov.github.io
