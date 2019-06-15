@@ -39,7 +39,7 @@ cracking escape rooms, cooking tasty food, etc.
 [vtune]: http://software.intel.com/en-us/intel-vtune-amplifier-xe
 [performance assistant]: https://software.intel.com/en-us/node/561522
 [itac]: http://software.intel.com/en-us/intel-trace-analyzer
-[cv]: /cv.pdf
+[cv]: /cv/cv.pdf
 [linkedin]: https://www.linkedin.com/in/anton-dergunov-ba00a110/
 
 
