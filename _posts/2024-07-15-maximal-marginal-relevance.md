@@ -1,5 +1,5 @@
 ---
-title:     Maximal Marginal Relevance
+title:     "Maximal Marginal Relevance"
 date:      2024-07-15
 permalink: /posts/2024/07/maximal-marginal-relevance
 tags:
