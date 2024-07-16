@@ -7,6 +7,8 @@ redirect_from:
   - /about.html
 ---
 
+<img align="right" src="images/profile.jpg" alt="Photo" style="width: 210px; border-radius: 10px; padding: 8px 8px 8px 8px"/>
+
 Hi! My name is Anton Dergunov.
 
 I am excited about machine learning, data analysis and software engineering
