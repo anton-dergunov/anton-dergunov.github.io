@@ -21,7 +21,7 @@ repository               : "anton-dergunov/anton-dergunov.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : # "profile.jpg"
+  avatar           : "sketch.png"
   name             : "Anton Dergunov"
   pronouns         : # example: "she/her"  
   bio              : "data scientist with experience in IR and NLP"
