@@ -142,7 +142,8 @@ We'll reuse the previously computed similarity matrix and now use similarities b
 
 ```python
 def maximal_marginal_relevance(similarities, num_to_select, lambda_param):
-    if len(similarities) <= 1 or num_to_select <= 0: return []
+    if similarities.shape[0] <= 1 or num_to_select <= 0:
+        return []
 
     most_similar = np.argmax(similarities[0, 1:])
 
