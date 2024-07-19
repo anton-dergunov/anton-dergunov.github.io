@@ -70,7 +70,7 @@ def cosine_similarity(vector1, vector2):
     return dot_product / (norm_vector1 * norm_vector2)
 ```
 
-To compute cosine similarities between the query and each document, we can combine the query and documents into a single list and then compute similarities between each pair of embeddings (that would also get us similarities between each document, but we would need that later in the article)):
+To compute cosine similarities between the query and each document, we can combine the query and documents into a single list and then compute similarities between each pair of embeddings (that would also get us similarities between each document, but we would need that later in the article):
 
 ```python
 def compute_similarities(documents, query):
