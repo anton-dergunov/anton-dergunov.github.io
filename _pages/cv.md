@@ -15,74 +15,71 @@ redirect_from:
 Highlights and Skills
 ======
 
-- Experience and high interest in applying Machine Learning. Python, Jupyter Notebooks, NumPy, Pandas, SciKit-Learn, PyTorch, Matplotlib, Vowpal Wabbit. Linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, CNN, RNN, LSTM, BERT, Autoencoders, Knowledge Representation, Natural Language Processing.
+- **Machine Learning**: Extensive experience and keen interest in applying machine learning techniques for information retrieval and natural language processing. `Python`, `Jupyter Notebooks`, `NumPy`, `Pandas`, `SciKit-Learn`, `PyTorch`, `Matplotlib`, `Vowpal Wabbit`. Linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, CNN, RNN, LSTM, BERT, Autoencoders, Knowledge Representation, Natural Language Processing.
 
-- Experience in all cycles of large software development (design, prototype, research, review, documentation, planning, implementation, etc.): C, C++, Java, Python, Bash, SQL, MongoDB. Linux, Windows, cross-platform. Focus on software quality ranging from software design, TDD to formal software verification.
-
-- Expertise in parallel, concurrent and distributed software research and development. Performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization. Intel VTune Analyzer, Intel Trace Analyzer and Collector, Intel Advisor, MPI, OpenMP, MapReduce.
+- **Software Development**: Experience across all phases of large software development projects, including design, prototyping, research, review, documentation, planning, and implementation. `C`, `C++`, `Java`, `Python`, `Bash`, `SQL`, `MongoDB`. `Linux`, `Windows`, `cross-platform`. Focused on software quality ranging from software design, TDD to formal software verification. Expertise in parallel, concurrent, and distributed software research and development. Performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization.
 
 
 Employment
 ======
 
-- Current, From May 2018: Senior Applied Scientist, [Microsoft](https://www.microsoft.com/)
+- **Senior Applied Scientist**, [Microsoft](https://www.microsoft.com/) (May 2018 - Present)
   - *Applying machine learning in Microsoft Office products.*
-  - Contributed to improving relevance of recommendations of the new Meeting Insights feature in Microsoft Outlook (see [press release](https://www.microsoft.com/en-us/research/blog/the-story-of-an-office-ai-feature-how-ai-can-promote-efficient-meeting-preparation/) or [documentation](https://support.microsoft.com/en-gb/office/use-intelligent-technology-in-outlook-on-the-web-and-outlook-com-24b30683-8340-4b69-b8ac-4193ec528a70)). This feature recommends emails and documents which are relevant for a given meeting (`Python`, `SciKit-Learn`, `NumPy`, `Pandas`, `PyTorch`, `PySpark`, `LightGBM`, `Gradient Boosting`, `C#`).
-  - Implemented and validated new features for this machine learning model, by exposing new signals or choosing their best form (such as social, content similarity, etc). Used `BERT` and related neural network architectures to improve relevance (`PyTorch`). Supervised students for their research project of applying `BERT`.
-  - Explored various data sets, heuristically labelled data and their combinations for model training ([Snorkel](https://snorkel.ai/)). Conducted A/B experiments.
-  - Improved data extraction pipeline, which allowed to get ~50x more training data for machine learning algorithm and consequently improved model performance (AUC increased 3%, AUPRC increased 12%). Subsequent data analysis allowed to fix bias in extracted data, further improve model performance (AUC increased 3%, AUPRC increased 4%, NDCG increased 11%) and enable 2x more features.
-  - Implemented explanation facility tool for machine learning models. It was demonstrated that helps to detect root causes during error analysis and identify required treatment much quicker.
-  - Prototyped complete pipeline for data extraction, feature extraction, training and validation of document-to-document recommendation system. Help and guidance for a colleague to implement email-to-email recommendation prototype.
+  - Enhanced the relevance of recommendations in the Meeting Insights feature of Microsoft Outlook ([press release](https://www.microsoft.com/en-us/research/blog/the-story-of-an-office-ai-feature-how-ai-can-promote-efficient-meeting-preparation/), [documentation](https://support.microsoft.com/en-gb/office/use-intelligent-technology-in-outlook-on-the-web-and-outlook-com-24b30683-8340-4b69-b8ac-4193ec528a70)). This feature recommends emails and documents relevant to meetings. (`Python`, `SciKit-Learn`, `NumPy`, `Pandas`, `PyTorch`, `PySpark`, `LightGBM`, `Gradient Boosting`, `C#`)
+  - Developed and validated new features for this machine learning model by identifying and optimizing new signals (e.g., social, content similarity). Used `BERT` and related neural network architectures to enhance relevance (`PyTorch`). Supervised students in their research applying `BERT`.
+  - Explored various data sets, heuristically labelled data and their combinations for model training ([Snorkel](https://snorkel.ai/)). Conducted A/B testing to validate improvements.
+  - Enhanced the data extraction pipeline, increasing the amount of training data by ~50x, which improved model performance (AUC up by 3%, AUPRC up by 12%). Data analysis further improved model performance (AUC up by 3%, AUPRC up by 4%, NDCG up by 11%) and enabled 2x more features.
+  - Developed a tool for explaining machine learning model predictions, aiding in error analysis and accelerating root cause detection.
+  - Prototyped a complete pipeline for data extraction, feature extraction, training, and validation of a document-to-document recommendation system. Assisted a colleague in implementing an email-to-email recommendation prototype.
 
-- May 2017 - May 2018: Lead Application Developer, [JP Morgan](https://www.jpmorganchase.com/)
+- **Lead Application Developer**, [JP Morgan](https://www.jpmorganchase.com/) (May 2017 - May 2018)
   - *Web services implementation.*
-  - Implementation of backends of monitoring systems for tracking engineering practices of all bank applications and source code repository commits. (`Java`, `Spring`, `Python`, `SQL`, `MongoDB`, `MariaDB`, `Oracle Database`) Phone screening interviews.
+  - Implemented backend systems for monitoring engineering practices and source code repository commits. (`Java`, `Spring`, `Python`, `SQL`, `MongoDB`, `MariaDB`, `Oracle Database`) Conducted phone screening interviews.
 
-- January 2016 - May 2017: Software Engineer, [Yandex](https://yandex.com/company/)
+- **Software Engineer**, [Yandex](https://yandex.com/company/) (January 2016 - May 2017)
   - *Feature engineering for Internet video search and machine learning.*
-  - Implemented calculation of several new characteristics of Internet videos and evaluated their usefulness as factors in
-    [MatrixNet](https://yandex.com/company/technologies/matrixnet/) machine learning algorithm, used in [Yandex Video Search](https://yandex.com/video/) to query and rank videos on a search result page. Several of these factors contributed to improvement of video ranking quality as demonstrated by several metrics. (`C++`, `Python`, `MapReduce`, `Machine Learning`)
-  - Implemented machine learning pipeline and made several experiments of large-scale web text classification for several tasks using logistic regression, LSTM, word2vec and other algorithms. (`Natural Language Processing`, `Vowpal Wabbit`, `Deep Learning`)
-  - Using this infrastructure for classification of YouTube videos allowed to improve video ranking quality and click-through rate prediction.
-  - Collaborated across teams and made research to improve integration of Video Search results on the main [Yandex Web Search](https://yandex.com/) page.
+  - Implemented new video characteristics for the [MatrixNet](https://yandex.com/company/technologies/matrixnet/) machine learning algorithm, improving video ranking quality in [Yandex Video Search](https://yandex.com/video/). Several factors led to enhanced video ranking quality, as demonstrated by various metrics. (`C++`, `Python`, `MapReduce`, `Machine Learning`)
+  - Developed a machine learning pipeline and conducted large-scale web text classification experiments using logistic regression, LSTM, word2vec, and other algorithms. (`Natural Language Processing`, `Vowpal Wabbit`, `Deep Learning`)
+  - Utilized the developed infrastructure for YouTube video classification, improving video ranking quality and click-through rate.
+  - Collaborated across teams to improve integration of Video Search results on the main [Yandex Web Search](https://yandex.com/) page.
 
-- February 2006 - December 2015: Senior Software Development Engineer, [Intel](http://intel.com)
+- **Senior Software Development Engineer**, [Intel](http://intel.com) (February 2006 - December 2015)
   - *Applied research in performance analysis and implementation of performance tuning tools.*
   - Gained expertise in performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization; CPU and hardware architecture; parallel, concurrent and distributed software research and development (`MPI`, `OpenMP`).
-  - Implemented capability to represent knowledge about performance issues in applications (using `Python` code) and their automatic detection for [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Advisor](https://software.intel.com/en-us/intel-advisor-xe) products. (`Knowledge Representation`)
-  - Defined metrics and methodology to identify parts of an application that are best suited for execution on main CPU or for offload to [Intel Xeon Phi](https://www.intel.com/content/www/us/en/products/processors/xeon-phi/xeon-phi-processors.html) processor, and implemented a tool automate detection of such parts.
-  - Implemented [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) capability in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) for automatic detection of known performance issues in MPI applications, based on results of my [PhD thesis](https://search.rsl.ru/ru/record/01005013870). (`C++`, `MPI`, `Knowledge Representation`)
-  - Full cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of new threading and performance profilers [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility) from scratch. Responsibility for several major data visualization and data provider components in these products. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 collegues).
-  - Implemented new approach for source-level performance information visualization based on synchronized views in [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility), which unlocked new usage models for senior performance engineers.
-  - Made refactoring of several central components (with MVVM pattern) by gradually introducing "true" unit tests with TDD approach. Code duplication was reduced, bug backlog was reduced by multiple times and stopped growing, but new features were still implemented during this work.
+  - Developed a capability to represent knowledge about performance issues in applications (using `Python` code) and their automatic detection for [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Advisor](https://software.intel.com/en-us/intel-advisor-xe) products. (`Knowledge Representation`)
+  - Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor, and implemented a tool for automatic detection.
+  - Implemented [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) for automatic detection of performance issues in MPI applications, based on my [PhD thesis](https://search.rsl.ru/ru/record/01005013870). (`C++`, `MPI`, `Knowledge Representation`)
+  - Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of threading and performance profilers [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility) from scratch, including major data visualization and data provider components. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 collegues).
+  - Implemented a new approach for source-level performance information visualization in [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility), unlocking new usage models for senior performance engineers.
+  - Refactored central components using the MVVM pattern and introduced "true" unit tests with a TDD approach, reducing code duplication and bug backlog while continuing to develop new features.
 
-- 2009 - 2012: Lecturer, Research Advisor, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru/eng)
-  - *Research and teaching Artificial Intelligence and Machine Learning.*
-  - Research advisor for 3 bachelor and 5 master students (topics in artificial intelligence, machine learning, natural language processing, software verification, parallel programming, software engineering).
-  - Created content and taught courses "Artificial Intelligence" (2010, 2011), "Databases and Expert Systems" (2009-2012).
-  - Assistant for [Distributed and Outsourced Software Engineering project](http://se.inf.ethz.ch/courses/2012b_fall/dose/ (2011, 2012): provided support for projects of students.
+- **Lecturer, Research Advisor**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru/eng) (2009 - 2012)
+  - *Research and teaching courses in Artificial Intelligence and Machine Learning.*
+  - Supervised 3 bachelor and 5 master students on topics including artificial intelligence, machine learning, natural language processing, software verification, parallel programming, and software engineering.
+  - Developed and taught courses "Artificial Intelligence" (2010, 2011), "Databases and Expert Systems" (2009-2012).
+  - Assisted with the [Distributed and Outsourced Software Engineering project](http://se.inf.ethz.ch/courses/2012b_fall/dose/ (2011, 2012), providing support for student projects.
 
-- October 2003 - February 2006: Software Development Engineer, [Mera Networks](https://www.mera.com/)
+- **Software Development Engineer**, [Mera Networks](http://mera.ru/) (October 2003 - February 2006)
   - *Telecommunication software implementation.*
-  - Development of cellular base stations emulation software. (`C++`, `Java`, `Bash`, networking) Mentorship (3 collegues).
-  - Participated in major redesign of the data model part of this software that resulted in significant improvements of execution speed and memory consumption (allowing to handle previously unsupported amount of data).
+  - Developed software for emulating cellular base stations. (`C++`, `Java`, `Bash`, networking) Mentored 3 colleagues.
+  - Contributed to a major redesign of the software's data model, significantly improving execution speed and memory consumption, allowing support for previously unsupported data volumes.
 
 
 Personal Projects
 ======
 
-- Small repository of various Jupyter notebooks:
+- GitHub repository with Jupyter Notebooks demonstrating various ML techniques:
   [https://github.com/anton-dergunov/ml-playground](https://github.com/anton-dergunov/ml-playground)
 
 
 Education
 ======
 
-- PhD in Theoretical Computer Science, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru), July 2008 - July 2011
+- **PhD in Theoretical Computer Science**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru) (July 2008 - July 2011)
   - Thesis: [Models, methods and tools of knowledge representation for improving performance of MPI applications](https://search.rsl.ru/ru/record/01005013870).
-  - Implemented some results of this work in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer), in its [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) capability.
+  - Implemented results from the thesis in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) and its its [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) capability.
 
-- Specialist Degree in Applied Computer Science, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru), September 2001 - May 2006
+- **Specialist Degree in Applied Computer Science**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru), September 2001 - May 2006
   - Thesis: Neural network model for knowledge representation and extraction.
 
 
