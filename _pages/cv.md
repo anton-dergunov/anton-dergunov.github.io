@@ -9,5 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
+{% include cv_download.html %}
+
 TBD
 

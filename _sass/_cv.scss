@@ -1,0 +1,34 @@
+/* ==========================================================================
+   CV DOWNLOAD LINKS
+   ========================================================================== */
+
+.download-links {
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 600px;
+}
+
+.download-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    gap: 4px;
+}
+
+.download-pdf { background-color: #E53E3E; }
+.download-word { background-color: #2B6CB0; }
+.download-openoffice { background-color: #38A169; }
+.download-rtf { background-color: #805AD5; }
+.download-markdown { background-color: #718096; }
+.download-html { background-color: #D69E2E; }
+.download-latex { background-color: #D53F8C; }
+.download-text { background-color: #4A5568; }
+.download-icon { font-size: 16px; }
+
