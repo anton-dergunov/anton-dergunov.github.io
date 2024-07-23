@@ -15,9 +15,9 @@ redirect_from:
 Highlights and Skills
 ======
 
-- **Machine Learning**: Extensive experience and deep interest in applying machine learning techniques for information retrieval, recommendation systems, and natural language processing. Proficient in `Python`, `Jupyter Notebooks`, `NumPy`, `Pandas`, `SciKit-Learn`, `PySpark`, `PyTorch`, `LightGBM`, and `Azure Machine Learning`. Skilled in linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, Large Language Models, Graph Neural Networks, CNN, RNN, LSTM, BERT, Knowledge Representation, model interpretability, exploratory data analysis, and working with eyes-off data. Successfully developed and deployed models in production environments and built ML pipelines, demonstrating significant improvements in key metrics (e.g., click-through rate, NDCG).
+- **Machine Learning**: Extensive experience and deep interest in applying machine learning techniques for information retrieval, recommendation systems, and natural language processing. Proficient in `Python`, `Jupyter Notebooks`, `NumPy`, `Pandas`, `SciKit-Learn`, `PySpark`, `PyTorch`, `LightGBM`, and `Azure Machine Learning`. Skilled in linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, Large Language Models, Graph Neural Networks, CNN, RNN, LSTM, BERT, Knowledge Representation, model interpretability, exploratory data analysis, and working with eyes-off data. Successfully developed and deployed models in production environments and built ML pipelines, demonstrating significant improvements in key metrics.
 
-- **Software Development**: Comprehensive experience in all phases of large software development projects, including design, prototyping, research, review, documentation, planning, and implementation. Proficient in `C`, `C++`, `Java`, `Python`, `Bash`, and `SQL`. Skilled in `Linux`, `Windows`, and `cross-platform` development. Focused on software quality, from design and TDD to formal software verification. Expertise in parallel, concurrent, and distributed software development, with a strong background in performance analysis and optimization of both serial and parallel software. Mentored and supervised colleagues and interns, contributing to team success and project completion.
+- **Software Development**: Comprehensive experience in all phases of large software development projects, including design, prototyping, research, review, documentation, planning, and implementation. Proficient in `C`, `C++`, `Java`, `Python`, `Bash`, and `SQL`. Skilled in `Linux`, `Windows`, and `cross-platform` development. Focused on software quality, from design and TDD to formal software verification. Expertise in parallel, concurrent, and distributed software development, with a strong background in performance analysis and optimization of both serial and parallel software. Mentored and supervised colleagues and interns.
 
 
 Employment
@@ -38,8 +38,7 @@ Employment
     - Conducted extensive experiments using the `BERT` model and related neural network architectures to improve content similarity features in Meeting Insights: verified the model on multiple datasets, performed error analysis and comparison with existing features, and distilled BERT into simpler models. Integrating the model showed a 3% increase in NDCG@3. (`BERT`, `Deep Learning`, `PyTorch`)
     - Explored various data sets, such as user interaction logs, manually annotated data, heuristically labelled "eyes-off" data using weak supervision and their combinations for model training ([Snorkel](https://snorkel.ai/)). Conducted A/B testing to validate improvements.
     - Prototyped a complete pipeline for data extraction, feature extraction, training, and validation of a document-to-document recommendation system. Assisted a colleague in implementing an email-to-email recommendation prototype.
-    - Developed a tool for explaining ML models predictions, aiding in error analysis and accelerating root cause detection. Contributed to other internal debugging tools.
-    - Provided supervision and mentorship for 3 interns and support for several colleagues, serving as a go-to person for the products we were implementing.
+    - Developed a tool for explaining ML models predictions, aiding in error analysis and accelerating root cause detection. Contributed to other internal debugging tools. Provided supervision and mentorship for 3 interns and support for several colleagues, serving as a go-to person for the products we were implementing.
 
 - **Lead Application Developer**, [JP Morgan](https://www.jpmorganchase.com/) (May 2017 - May 2018)
   - *Web services implementation.*
@@ -57,20 +56,17 @@ Employment
   - Gained expertise in performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization; CPU and hardware architecture; parallel, concurrent and distributed software research and development (`MPI`, `OpenMP`).
   - Developed a capability to represent knowledge about performance issues in applications (using `Python` code) and their automatic detection for [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Advisor](https://software.intel.com/en-us/intel-advisor-xe) products. (`Knowledge Representation`)
   - Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor, and implemented a tool for automatic detection.
-  - Implemented [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) for automatic detection of performance issues in MPI applications, based on my [PhD thesis](https://search.rsl.ru/ru/record/01005013870). (`C++`, `MPI`, `Knowledge Representation`)
-  - Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of threading and performance profilers [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility) from scratch, including major data visualization and data provider components. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 collegues).
-  - Implemented a new approach for source-level performance information visualization in [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Performance Tuning Utility](http://software.intel.com/en-us/articles/intel-performance-tuning-utility), unlocking new usage models for senior performance engineers.
-  - Refactored central components using the MVVM pattern and introduced "true" unit tests with a TDD approach, reducing code duplication and bug backlog while continuing to develop new features.
+  - Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of the threading and performance profiler [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) from scratch, including major data visualization and data provider components. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 collegues).
+  - Implemented a new approach for source-level performance information visualization in [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe), unlocking new usage models for senior performance engineers.
 
 - **Lecturer, Research Advisor**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru/eng) (2009 - 2012)
   - *Research and teaching courses in Artificial Intelligence and Machine Learning.*
   - Supervised 3 bachelor and 5 master students on topics including artificial intelligence, machine learning, natural language processing, software verification, parallel programming, and software engineering.
   - Developed and taught courses "Artificial Intelligence" (2010, 2011), "Databases and Expert Systems" (2009-2012).
-  - Assisted with the [Distributed and Outsourced Software Engineering project](http://se.inf.ethz.ch/courses/2012b_fall/dose/ (2011, 2012), providing support for student projects.
 
 - **Software Development Engineer**, [Mera Networks](http://mera.ru/) (October 2003 - February 2006)
   - *Telecommunication software implementation.*
-  - Developed software for emulating cellular base stations. (`C++`, `Java`, `Bash`, networking) Mentored 3 colleagues.
+  - Developed software for emulating cellular base stations. (`C++`, `Java`, `Bash`, `networking`) Mentored 3 colleagues.
   - Contributed to a major redesign of the software's data model, significantly improving execution speed and memory consumption, allowing support for previously unsupported data volumes.
 
 
