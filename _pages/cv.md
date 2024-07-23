@@ -26,8 +26,6 @@ Employment
 - **Senior Applied Scientist**, [Microsoft](https://www.microsoft.com/) (May 2018 - Present)
   - *Applying machine learning in Microsoft Office products.*
 
-  Rephrase the following bullets and correct my English (I am not a native speaker). Don't restructure the bullets and keep the original meaning.
-
   - People Search:
     - Built from scratch the pipeline for collecting "eyes-off" training and testing data, monitoring its quality, and training ranking and classification models with offline evaluation, producing a model ready for product integration. Optimized the pipeline's performance to process large volumes of click log data. The model is used for [people ranking in many Microsoft products](https://www.youtube.com/watch?v=a6HO4ekmmjU) (such as Teams, Outlook, Bing, Windows). Deployed several models using this pipeline to production, demonstrating online metrics improvements (such as up to a 4% increase in click-through rate and improvements in time to success). (`Azure Machine Learning`, `Python`, `PySpark`, `LightGBM`, `ONNX`, `Gradient Boosting`)
     - Implemented the [Personalized PageRank](https://www.cs.cornell.edu/~bindel/blurbs/edgeppr.html) algorithm over organization people graphs for this people ranker, resulting in a 2.15% increase in NDCG@1 and a 1.21% increase in NCDG@3. Presented this work at an internal conference and tested other graph-based approaches produced by different teams.
