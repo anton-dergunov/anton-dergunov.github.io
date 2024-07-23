@@ -15,7 +15,7 @@ redirect_from:
 Highlights and Skills
 ======
 
-- **Machine Learning**: Extensive experience and keen interest in applying machine learning techniques for information retrieval and natural language processing. `Python`, `Jupyter Notebooks`, `NumPy`, `Pandas`, `SciKit-Learn`, `PyTorch`, `Matplotlib`, `Vowpal Wabbit`. Linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, CNN, RNN, LSTM, BERT, Autoencoders, Knowledge Representation, Natural Language Processing.
+- **Machine Learning**: Extensive experience and keen interest in applying machine learning techniques for information retrieval, recommendation systems and natural language processing. `Python`, `Jupyter Notebooks`, `NumPy`, `Pandas`, `SciKit-Learn`, `PyTorch`, `LightGBM`, `Matplotlib`. Linear models, SVM, Decision Trees, Ensemble Learning, Gradient Boosting, Neural Networks, Deep Learning, CNN, RNN, LSTM, BERT, Autoencoders, Knowledge Representation, Natural Language Processing.
 
 - **Software Development**: Experience across all phases of large software development projects, including design, prototyping, research, review, documentation, planning, and implementation. `C`, `C++`, `Java`, `Python`, `Bash`, `SQL`, `MongoDB`. `Linux`, `Windows`, `cross-platform`. Focused on software quality ranging from software design, TDD to formal software verification. Expertise in parallel, concurrent, and distributed software research and development. Performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization.
 
@@ -25,12 +25,23 @@ Employment
 
 - **Senior Applied Scientist**, [Microsoft](https://www.microsoft.com/) (May 2018 - Present)
   - *Applying machine learning in Microsoft Office products.*
-  - Enhanced the relevance of recommendations in the Meeting Insights feature of Microsoft Outlook ([press release](https://www.microsoft.com/en-us/research/blog/the-story-of-an-office-ai-feature-how-ai-can-promote-efficient-meeting-preparation/), [documentation](https://support.microsoft.com/en-gb/office/use-intelligent-technology-in-outlook-on-the-web-and-outlook-com-24b30683-8340-4b69-b8ac-4193ec528a70)). This feature recommends emails and documents relevant to meetings. (`Python`, `SciKit-Learn`, `NumPy`, `Pandas`, `PyTorch`, `PySpark`, `LightGBM`, `Gradient Boosting`, `C#`)
-  - Developed and validated new features for this machine learning model by identifying and optimizing new signals (e.g., social, content similarity). Used `BERT` and related neural network architectures to enhance relevance (`PyTorch`). Supervised students in their research applying `BERT`.
-  - Explored various data sets, heuristically labelled data and their combinations for model training ([Snorkel](https://snorkel.ai/)). Conducted A/B testing to validate improvements.
-  - Enhanced the data extraction pipeline, increasing the amount of training data by ~50x, which improved model performance (AUC up by 3%, AUPRC up by 12%). Data analysis further improved model performance (AUC up by 3%, AUPRC up by 4%, NDCG up by 11%) and enabled 2x more features.
-  - Developed a tool for explaining machine learning model predictions, aiding in error analysis and accelerating root cause detection.
-  - Prototyped a complete pipeline for data extraction, feature extraction, training, and validation of a document-to-document recommendation system. Assisted a colleague in implementing an email-to-email recommendation prototype.
+
+  Rephrase the following bullets and correct my English (I am not a native speaker). Don't restructure the bullets and keep the original meaning.
+
+  - People Search:
+    - Built from scratch the pipeline for collecting "eyes-off" training and testing data and monitoring its quality, training ranking and classification models and their offline evaluation, producing the model ready for integration into the product. Optimized the performance of this pipeline to process big volumes of click log data. The model is used for [people ranking in many Microsoft products](https://www.youtube.com/watch?v=a6HO4ekmmjU) (such as Teams, Outlook, Bing, Windows). Shipped several models using this pipeline to production that demonstrated online metrics improvements (such as up to 4% click through rate increase and improvements to time to success). (`Azure Machine Learning`, `Python`, `PySpark`, `LightGBM`, `ONNX`, `Gradient Boosting`)
+    - Implemented using [Personalized PageRank](https://www.cs.cornell.edu/~bindel/blurbs/edgeppr.html) algorithm over organization people graphs for this people ranker which showed NDCG@1 increase by 2.15% and NCDG@3 increase by 1.21%, presented this work in an internal conference. Tested other graph-approaches produced by other teams.
+    - Conducted multiple A/B online experiments and analyzed their metrics for trying new features or resolving issues.
+
+  - Document recommendation for Microsoft Outlook:
+    - Enhanced the relevance of recommendations in the Meeting Insights feature of Microsoft Outlook ([paper](https://www.microsoft.com/en-us/research/publication/calendar-aware-proactive-email-recommendation/), [press release](https://www.microsoft.com/en-us/research/blog/the-story-of-an-office-ai-feature-how-ai-can-promote-efficient-meeting-preparation/), [documentation](https://support.microsoft.com/en-gb/office/use-intelligent-technology-in-outlook-on-the-web-and-outlook-com-24b30683-8340-4b69-b8ac-4193ec528a70)) using ML techniques and various heuristics. This feature recommends emails and documents relevant to meetings. (`Python`, `SciKit-Learn`, `NumPy`, `Pandas`, `PyTorch`, `LightGBM`, `Gradient Boosting`, `C#`)
+    - Enhanced the data extraction pipeline, increasing the amount of training data by ~50x, which improved model performance (AUC up by 3%, AUPRC up by 12%). Data analysis further improved model performance (AUC up by 3%, AUPRC up by 4%, NDCG@3 up by 11%) and enabled 2x more features.
+    - Developed and validated new features for this machine learning model by identifying and optimizing new signals (e.g., social, content similarity, key phrases).
+    - Made extensive experiments to use `BERT` model and related neural network architectures to improve content similarity features in Meeting Insights: verified using this model on multiple datasets, performed error analysis and comparison with existing features, BERT distillation to simpler models. Integrating the model showed 3% NDCG@3 increase. (`BERT`, `Deep Learning`, `PyTorch`)
+    - Explored various data sets, such as user interaction logs, manually annotated data, heuristically labelled "eyes-off" data using weak supervision and their combinations for model training ([Snorkel](https://snorkel.ai/)). Conducted A/B testing to validate improvements.
+    - Prototyped a complete pipeline for data extraction, feature extraction, training, and validation of a document-to-document recommendation system. Assisted a colleague in implementing an email-to-email recommendation prototype.
+    - Developed a tool for explaining ML models predictions, aiding in error analysis and accelerating root cause detection. Contributed to other internal debugging tools.
+    - Provided supervision and mentorship for 3 interns, and support for several colleagues serving as a go-to person for the products we were implementing.
 
 - **Lead Application Developer**, [JP Morgan](https://www.jpmorganchase.com/) (May 2017 - May 2018)
   - *Web services implementation.*
@@ -39,7 +50,7 @@ Employment
 - **Software Engineer**, [Yandex](https://yandex.com/company/) (January 2016 - May 2017)
   - *Feature engineering for Internet video search and machine learning.*
   - Implemented new video characteristics for the [MatrixNet](https://yandex.com/company/technologies/matrixnet/) machine learning algorithm, improving video ranking quality in [Yandex Video Search](https://yandex.com/video/). Several factors led to enhanced video ranking quality, as demonstrated by various metrics. (`C++`, `Python`, `MapReduce`, `Machine Learning`)
-  - Developed a machine learning pipeline and conducted large-scale web text classification experiments using logistic regression, LSTM, word2vec, and other algorithms. (`Natural Language Processing`, `Vowpal Wabbit`, `Deep Learning`)
+  - Developed a machine learning pipeline and conducted large-scale web text classification experiments using logistic regression, LSTM, word2vec, and other algorithms. (`Natural Language Processing`, `Deep Learning`)
   - Utilized the developed infrastructure for YouTube video classification, improving video ranking quality and click-through rate.
   - Collaborated across teams to improve integration of Video Search results on the main [Yandex Web Search](https://yandex.com/) page.
 
@@ -77,7 +88,7 @@ Education
 
 - **PhD in Theoretical Computer Science**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru) (July 2008 - July 2011)
   - Thesis: [Models, methods and tools of knowledge representation for improving performance of MPI applications](https://search.rsl.ru/ru/record/01005013870).
-  - Implemented results from the thesis in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) and its its [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) capability.
+  - Implemented results from the thesis in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer) and its [Performance Assistant](https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522) capability.
 
 - **Specialist Degree in Applied Computer Science**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru), September 2001 - May 2006
   - Thesis: Neural network model for knowledge representation and extraction.
