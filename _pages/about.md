@@ -9,7 +9,7 @@ redirect_from:
 
 <img align="right" src="images/profile.jpg" alt="Photo" style="width: 210px; border-radius: 10px; padding: 8px 8px 8px 8px"/>
 
-Welcome to my blog! I'm Anton Dergunov, an avid enthusiast of machine learning and AI, with a strong background in data science and software engineering based in London, United Kingdom. I've dedicated this space to share my insights, experiments, and discoveries in these exciting fields.
+Welcome to my [blog](blog)! I'm Anton Dergunov, an avid enthusiast of machine learning and AI, with a strong background in data science and software engineering based in London, United Kingdom. I've dedicated this space to share my insights, experiments, and discoveries in these exciting fields.
 
 
 ## My Journey in Machine Learning
@@ -18,16 +18,16 @@ I've been fascinated by ML long before it became a trending topic. My interest i
 
 1. **Data Insight**: I love uncovering insights from data, making it a powerful tool for learning and discovery. The ability to visualize and explain data patterns is especially captivating to me, and I often use Jupyter Notebooks for their quick iteration capabilities.
 
-2. **Understanding the Brain**: My curiosity about how the brain works also drives my interest in ML.
+2. **Understanding the Brain**: My curiosity about how the brain works also drives my interest in ML and AI.
 
 3. **Problem-Solving with AI**: As a true geek, I find immense satisfaction in using AI tools to solve practical problems (such as helping to organize the information that I have or be a better writer).
 
 
 ## Professional Background
 
-My professional journey has been quite diverse and enriching. I earned my PhD with a focus on using knowledge representation techniques to encode expertise for fine-tuning software applications. This research led to practical implementations in [Intel Trace Analyzer and Collector](http://software.intel.com/en-us/intel-trace-analyzer). Later, I worked on a research project involving the representation of knowledge about performance issues in applications and their automatic detection for [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Advisor](https://software.intel.com/en-us/intel-advisor-xe) products. During my time at the university, I had the opportunity to teach AI courses and develop the course content.
+My professional journey has been quite diverse and enriching. I earned my PhD with a focus on using knowledge representation techniques to encode expertise for fine-tuning software applications. This research led to multilpe practical application which I integrated into several [Intel](https://www.intel.com/) software products. During my time at the university, I had the opportunity to teach AI courses and develop the course content.
 
-I've had the privilege of working with renowned organizations such as Intel, Yandex, and Microsoft. At Intel, I focused on software development and research for high-performance and parallel optimization. At [Yandex](https://yandex.com/company/), I delved into ML projects like improving video ranking in their search engine. Currently, as a Senior Applied Scientist at Microsoft, I drive the integration of new ML ideas, from implementation and offline experimentation to online testing and model training in various products. Additionally, I have experience in building ML pipelines from the ground up to support these activities.
+I have worked with leading organizations such as Intel, Yandex, and Microsoft. At Intel, I focused on software development and research for high-performance and parallel optimization. At [Yandex](https://yandex.com/company/), I delved into ML projects like improving video ranking in their search engine. Currently, as a Senior Applied Scientist at Microsoft, I drive the integration of new ML ideas, from implementation and offline experimentation to online testing and model training in various products. Additionally, I have experience in building ML pipelines from the ground up to support these activities.
 
 My expertise lies primarily in information retrieval and natural language processing. I have hands-on experience with various ML models, including linear models, decision trees, ensemble learning, and neural networks (including the transformer architecture). A particular area of interest for me is the interpretability of ML models, and I've developed internal tools at Microsoft for that.
 
@@ -50,7 +50,7 @@ Outside of my professional pursuits, I’m deeply committed to personal growth a
 
 I have a passion for languages. While I am fluent in English and Spanish, I have studied French, Italian, and German in the past but haven’t practiced them recently. I plan to revisit these languages to refresh and improve my skills.
 
-Whenever I get the chance, I love traveling and immersing myself in nature. Some of my most cherished experiences include exploring Kyoto in Japan, [taking a scenic train journey](https://www.bbc.com/travel/article/20221208-sri-lankas-most-beautiful-train-journey) in Sri Lanka, visiting the [Kon-Tiki Museum](https://www.kon-tiki.no/) in Oslo, and marveling at the [Alishan National Scenic Area](https://www.nickkembel.com/alishan-taiwan-sunrise/) in Taiwan. The highlight of my hiking adventures was the solo [Tour du Mont Blanc](https://www.autourdumontblanc.com/en/), though the most meaningful hikes were those with my parents during my childhood. My understanding of photography and videography is more technical than artistic at the moment, but I’m casually developing my creative skills as a hobby.
+Whenever I get the chance, I love traveling and immersing myself in nature. Some of my most cherished experiences include exploring Kyoto in Japan, taking a scenic train journey in Sri Lanka, visiting the Kon-Tiki Museum in Oslo, and marveling at the Alishan National Scenic Area in Taiwan. The highlight of my hiking adventures was the solo [Tour du Mont Blanc](https://www.autourdumontblanc.com/en/), though the most meaningful hikes were those with my parents during my childhood. My understanding of photography and videography is more technical than artistic at the moment, but I’m casually developing my creative skills as a hobby.
 
 When it comes to relaxation, I enjoy savoring good coffee and exploring different teas. From rich, aromatic coffees to authentic Chinese, Taiwanese, and Japanese teas, I enjoy discovering and appreciating their unique flavors. To stay healthy, I dedicating some reasonable time to gym workouts, cycling, and yoga.
 
