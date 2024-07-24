@@ -54,5 +54,5 @@ Whenever I get the chance, I love traveling and immersing myself in nature. Some
 
 When it comes to relaxation, I enjoy savoring good coffee and exploring different teas. From rich, aromatic coffees to authentic Chinese, Taiwanese, and Japanese teas, I enjoy discovering and appreciating their unique flavors. To stay healthy, I dedicating some reasonable time to gym workouts, cycling, and yoga.
 
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/anton-dergunov-ba00a110/) and share your thoughts on my blog posts. Happy reading!
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/anton-dergunov/) and share your thoughts on my blog posts. Happy reading!
 
