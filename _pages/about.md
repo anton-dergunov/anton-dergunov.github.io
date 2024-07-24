@@ -9,7 +9,7 @@ redirect_from:
 
 <img align="right" src="images/profile.jpg" alt="Photo" style="width: 210px; border-radius: 10px; padding: 8px 8px 8px 8px"/>
 
-Welcome to my [blog](blog)! I'm Anton Dergunov, an avid enthusiast of machine learning and AI, with a strong background in data science and software engineering based in London, United Kingdom. I've dedicated this space to share my insights, experiments, and discoveries in these exciting fields.
+Welcome to my [blog](blog)! I'm Anton Dergunov, an avid practitioner of machine learning and AI, with a strong background in data science and software engineering based in London, United Kingdom. I've dedicated this space to share my insights, experiments, and discoveries in these exciting fields.
 
 
 ## My Journey in Machine Learning
@@ -25,7 +25,7 @@ I've been fascinated by ML long before it became a trending topic. My interest i
 
 ## Professional Background
 
-My professional journey has been quite diverse and enriching. I earned my PhD with a focus on using knowledge representation techniques to encode expertise for fine-tuning software applications. This research led to multilpe practical application which I integrated into several [Intel](https://www.intel.com/) software products. During my time at the university, I had the opportunity to teach AI courses and develop the course content.
+My professional journey has been quite diverse and enriching. I earned my PhD with a focus on using knowledge representation techniques to encode expertise for fine-tuning software applications. This research led to multiple practical application which I integrated into several [Intel](https://www.intel.com/) software products. During my time at the university, I had the opportunity to teach AI courses and develop the course content.
 
 I have worked with leading organizations such as Intel, Yandex, and Microsoft. At Intel, I focused on software development and research for high-performance and parallel optimization. At [Yandex](https://yandex.com/company/), I delved into ML projects like improving video ranking in their search engine. Currently, as a Senior Applied Scientist at Microsoft, I drive the integration of new ML ideas, from implementation and offline experimentation to online testing and model training in various products. Additionally, I have experience in building ML pipelines from the ground up to support these activities.
 
@@ -52,7 +52,7 @@ I have a passion for languages. While I am fluent in English and Spanish, I have
 
 Whenever I get the chance, I love traveling and immersing myself in nature. Some of my most cherished experiences include exploring Kyoto in Japan, taking a scenic train journey in Sri Lanka, visiting the Kon-Tiki Museum in Oslo, and marveling at the Alishan National Scenic Area in Taiwan. The highlight of my hiking adventures was the solo [Tour du Mont Blanc](https://www.autourdumontblanc.com/en/), though the most meaningful hikes were those with my parents during my childhood. My understanding of photography and videography is more technical than artistic at the moment, but I’m casually developing my creative skills as a hobby.
 
-When it comes to relaxation, I enjoy savoring good coffee and exploring different teas. From rich, aromatic coffees to authentic Chinese, Taiwanese, and Japanese teas, I enjoy discovering and appreciating their unique flavors. To stay healthy, I dedicating some reasonable time to gym workouts, cycling, and yoga.
+When it comes to relaxation, I enjoy savoring good coffee and exploring different teas. From rich, aromatic coffees to authentic Chinese, Taiwanese, and Japanese teas, I enjoy discovering and appreciating their unique flavors. To stay healthy, I dedicate some reasonable time to gym workouts, cycling, and yoga.
 
 Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/anton-dergunov/) and share your thoughts on my blog posts. Happy reading!
 
