@@ -51,12 +51,12 @@ Employment
   - Utilized the developed infrastructure for YouTube video classification, improving video ranking quality and click-through rate.
   - Collaborated across teams to improve integration of Video Search results on the main [Yandex Web Search](https://yandex.com/) page.
 
-- **Senior Software Development Engineer**, [Intel](http://intel.com) (February 2006 - December 2015)
+- **Senior Software Development Engineer**, [Intel](https://intel.com) (February 2006 - December 2015)
   - *Applied research in performance analysis and implementation of performance tuning tools.*
   - Gained expertise in performance analysis of serial and parallel software; algorithmic, threading and machine-dependent performance optimization; CPU and hardware architecture; parallel, concurrent and distributed software research and development (`MPI`, `OpenMP`).
   - Developed a capability to represent knowledge about performance issues in applications (using `Python` code) and their automatic detection for [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) and [Intel Advisor](https://software.intel.com/en-us/intel-advisor-xe) products. (`Knowledge Representation`)
-  - Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor, and implemented a tool for automatic detection.
-  - Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of the threading and performance profiler [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) from scratch, including major data visualization and data provider components. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 collegues).
+  - Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor and implemented a tool for automatic detection.
+  - Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of the threading and performance profiler [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe) from scratch, including major data visualization and data provider components. (`C++`, `Java`, `Python`, `OpenMP`, `SQLite`) Mentorship (5 colleagues).
   - Implemented a new approach for source-level performance information visualization in [Intel VTune Amplifier](http://software.intel.com/en-us/intel-vtune-amplifier-xe), unlocking new usage models for senior performance engineers.
 
 - **Lecturer, Research Advisor**, [Lobachevsky State University of Nizhni Novgorod](http://unn.ru/eng) (2009 - 2012)
@@ -73,7 +73,7 @@ Employment
 Personal Projects
 ======
 
-- GitHub repository with Jupyter Notebooks demonstrating various ML techniques:
+- GitHub repository demonstrating various ML techniques:
   [https://github.com/anton-dergunov/ml-playground](https://github.com/anton-dergunov/ml-playground)
 
 
@@ -91,9 +91,9 @@ Education
 Publications
 ======
 
-- Anton Dergunov. [Proving Termination and Computational Complexity of Computer Programs](http://anton-dergunov.ru/publications/proving_complexity_v2.pdf) Abstract of poster for "CSEDays. Algorithms and Complexity"  summer school.
-- Anton Dergunov. [Generalized algebraic data types in Haskell](http://themonadreader.files.wordpress.com/2013/08/issue221.pdf) The Monad.Reader Issue 22, pp. 5-39. Etc.
-- Anton Dergunov. [Specification and automatic detection of performance problems in message passing (MPI) applications](http://anton-dergunov.ru/publications/mpi_performance.pdf) Radioelectronic and Computer Systems, 2012, 7(59), pp. 217-222.
-- Anton Dergunov. [Expert methodology for performance analysis of communicating processes in MPI applications](http://pavt.susu.ru/2012/full/159.pdf). In proceedings of conference "Parallel Computational Technologies", Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
-- Personal blog on machine learning: [https://anton-dergunov.github.io/blog/](https://anton-dergunov.github.io/blog/)
+- Anton Dergunov. [Proving Termination and Computational Complexity of Computer Programs](https://anton-dergunov.github.io/publications/proving_complexity_v2.pdf). Abstract of poster for "CSEDays. Algorithms and Complexity" summer school.
+- Anton Dergunov. [Generalized algebraic data types in Haskell](https://themonadreader.files.wordpress.com/2013/08/issue221.pdf). The Monad.Reader Issue 22, pp. 5-39. Etc.
+- Anton Dergunov. [Specification and automatic detection of performance problems in message passing (MPI) applications](https://anton-dergunov.github.io/publications/mpi_performance.pdf). Radioelectronic and Computer Systems, 2012, 7(59), pp. 217-222.
+- Anton Dergunov. [Expert methodology for performance analysis of communicating processes in MPI applications](https://anton-dergunov.github.io/publications/expert_methodology.pdf). In proceedings of conference "Parallel Computational Technologies", Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
+- Personal blog on machine learning: [https://anton-dergunov.github.io/blog/](https://anton-dergunov.github.io/blog/).
 
