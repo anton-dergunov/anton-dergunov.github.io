@@ -41,7 +41,7 @@ Research is a deep passion of mine. During my time at university, I attended num
 
 As a Unix enthusiast with experience in systems like FreeBSD, Solaris, and Linux, I greatly appreciate the command-line tools they offer. But for my daily activities, I choose to use macOS.
 
-My approach to productivity and organization relies on Emacs [Org mode](https://orgmode.org/) for implementing the [Getting Things Done](https://gettingthingsdone.com/what-is-gtd/) (GTD) approach, which helps me manage projects, track tasks, and maintain a structured workflow. This tool has become an integral part of my life, enabling me to efficiently plan and execute my goals. Additionally, I maintain a comprehensive collection of personal notes in Markdown, which I’m transitioning to [Obsidian](https://obsidian.md/) to create a more organized "[second brain](https://www.buildingasecondbrain.com/)" for accessing and managing my ideas and knowledge.
+[My approach to productivity and organization](https://github.com/anton-dergunov/config) relies on Emacs [Org mode](https://orgmode.org/) for implementing the [Getting Things Done](https://en.wikipedia.org/wiki/Getting_Things_Done) (GTD) approach, which helps me manage projects, track tasks, and maintain a structured workflow. This tool has become an integral part of my life, enabling me to efficiently plan and execute my goals. Additionally, I maintain a comprehensive collection of personal notes in Markdown, which I’m transitioning to [Obsidian](https://obsidian.md/) to create a more organized "[second brain](https://www.buildingasecondbrain.com/)" for accessing and managing my ideas and knowledge.
 
 
 ## Personal Interests
