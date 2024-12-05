@@ -38,7 +38,7 @@
 
 \usepackage{titlesec} % for customizing \section
 \titleformat{\section}{\color{headings-color}\scshape\Large\raggedright}{}{0em}{}[\color{black}\titlerule]
-\titlespacing{\section}{0pt}{0pt}{5pt} % spacing around titles
+\titlespacing{\section}{0pt}{0pt}{2pt} % spacing around titles
 
 \newcommand{\whatwherewhen}[3]{
 \noindent\begin{tabular*}{\columnwidth}{@{}@{\extracolsep{\fill}}lr@{}}
@@ -99,15 +99,17 @@
 
 \section{Employment}
 
-\whatwherewhen{Senior Applied Scientist}{\href{https://www.microsoft.com/}{Microsoft}}{May 2018 - Present}
+\whatwherewhen{Senior Applied Scientist}{\href{https://www.microsoft.com/}{Microsoft}}{May 2018 \textendash{} Present}
 
 \textit{Applying machine learning in Microsoft Office products.}
 
 \begin{itemize}
 
-\item People Search:
+\item \href{https://www.microsoft.com/en-gb/microsoft-copilot/organizations}{Copilot} and People Search:
 
   \begin{itemize}
+
+  \item Improving semantic search for people/contacts in Copilot, support for natural language queries. (\textsc{LLMs}, \textsc{ChatGPT}, \textsc{RAG})
 
   \item Built from scratch the pipeline for collecting ``eyes-off'' training and testing data, monitoring its quality, and training ranking and classification models with offline evaluation, producing a model ready for product integration. Optimized the pipeline's performance to process large volumes of click log data. The model is used for \href{https://www.youtube.com/watch?v=a6HO4ekmmjU}{people ranking in many Microsoft products} (such as Teams, Outlook, Bing, Windows). Deployed several models using this pipeline to production, demonstrating online metrics improvements (such as up to a 4\% increase in click-through rate and improvements in time to success). (\textsc{Azure Machine Learning}, \textsc{Python}, \textsc{PySpark}, \textsc{LightGBM}, \textsc{ONNX}, \textsc{Gradient Boosting})
 
@@ -141,7 +143,7 @@
 
 
 \smallvskip
-\whatwherewhen{Lead Application Developer}{\href{https://www.jpmorganchase.com/}{JP Morgan}}{May 2017 - May 2018}
+\whatwherewhen{Lead Application Developer}{\href{https://www.jpmorganchase.com/}{JP Morgan}}{May 2017 \textendash{} May 2018}
 
 \textit{Web services implementation.}
 
@@ -159,7 +161,7 @@
 
 
 \smallvskip
-\whatwherewhen{Software Engineer}{\href{https://yandex.com/company/}{Yandex}}{January 2016 - May 2017}
+\whatwherewhen{Software Engineer}{\href{https://yandex.com/company/}{Yandex}}{January 2016 \textendash{} May 2017}
 
 \textit{Feature engineering for Internet video search and machine learning.}
 
@@ -177,7 +179,7 @@
 
 
 \smallvskip
-\whatwherewhen{Senior Software Development Engineer}{\href{http://intel.com}{Intel}}{February 2006 - December 2015}
+\whatwherewhen{Senior Software Development Engineer}{\href{https://intel.com}{Intel}}{February 2006 \textendash{} December 2015}
 
 \textit{Applied research in performance analysis and implementation of performance tuning tools.}
 
@@ -187,9 +189,9 @@
 
 \item Developed a capability to represent knowledge about performance issues in applications (using \textsc{Python} code) and their automatic detection for \href{http://software.intel.com/en-us/intel-vtune-amplifier-xe}{Intel VTune Amplifier} and \href{https://software.intel.com/en-us/intel-advisor-xe}{Intel Advisor} products. (\textsc{Knowledge Representation})
 
-\item Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor, and implemented a tool for automatic detection.
+\item Defined metrics and methodologies to identify parts of an application that are best suited for execution on CPUs or for offload to a coprocessor and implemented a tool for automatic detection.
 
-\item Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of the threading and performance profiler \href{http://software.intel.com/en-us/intel-vtune-amplifier-xe}{Intel VTune Amplifier} from scratch, including major data visualization and data provider components. (\textsc{C++}, \textsc{Java}, \textsc{Python}, \textsc{OpenMP}, \textsc{SQLite}) Mentorship (5 collegues).
+\item Full-cycle development (design, prototype, research, review, documentation, planning, implementation, etc.) of the threading and performance profiler \href{http://software.intel.com/en-us/intel-vtune-amplifier-xe}{Intel VTune Amplifier} from scratch, including major data visualization and data provider components. (\textsc{C++}, \textsc{Java}, \textsc{Python}, \textsc{OpenMP}, \textsc{SQLite}) Mentorship (5 colleagues).
 
 \item Implemented a new approach for source-level performance information visualization in \href{http://software.intel.com/en-us/intel-vtune-amplifier-xe}{Intel VTune Amplifier}, unlocking new usage models for senior performance engineers.
 
@@ -197,7 +199,7 @@
 
 
 \smallvskip
-\whatwherewhen{Lecturer, Research Advisor}{\href{http://unn.ru/eng}{Lobachevsky State University of Nizhni Novgorod}}{2009 - 2012}
+\whatwherewhen{Lecturer, Research Advisor}{\href{http://unn.ru/eng}{Lobachevsky State University of Nizhni Novgorod}}{2009 \textendash{} 2012}
 
 \textit{Research and teaching courses in Artificial Intelligence and Machine Learning.}
 
@@ -211,7 +213,7 @@
 
 
 \smallvskip
-\whatwherewhen{Software Development Engineer}{\href{http://mera.ru/}{Mera Networks}}{October 2003 - February 2006}
+\whatwherewhen{Software Development Engineer}{\href{http://mera.ru/}{Mera Networks}}{October 2003 \textendash{} February 2006}
 
 \textit{Telecommunication software implementation.}
 
@@ -226,20 +228,20 @@
 \section{Personal Projects}
 
 \begin{itemize}
-\item Small repository of various Jupyter notebooks: \href{https://github.com/anton-dergunov/ml-playground}{https://github.com/anton-dergunov/ml-playground}
+\item GitHub repository demonstrating various ML techniques: \href{https://github.com/anton-dergunov/ml-playground}{https://github.com/anton-dergunov/ml-playground}
 \end{itemize}
 
 
 \section{Education}
 
-\whatwherewhen{PhD in Theoretical Computer Science}{\href{http://unn.ru}{Lobachevsky State University of Nizhni Novgorod}}{July 2008 - July 2011}
+\whatwherewhen{PhD in Theoretical Computer Science}{\href{http://unn.ru}{Lobachevsky State University of Nizhni Novgorod}}{July 2008 \textendash{} July 2011}
 
 Thesis: \href{https://search.rsl.ru/ru/record/01005013870}{Models, methods and tools of knowledge representation for improving performance of MPI applications}. 
 
 Implemented results from the thesis in \href{http://software.intel.com/en-us/intel-trace-analyzer}{Intel Trace Analyzer and Collector} and its \href{https://web.archive.org/web/20151022144828/https://software.intel.com/en-us/node/561522}{Performance Assistant} capability.
 
 \smallvskip
-\whatwherewhen{Specialist Degree in Applied Computer Science}{\href{http://unn.ru}{Lobachevsky State University of Nizhni Novgorod}}{September 2001 - May 2006}
+\whatwherewhen{Specialist Degree in Applied Computer Science}{\href{http://unn.ru}{Lobachevsky State University of Nizhni Novgorod}}{September 2001 \textendash{} May 2006}
 
 Thesis: Neural network model for knowledge representation and extraction.
 
@@ -247,11 +249,11 @@ Thesis: Neural network model for knowledge representation and extraction.
 \section{Publications}
 
 \begin{itemize}
-\item Anton Dergunov. \href{http://anton-dergunov.ru/publications/proving_complexity_v2.pdf}{Proving Termination and Computational Complexity of Computer Programs}. Abstract of poster for ``CSEDays. Algorithms and Complexity'' summer school.
+\item Anton Dergunov. \href{http://anton-dergunov.github.io/publications/proving_complexity_v2.pdf}{Proving Termination and Computational Complexity of Computer Programs}. Abstract of poster for ``CSEDays. Algorithms and Complexity'' summer school.
 \item Anton Dergunov. \href{http://themonadreader.files.wordpress.com/2013/08/issue221.pdf}{Generalized algebraic data types in Haskell}. The Monad.Reader Issue 22, pp. 5-39. Etc.
 \item Anton Dergunov. \href{http://anton-dergunov.ru/publications/mpi_performance.pdf}{Specification and automatic detection of performance problems in message passing (MPI) applications}. Radioelectronic and Computer Systems, 2012, 7(59), pp. 217-222.
-\item Anton Dergunov. \href{http://pavt.susu.ru/2012/full/159.pdf}{Expert methodology for performance analysis of communicating processes in MPI applications}. In proceedings of conference ``Parallel Computational Technologies'', Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
-\item Personal blog on machine learning: \href{https://anton-dergunov.github.io/blog/}{https://anton-dergunov.github.io/blog/}
+\item Anton Dergunov. \href{https://anton-dergunov.github.io/publications/expert_methodology.pdf}{Expert methodology for performance analysis of communicating processes in MPI applications}. In proceedings of conference ``Parallel Computational Technologies'', Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
+\item Personal blog on machine learning: \href{https://anton-dergunov.github.io/blog/}{https://anton-dergunov.github.io/blog/}.
 
 \end{itemize}
 
