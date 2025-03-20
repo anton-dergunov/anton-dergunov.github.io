@@ -26,8 +26,11 @@ Employment
 - **Senior Applied Scientist**, [Microsoft](https://www.microsoft.com/) (May 2018 - Present)
   - *Applying machine learning in Microsoft Office products.*
 
-  - [Copilot](https://www.microsoft.com/en-gb/microsoft-copilot/organizations) and People Search:
+  - [Microsoft 365 Copilot](https://www.microsoft.com/en-gb/microsoft-copilot/organizations) and [People Search](https://learn.microsoft.com/en-us/graph/search-concept-person):
     - Improving semantic search for people/contacts in Copilot, support for natural language queries. (`LLMs`, `ChatGPT`, `RAG`)
+
+    - Enhanced the quality semantic (natural language) search for people/contacts in [Microsoft 365 Copilot](https://www.microsoft.com/en-us/microsoft-365/copilot). Performed evaluation of embedding models and cross encoders, leveraging LLM-based assessments and synthetic data generation. (`LLMs`, `ChatGPT`, `RAG`)
+
     - Built from scratch the pipeline for collecting "eyes-off" training and testing data, monitoring its quality, and training ranking and classification models with offline evaluation, producing a model ready for product integration. Optimized the pipeline's performance to process large volumes of click log data. The model is used for [people ranking in many Microsoft products](https://www.youtube.com/watch?v=a6HO4ekmmjU) (such as Teams, Outlook, Bing, Windows). Deployed several models using this pipeline to production, demonstrating online metrics improvements (such as up to a 4% increase in click-through rate and improvements in time to success). (`Azure Machine Learning`, `Python`, `PySpark`, `LightGBM`, `ONNX`, `Gradient Boosting`)
     - Implemented the [Personalized PageRank](https://www.cs.cornell.edu/~bindel/blurbs/edgeppr.html) algorithm over organization people graphs for this people ranker, resulting in a 2.15% increase in NDCG@1 and a 1.21% increase in NCDG@3. Presented this work at an internal conference and tested other graph-based approaches produced by different teams.
     - Conducted multiple online A/B experiments, analyzing metrics to test new features or resolve issues.
@@ -43,7 +46,7 @@ Employment
 
 - **Lead Application Developer**, [JP Morgan](https://www.jpmorganchase.com/) (May 2017 - May 2018)
   - *Web services implementation.*
-  - Implemented backend systems for monitoring engineering practices and source code repository commits. (`Java`, `Spring`, `Python`, `SQL`, `MongoDB`, `MariaDB`, `Oracle Database`) Conducted phone screening interviews.
+  - Implemented automated systems for monitoring engineering practices at the company. (`Java`, `Python`, `SQL`)
 
 - **Software Engineer**, [Yandex](https://yandex.com/company/) (January 2016 - May 2017)
   - *Feature engineering for Internet video search and machine learning.*
