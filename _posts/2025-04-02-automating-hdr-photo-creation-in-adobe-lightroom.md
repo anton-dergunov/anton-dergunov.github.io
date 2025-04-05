@@ -32,7 +32,7 @@ Specialized cameras, such as mirrorless and point and shoot cameras, frequently 
 - You can select a special mode (such as [Auto HDR in Sony cameras](https://www.sony.com/electronics/support/articles/00012101)), and the camera will take images with different exposures, merge them, and save as JPEG image (RAW format is usually not supported in this case).
 - They also support a more flexible appoach: use [exposure bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing) to take images with different exposures (which can be saved in RAW format), and later merge them with specialized software. This is the most flexible approach, but it requires extra work.
 
-TODO Show how to enable this in Sony cameras.
+TODO Briefly describe how to enable this in Sony cameras.
 
 
 ## When to Use HDR Photos?
@@ -216,6 +216,7 @@ References:
 - [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
 - [What is the Difference between Auto High Dynamic Range (HDR) and D-Range Optimizer (DRO)?](https://www.sony.com/electronics/support/articles/00012101)
 - [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
+- [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
 - [Photomatrix](https://www.hdrsoft.com/)
 - [LR/Enfuse](https://www.photographers-toolbox.com/products/lrenfuse.php)
 - [YouTube video "Automate HDR Image Merging in Adobe Lightroom \| Automate Your Exposure Bracketing Photo Workflow"](https://www.youtube.com/watch?v=wFbQ-djJ_sY)
@@ -234,7 +235,15 @@ A key reason for using HDR techniques is the **inherent limitation of digital ca
 
 **A Look at the History:**
 
-While HDR has gained significant traction with the advent of digital photography, the **awareness of the limitations of exposure range is not new**. Even in the early days of photography, practitioners sought ways to overcome these limitations. For instance, **[Gustave Le Gray](https://en.wikipedia.org/wiki/Gustave_Le_Gray)**'s 19th-century seascapes, which combined separately exposed negatives for the sky and the sea, can be considered early examples of HDR thinking, and his prints have recently fetched record prices at auction. As photography progressed, **Ansel Adams** is renowned for his prints' wide tonal range, achieved through meticulous exposure and development using his **zone system**, as well as extensive **dodging and burning** in the darkroom (TBD Please add some links about this). He even used a custom-modified enlarger to extend the dynamic range of his images. Therefore, the concept of extending dynamic range has been a long-standing pursuit in photography. Digital photography now allows for simpler methods to achieve HDR results that were previously impossible.
+While HDR has gained significant traction with the advent of digital photography, the **awareness of the limitations of exposure range is not new**. Even in the early days of photography, practitioners sought ways to overcome these limitations. For instance, [Gustave Le Gray](https://en.wikipedia.org/wiki/Gustave_Le_Gray)'s 19th-century seascapes, which combined separately exposed negatives for the sky and the sea, can be considered early examples of HDR thinking, and his prints have recently fetched record prices at auction. As photography progressed, [Ansel Adams](https://en.wikipedia.org/wiki/Ansel_Adams) is renowned for his prints' wide tonal range, achieved through meticulous exposure and development using his **zone system**, as well as extensive **dodging and burning** in the darkroom (TBD Please add some links about this). He even used a custom-modified enlarger to extend the dynamic range of his images. Therefore, the concept of extending dynamic range has been a long-standing pursuit in photography. Digital photography now allows for simpler methods to achieve HDR results that were previously impossible.
+
+
+[![Brig upon the Water](/images/posts/brig_upon_the_water.jpg)](https://upload.wikimedia.org/wikipedia/commons/c/cd/Gustave_Le_Gray_-_Brig_upon_the_Water_-_Google_Art_Project.jpg)
+*Brig upon the Water* by Gustave Le Gray, 1856. Public domain. Source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gustave_Le_Gray_-_Brig_upon_the_Water_-_Google_Art_Project.jpg#).
+
+[![The Tetons and the Snake River](/images/posts/the_tetons_and_the_snake_river.jpg)](https://upload.wikimedia.org/wikipedia/commons/2/21/Adams_The_Tetons_and_the_Snake_River.jpg)
+*The Tetons and the Snake River* by Ansel Adams, 1942. Public domain. Source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Adams_The_Tetons_and_the_Snake_River.jpg#).
+
 
 **The Modern HDR Process:**
 
@@ -278,5 +287,25 @@ HDR techniques are employed across various photographic genres to enhance the fi
 *   **Interiors:** Particularly useful for capturing detail when shooting into bright windows from a darker interior.
 *   **Flowers:** To control the lighting and capture the subtle, translucent details of petals.
 *   While more care is needed, HDR can even be applied to **portraits** for specific artistic effects, though attention must be paid to subject movement and potential unnatural skin tones.
+
+
+---
+
+TODO Include photos and videos this way:
+
+[![Diagon Alley - HDR](path/to/diagon-alley-thumb.jpg)](path/to/diagon-alley-full.jpg)  
+*Diagon Alley (HDR example)* – Warner Bros Tour London. Photo by the author.
+
+[![Henton Chapel - HDR](path/to/henton-chapel-thumb.jpg)](path/to/henton-chapel-full.jpg)  
+*Henton Chapel (iPhone HDR)* – Chiltern Open Air Museum. Photo by the author.
+
+[![Goblin Teller - HDR](path/to/goblin-teller-thumb.jpg)](path/to/goblin-teller-full.jpg)  
+*Goblin Teller (HDR example)* – Warner Bros Tour London. Photo by the author.
+
+[![The Monster Book of Monsters - HDR](path/to/monster-book-thumb.jpg)](path/to/monster-book-full.jpg)  
+*The Monster Book of Monsters (HDR example)* – Warner Bros Tour London. Photo by the author.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+
 
 
