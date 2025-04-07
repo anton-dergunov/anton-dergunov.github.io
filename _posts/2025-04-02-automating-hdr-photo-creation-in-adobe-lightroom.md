@@ -157,7 +157,7 @@ Many HDR tools — like Lightroom and Photomatix — offer controls to manage th
 
 **Examples**:
 
-The photo below, shot with a point-and-shoot camera and processed as HDR, recovered detailed of the face of the brightly lit Goblin. But it also looks flat, with little separation between foreground and background.
+The photo below, captured with a point-and-shoot camera and processed as HDR, successfully recovers details on the brightly lit Goblin’s face. However, it appears flat, lacking clear separation between the foreground and background.
 
 {% include figure.html
    src="/images/posts/hdr_example_goblin_teller_thumb.jpg"
@@ -246,7 +246,7 @@ Unlike Lightroom’s built-in Auto-Stack by Capture Time feature, which relies o
 
 **EXIF (Exchangeable Image File Format)** data is metadata stored within image files that describes how and when a photo was taken. It includes standard tags such as exposure time, aperture, ISO, and timestamp, along with many camera-specific details.
 
-To analyze EXIF metadata, I use [ExifTool](https://exiftool.org/), a powerful command-line utility that can extract metadata from virtually many image formats.
+To inspect EXIF metadata, I use [ExifTool](https://exiftool.org/) — a powerful command-line utility that extracts metadata from a wide range of image formats.
 
 ### Analyzing Metadata from a Sony Camera
 
@@ -386,10 +386,9 @@ If you find it useful, I’d love to hear your experience, and any suggestions f
 
 1. [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
 2. [Michael Freeman – Mastering HDR Photography, Ilex, 2008](https://www.amazon.com/Mastering-High-Dynamic-Range-Photography/dp/1905814240)
-3. [What is the Difference between Auto High Dynamic Range (HDR) and D-Range Optimizer (DRO)?](https://www.sony.com/electronics/support/articles/00012101)
-4. [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
-5. [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
-6. [YouTube video "Automate HDR Image Merging in Adobe Lightroom \| Automate Your Exposure Bracketing Photo Workflow"](https://www.youtube.com/watch?v=wFbQ-djJ_sY)
-7. [Photomatrix](https://www.hdrsoft.com/)
-8. [LR/Enfuse](https://www.photographers-toolbox.com/products/lrenfuse.php)
-9. [ExifTool](https://exiftool.org/)
+3. [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
+4. [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
+5. [YouTube video "Automate HDR Image Merging in Adobe Lightroom \| Automate Your Exposure Bracketing Photo Workflow"](https://www.youtube.com/watch?v=wFbQ-djJ_sY)
+6. [Photomatrix](https://www.hdrsoft.com/)
+7. [LR/Enfuse](https://www.photographers-toolbox.com/products/lrenfuse.php)
+8. [ExifTool](https://exiftool.org/)
