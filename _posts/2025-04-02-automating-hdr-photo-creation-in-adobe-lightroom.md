@@ -238,7 +238,7 @@ A good walkthrough of this workflow is available in the video:
 
 ## Automating HDR Merging with a Custom Lightroom Plugin
 
-To address the limitations in Lightroom’s manual HDR merging workflow, I developed a small tool: the Lightroom Auto Stacker Plugin. As the name suggests, the plugin automates the first crucial step - detecting groups of exposure-bracketed photos and stacking them automatically.
+To address the limitations in Lightroom’s manual HDR merging workflow, I developed a small tool: the [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker). As the name suggests, the plugin automates the first crucial step - detecting groups of exposure-bracketed photos and stacking them automatically.
 
 Unlike Lightroom’s built-in Auto-Stack by Capture Time feature, which relies on time gaps between shots, my plugin analyzes EXIF metadata embedded in each image file to group photos that were taken as part of an exposure bracket sequence. I found this method to be more reliable, because it works even when timing between shots is inconsistent.
 
