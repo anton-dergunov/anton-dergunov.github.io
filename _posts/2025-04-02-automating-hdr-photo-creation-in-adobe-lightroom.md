@@ -371,8 +371,6 @@ If I notice artifacts like ghosting or poor tone mapping, I can always manually 
 
 ## Final Thoughts
 
-Please help me include a couple of sentences for the call to action to end this blog post. The tone should be professional, but engaging.
-
 HDR photography can elevate your images — when used thoughtfully. But the merging process can quickly become a bottleneck, especially when dealing with dozens or hundreds of exposures. This plugin is designed to streamline that step, using camera metadata to detect exposure brackets with higher reliability than timestamp-based methods.
 
 By automating the HDR merge workflow, this tool helps me focus more on the creative side of photography, rather than on the repetitive tasks. I hope it can do the same for you.
