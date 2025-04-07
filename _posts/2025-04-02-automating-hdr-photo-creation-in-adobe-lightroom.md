@@ -54,8 +54,6 @@ Fast forward to the 20th century, [Ansel Adams](https://en.wikipedia.org/wiki/An
    caption="*The Tetons and the Snake River* by Ansel Adams, 1942. Public domain. Source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Adams_The_Tetons_and_the_Snake_River.jpg#)."
 %}
 
-TODO Reference the article where I saw these two images.
-
 ### How does HDR work?
 
 There are different techniques available for modern HDR photography, but typically it is achieved through a process called **exposure bracketing**, which involves:
@@ -83,13 +81,11 @@ Most mirrorless and DSLR cameras support two HDR modes:
   - You retain all files (often in RAW format)
   - You later merge them using dedicated HDR software for more precise control
 
-> 🔧 **How to enable this on Sony cameras (as an example)**:
+> 🔧 **How to enable this (on Sony RX100VII camera as an example)**:
 >
-> To **bracket exposures**, access the camera menu and look for `Drive Mode → Bracket: Cont. or Bracket Settings`. You can then choose how many frames to capture and the EV step (e.g. ±1, ±2 stops).
+> To **bracket exposures**, select `Drive Mode` of the control wheel and select bracket shooting mode. You can then choose how many frames to capture and the EV step (e.g. ±1, ±2 stops). See [help page](https://helpguide.sony.net/dsc/1920/v1/en/contents/TP0001140453.html) for more details.
 >
-> For **Auto HDR**, go to `Menu → Camera Settings → Auto HDR` and set it to ON. Keep in mind this only saves JPEGs and disables RAW capture.
-
-TODO Double check this.
+> For **Auto HDR**, go to `Menu → Camera Settings → DRO/Auto HDR → Auto HDR` and select the desired settings. Keep in mind this function is only available when shooting in JPEG file format. See [help page](https://helpguide.sony.net/dsc/1920/v1/en/contents/TP0001140458.html) for more details.
 
 
 ## When to Use HDR Photos
@@ -366,7 +362,7 @@ python group_sony_bracketed_photos.py --input /path/to/photos --output groups.tx
 
 ### 📸 Real-World Workflow
 
-When I return from a photo walk, I use this plugin to automatically detect and merge all HDR image sets. While the process is largely hands-free, it does take a few minutes to run—especially for larger shoots. Once HDR images are generated, I import both the original files and the HDR files into **Lightroom Cloud storage** (which allows to sync across devices).
+When I return from a photo walk, I use this plugin to automatically detect and merge all HDR image sets. While the process is largely hands-free, it does take a few minutes to run — especially for larger shoots. Once HDR images are generated, I import both the original files and the HDR files into **Lightroom Cloud storage** (which allows to sync across devices).
 
 This pre-processing step has become a useful part of my workflow. It allows me to review all HDR and original exposures side-by-side during the culling phase, which I can do either on my desktop or directly on my iPad. HDR isn’t always the better version. Sometimes I keep the HDR, sometimes I prefer one of the original exposures. Having all options upfront saves time and helps me make a better and quicker decision.
 
@@ -390,12 +386,12 @@ If you find it useful, I’d love to hear your experience, and any suggestions f
 
 ## References
 
-- [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
-- [What is the Difference between Auto High Dynamic Range (HDR) and D-Range Optimizer (DRO)?](https://www.sony.com/electronics/support/articles/00012101)
-- [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
-- [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
-- [Photomatrix](https://www.hdrsoft.com/)
-- [LR/Enfuse](https://www.photographers-toolbox.com/products/lrenfuse.php)
-- [YouTube video "Automate HDR Image Merging in Adobe Lightroom \| Automate Your Exposure Bracketing Photo Workflow"](https://www.youtube.com/watch?v=wFbQ-djJ_sY)
-- [ExifTool](https://exiftool.org/)
-- TODO include other links and convert into numbered list. Also provide links from the main text.
+1. [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
+2. [Michael Freeman – Mastering HDR Photography, Ilex, 2008](https://www.amazon.com/Mastering-High-Dynamic-Range-Photography/dp/1905814240)
+3. [What is the Difference between Auto High Dynamic Range (HDR) and D-Range Optimizer (DRO)?](https://www.sony.com/electronics/support/articles/00012101)
+4. [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
+5. [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
+6. [YouTube video "Automate HDR Image Merging in Adobe Lightroom \| Automate Your Exposure Bracketing Photo Workflow"](https://www.youtube.com/watch?v=wFbQ-djJ_sY)
+7. [Photomatrix](https://www.hdrsoft.com/)
+8. [LR/Enfuse](https://www.photographers-toolbox.com/products/lrenfuse.php)
+9. [ExifTool](https://exiftool.org/)
