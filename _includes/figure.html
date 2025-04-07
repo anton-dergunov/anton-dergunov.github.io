@@ -4,7 +4,9 @@
       <img src="{{ include.src }}" alt="{{ include.alt }}">
     </a>
   {% else %}
-    <img src="{{ include.src }}" alt="{{ include.alt }}">
+    <div>
+      <img src="{{ include.src }}" alt="{{ include.alt }}">
+    </div>
   {% endif %}
   {% if include.caption %}
     <figcaption>
