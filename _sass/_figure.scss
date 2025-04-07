@@ -2,6 +2,8 @@
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  flex-direction: column;
+  align-items: center;
 }
   
 .center-figure img {
@@ -17,6 +19,12 @@
   margin-bottom: 0;
 }
 
+.center-figure div {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+}
+  
 .center-figure figcaption {
   margin-top: 0.5em;
   margin-left: auto;
