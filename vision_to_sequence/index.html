@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡⚠️ Mega Hyper Digit Prediction Machine 9000™ ⚠️⚡</title>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  <style>
+    body {
+      background: repeating-linear-gradient(45deg, #111, #111 10px, #222 10px, #222 20px);
+      font-family: 'Courier New', monospace;
+      color: #39ff14;
+      text-align: center;
+      padding: 2em;
+      animation: bgFlash 5s infinite alternate;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes bgFlash {
+      0% { background-color: black; }
+      100% { background-color: darkred; }
+    }
+
+    canvas {
+      background: black;
+      image-rendering: pixelated;
+      border: 5px dotted lime;
+      cursor: crosshair;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1em;
+    }
+
+    #controls button {
+      margin: 0.5em;
+      padding: 1em;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: #ff00ff;
+      color: yellow;
+      border: 4px ridge cyan;
+      box-shadow: 0 0 10px red;
+      text-transform: uppercase;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+    }
+
+    #controls button:hover {
+      background: cyan;
+      color: black;
+    }
+
+    marquee {
+      margin-top: 1em;
+      font-size: 2.2rem;
+      color: #00ffff;
+      font-weight: bolder;
+      border: 6px double yellow;
+      padding: 1em;
+      text-shadow: 0 0 5px red;
+      animation: textFlash 1s infinite alternate;
+    }
+
+    @keyframes textFlash {
+      from { color: lime; }
+      to { color: magenta; }
+    }
+
+    #overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 630px;
+      height: 630px;
+      font-size: 300px;
+      line-height: 630px;
+      text-align: center;
+      z-index: 3;
+      animation: spin 1s linear infinite;
+    }
+
+    .mini-magician {
+      position: absolute;
+      font-size: 50px;
+      animation: spinReverse 1.5s linear infinite;
+      z-index: 2;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spinReverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    .flying-emoji {
+      position: absolute;
+      font-size: 50px;
+      z-index: 999;
+      animation: explode 1.5s ease-out forwards;
+    }
+
+    @keyframes explode {
+      from { opacity: 1; transform: scale(1) translate(0, 0); }
+      to { opacity: 0; transform: scale(2) translate(var(--x), var(--y)); }
+    }
+
+    .side-gif {
+      width: 300px;
+      height: auto;
+    }
+
+    .side-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1em;
+      align-items: center;
+    }
+
+    .toxic-border {
+      border: 10px groove hotpink;
+      padding: 1em;
+      margin: 1em;
+      background: linear-gradient(to bottom, yellow, red);
+      color: black;
+      text-shadow: 1px 1px 2px lime;
+    }
+  </style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text x=%220%22 y=%2214%22>🎨</text></svg>">
+</head>
+<body>
+  <audio id="bg-audio" loop>
+    <source src="fun/stevie_wonder_another_star.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="toxic-border">
+    <h1>🧠⚡ Welcome to the Ultimate Hyper Intelligent Digit Predictor 9000 ⚡🧠</h1>
+    <p style="font-size: 1.5rem;">WARNING: May predict your future or explode your browser 💥</p>
+  </div>
+
+  <div class="side-container">
+    <img id="left-gif" class="side-gif" src="fun/01.gif" alt="fun gif">
+    <div style="position: relative; display: inline-block;">
+      <canvas id="canvas" width="84" height="84"></canvas>
+      <div id="overlay">🧙‍♂️</div>
+      <div id="minions"></div>
+    </div>
+    <img id="right-gif" class="side-gif" src="fun/02.gif" alt="fun gif">
+  </div>
+
+  <div id="controls">
+    <button onclick="clearCanvas()">💣 PURGE CANVAS 💣</button>
+    <button onclick="predict()">🔮 UNLEASH PREDICTION 🔮</button>
+    <button onclick="document.getElementById('bg-audio').play()">🔊 PLAY MUSIC</button>
+  </div>
+
+  <div id="output">
+    <marquee behavior="alternate" id="result"><span id="prediction-text">Prediction: ...</span></marquee>
+  </div>
+
+  <script>
+    const CANVAS_SIZE = 84;
+    const PATCH_SIZE = 14;
+    const PATCH_DIM = PATCH_SIZE * PATCH_SIZE;
+    const NUM_PATCHES = (CANVAS_SIZE / PATCH_SIZE) ** 2;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.style.width = '630px';
+    canvas.style.height = '630px';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'white';
+
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(...getMousePos(e));
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (drawing) {
+        ctx.lineTo(...getMousePos(e));
+        ctx.stroke();
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+    });
+
+    function drawGrid() {
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 0.5;
+      for (let i = 1; i < 3; i++) {
+        const step = CANVAS_SIZE / 3;
+        ctx.beginPath();
+        ctx.moveTo(i * step, 0);
+        ctx.lineTo(i * step, CANVAS_SIZE);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i * step);
+        ctx.lineTo(CANVAS_SIZE, i * step);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+    }
+
+    function getMousePos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      return [
+        (evt.clientX - rect.left) * (canvas.width / canvas.clientWidth),
+        (evt.clientY - rect.top) * (canvas.height / canvas.clientHeight)
+      ];
+    }
+
+    function clearCanvas() {
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+      drawGrid();
+      document.getElementById('prediction-text').innerText = 'Prediction: ...';
+    }
+
+    clearCanvas();
+
+    function cycleSideGifs() {
+      const files = Array.from({length: 10}, (_, i) => `fun/${String(i+1).padStart(2,'0')}.gif`);
+      setInterval(() => {
+        document.getElementById('left-gif').src = files[Math.floor(Math.random() * files.length)];
+        document.getElementById('right-gif').src = files[Math.floor(Math.random() * files.length)];
+      }, 5000);
+    }
+    cycleSideGifs();
+
+    async function predict() {
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'block';
+      overlay.style.transform = 'scale(1)';
+      document.getElementById('prediction-text').innerText = 'RUNNING ML MAGIC...';
+      canvas.style.filter = 'grayscale(100%) brightness(30%)';
+      canvas.style.pointerEvents = 'none';
+
+      const minions = document.getElementById('minions');
+      minions.innerHTML = '';
+      const cx = canvas.offsetLeft + canvas.offsetWidth / 2;
+      const cy = canvas.offsetTop + canvas.offsetHeight / 2;
+      const r = 200;
+      for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI * 2 * i) / 8;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        const div = document.createElement('div');
+        div.className = 'mini-magician';
+        div.innerText = '🧙‍♂️';
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        minions.appendChild(div);
+      }
+
+      try {
+        const imageData = ctx.getImageData(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+        const gray = toGrayscale(imageData);
+        const normalized = normalize(gray);
+        const patches = patchify(normalized);
+
+        const input = new ort.Tensor('float32', patches, [1, NUM_PATCHES, PATCH_DIM]);
+        const session = await ort.InferenceSession.create('./model.onnx');
+        const output = await session.run({ input });
+
+        const predictions = Object.values(output)[0].data;
+        const predictionArray = Array.from(predictions, x => Number(x));
+        const filtered = predictionArray.filter(x => Number.isInteger(x) && x >= 0 && x <= 9);
+
+        document.getElementById('prediction-text').innerText = 'Prediction: ' + filtered.join(' ');
+
+        explodeMagic();
+      } catch (e) {
+        document.getElementById('prediction-text').innerText = 'Error: ' + e;
+      } finally {
+        overlay.style.display = 'none';
+        minions.innerHTML = '';
+        canvas.style.filter = '';
+        canvas.style.pointerEvents = 'auto';
+      }
+    }
+
+    function explodeMagic() {
+      const rect = canvas.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const emojis = ['✨', '💥', '🧠', '🛸', '💫', '🎇', '🔥', '🎉', '👾', '🧪'];
+      for (let i = 0; i < 30; i++) {
+        const el = document.createElement('div');
+        el.className = 'flying-emoji';
+        el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = centerX + 'px';
+        el.style.top = centerY + 'px';
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 300 + Math.random() * 200;
+        el.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        el.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+      }
+    }
+
+    function toGrayscale(imgData) {
+      const gray = new Float32Array(CANVAS_SIZE * CANVAS_SIZE);
+      for (let i = 0; i < imgData.data.length; i += 4) {
+        const r = imgData.data[i];
+        const g = imgData.data[i + 1];
+        const b = imgData.data[i + 2];
+        gray[i / 4] = 0.299 * r + 0.587 * g + 0.114 * b;
+      }
+      return gray;
+    }
+
+    function normalize(gray) {
+      const mean = 0.1307 * 255;
+      const std = 0.3081 * 255;
+      return gray.map(v => (v - mean) / std);
+    }
+
+    function patchify(img) {
+      const patches = new Float32Array(NUM_PATCHES * PATCH_DIM);
+      let idx = 0;
+      for (let y = 0; y < CANVAS_SIZE; y += PATCH_SIZE) {
+        for (let x = 0; x < CANVAS_SIZE; x += PATCH_SIZE) {
+          for (let dy = 0; dy < PATCH_SIZE; dy++) {
+            for (let dx = 0; dx < PATCH_SIZE; dx++) {
+              const px = x + dx;
+              const py = y + dy;
+              patches[idx++] = img[py * CANVAS_SIZE + px];
+            }
+          }
+        }
+      }
+      return patches;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('bg-audio');
+      let hasInteracted = false;
+    
+      const tryPlayAudio = () => {
+        if (!hasInteracted) {
+          audio.play().catch(e => {
+            console.log("Autoplay blocked until user interaction.");
+          });
+          hasInteracted = true;
+        }
+      };
+    
+      // Trigger on any click or key
+      document.body.addEventListener('click', tryPlayAudio);
+      document.body.addEventListener('keydown', tryPlayAudio);
+    });
+  </script>
+</body>
+</html>
