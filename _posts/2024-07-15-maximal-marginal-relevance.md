@@ -30,7 +30,7 @@ article_titles = [
 ]
 ```
 
-You can find the complete dataset and source code for this article in the [Jupyter Notebook](https://github.com/anton-dergunov/ml-playground/blob/master/techniques/maximal_marginal_relevance.ipynb).
+You can find the complete dataset and source code for this article in the [Jupyter Notebook](https://github.com/anton-dergunov/blog-code/blob/main/2024-07-maximal-marginal-relevance/maximal_marginal_relevance.ipynb).
 
 To approach this problem, one method is to use a [similarity measure](https://en.wikipedia.org/wiki/Similarity_measure) to rank documents by their relevance to a query. A common measure is [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) applied to [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) of the documents and the query. The algorithm follows these steps:
 
@@ -48,13 +48,13 @@ def get_embeddings(text_list, model_name="bert-base-uncased"):
     model = AutoModel.from_pretrained(model_name)
 
     inputs = tokenizer(text_list, return_tensors="pt", padding=True, truncation=True)
-    
+
     with torch.no_grad():
         outputs = model(**inputs)
-    
+
     embeddings = outputs.last_hidden_state.mean(dim=1)
     embeddings = embeddings.numpy()
-    
+
     return embeddings
 ```
 
@@ -237,7 +237,7 @@ print_selected(article_mmr_order_08, article_similarities, article_titles)
 
 Again, all articles are related to `London`, but we have a duplicate pair: "Top Photography Spots in London" and "Best Photo Spots in London". For this example, \\( \lambda = .7 \\) works well.
 
-For the complete implementation, refer to the [Jupyter Notebook](https://github.com/anton-dergunov/ml-playground/blob/master/techniques/maximal_marginal_relevance.ipynb).
+For the complete implementation, refer to the [Jupyter Notebook](https://github.com/anton-dergunov/blog-code/blob/main/2024-07-maximal-marginal-relevance/maximal_marginal_relevance.ipynb).
 
 References:
 
