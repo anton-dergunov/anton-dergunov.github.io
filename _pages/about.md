@@ -2,57 +2,41 @@
 permalink: /
 title: "About"
 author_profile: true
-redirect_from: 
+redirect_from:
   - /about/
   - /about.html
 ---
 
 <img align="right" src="images/profile.jpg" alt="Photo" style="width: 210px; border-radius: 10px; padding: 8px 8px 8px 8px"/>
 
-Welcome to my [blog](blog)! I'm Anton Dergunov, an avid practitioner of machine learning and AI, with a strong background in data science and software engineering based in London, United Kingdom. I've dedicated this space to share my insights, experiments, and discoveries in these exciting fields.
+I'm Anton Dergunov, a machine learning engineer and applied scientist based in London.
 
+My work sits where machine learning meets real user behaviour: I build production systems that learn from how millions of people search, click, and choose — and that have to prove, in live experiments, that they actually got better. Most of that work has been in search ranking, recommendations, and NLP at large scale, from classical learning-to-rank through transformer-based models and LLM-powered pipelines.
 
-## My Journey in Machine Learning
+## What I've built
 
-I've been fascinated by ML long before it became a trending topic. My interest in the field stems from several key motivations:
+At Microsoft, I spent over seven years as a Senior Applied Scientist working on ranking and recommendation systems across Microsoft 365. I led improvements to natural-language people search for [Microsoft 365 Copilot](https://www.microsoft.com/en-us/microsoft-365/copilot) — helping users find the right colleagues, contacts, and experts — evaluating embedding models and cross-encoders, and using LLM-based assessment and synthetic data generation to measure quality. I also built, end to end, the training and evaluation pipeline behind the contact-ranking models used across Teams, Outlook, Bing, and Windows: a system that learns from very large volumes of behavioural log data under strict privacy constraints ("eyes-off" processing), with models deployed to production and validated through online A/B experiments showing gains in click-through rate and time-to-success.
 
-1. **Data Insight**: I love uncovering insights from data, making it a powerful tool for learning and discovery. The ability to visualize and explain data patterns is especially captivating to me, and I often use Jupyter Notebooks for their quick iteration capabilities.
+On the recommendation side, I worked on [Meeting Insights](https://www.microsoft.com/en-us/research/publication/calendar-aware-proactive-email-recommendation/) in Outlook — a feature that surfaces emails and documents relevant to upcoming meetings. This was greenfield work on a brand-new product, with the cold-start problem that entails: I designed and owned the training-data pipeline from the ground up, scaling it through engineering and weak-supervision techniques. I started working with transformer models soon after they appeared (such as BERT), applying them to content similarity and distilling them into lightweight models ready for production.
 
-2. **Understanding the Brain**: My curiosity about how the brain works also drives my interest in ML and AI.
+Before Microsoft, I worked on video search at [Yandex](https://yandex.com/company/), improving ranking quality through feature engineering for its gradient-boosted ranking system and building text-classification pipelines over web-scale data. Earlier, I spent a decade at [Intel](https://www.intel.com/) on performance-analysis tools for parallel software — including major components of the VTune profiler — which is where I learned to care deeply about how software actually behaves at scale.
 
-3. **Problem-Solving with AI**: As a true geek, I find immense satisfaction in using AI tools to solve practical problems (such as helping to organize the information that I have or be a better writer).
+A few threads run through all of this. I like owning systems end to end: data, features, models, evaluation, deployment, and the experiments that tell you the truth about whether anything improved. And I'm deeply interested in evaluation itself — designing the right metrics, building offline and online experiments you can trust, and understanding what models are actually doing (I've built internal tools for explaining their predictions).
 
+## Recent projects
 
-## Professional Background
+My recent personal projects centre on modern neural systems: neural retrieval and ranking models, multimodal architectures, and post-training pipelines for LLMs (supervised fine-tuning, reward modelling, reinforcement learning). I've also been building LLM-powered tools for language learning, including a speech-analysis tool for pronunciation practice — a nice evaluation-design problem, since even native speakers don't match a single "ideal" pronunciation, so I chose rich visual feedback over a brittle automated score. Code and write-ups appear here on the [blog](blog) and on [GitHub](https://github.com/anton-dergunov).
 
-My professional journey has been quite diverse and enriching. I earned my PhD with a focus on using knowledge representation techniques to encode expertise for fine-tuning software applications. This research led to multiple practical application which I integrated into several [Intel](https://www.intel.com/) software products. During my time at the university, I had the opportunity to teach AI courses and develop the course content.
+## Background
 
-I have worked with leading organizations such as Intel, Yandex, and Microsoft. At Intel, I focused on software development and research for high-performance and parallel optimization. At [Yandex](https://yandex.com/company/), I delved into ML projects like improving video ranking in their search engine. Currently, as a Senior Applied Scientist at Microsoft, I drive the integration of new ML ideas, from implementation and offline experimentation to online testing and model training in various products. Additionally, I have experience in building ML pipelines from the ground up to support these activities.
+I hold a PhD in Computer Science, where my research on automated performance diagnosis for parallel programs became a shipped capability in Intel's developer tools. Earlier in my career I taught university courses in artificial intelligence and machine learning and supervised student research projects.
 
-My expertise lies primarily in information retrieval and natural language processing. I have hands-on experience with various ML models, including linear models, decision trees, ensemble learning, and neural networks (including the transformer architecture). A particular area of interest for me is the interpretability of ML models, and I've developed internal tools at Microsoft for that.
+## This blog
 
-My passion for ML extends beyond work hours, and I share many of my personal experiments on [my GitHub repository](https://github.com/anton-dergunov/ml-playground).
+Technical articles, implementation notes, experiments, and project write-ups on machine learning systems, retrieval, NLP, and applied AI engineering — written for practitioners who like to see how things actually work.
 
-Throughout my career, I have worked with a variety of platforms and technologies. Currently, I find Jupyter Notebooks and the Python ML stack (including tools like NumPy, Pandas, SciKit-Learn, PyTorch, and LightGBM, among others) particularly enjoyable, as they allow me to iterate quickly and effectively.
+## Beyond work
 
-I have experience processing large volumes of data using technologies like PySpark, U-SQL, and custom-built MapReduce implementations. This includes tasks such as processing usage logs to prepare training and test data for ML models and extracting data from unstructured datasets using heuristics. In addition to these data-intensive applications, I also have substantial experience with compute-intensive parallelism and distributed processing using technologies like MPI, OpenMP, and others.
+I'm a language learner (the origin of several of my side projects) and a keen hiker — the solo [Tour du Mont Blanc](https://www.autourdumontblanc.com/en/) remains a highlight. I love travelling and immersing myself in nature, I enjoy photography, and I stay active with gym, yoga, and cycling.
 
-Research is a deep passion of mine. During my time at university, I attended numerous summer schools covering diverse topics such as [information retrieval](http://romip.ru/russir2013/), [semantic web](https://iccl.inf.tu-dresden.de/web/ICCL_Summer_School_2013/en), [algorithms for massive data](http://almada2013.ru/en), formal software verification (in [Moscow](https://web.archive.org/web/20110314093924/http://research.microsoft.com/en-us/um/redmond/events/sssev2011/) and [Marseille](http://movep.lif.univ-mrs.fr/)), [parallelism and concurrency](https://web.archive.org/web/20120505213227/http://research.microsoft.com/en-us/events/rss2012/), [programming languages](http://laser.inf.ethz.ch/2012/), etc. One of my notable contributions is [an article on generalized algebraic data types](http://themonadreader.files.wordpress.com/2013/08/issue221.pdf) which was reviewed by the creator of language, Simon Peyton Jones.
-
-As a Unix enthusiast with experience in systems like FreeBSD, Solaris, and Linux, I greatly appreciate the command-line tools they offer. But for my daily activities, I choose to use macOS.
-
-[My approach to productivity and organization](https://github.com/anton-dergunov/config) relies on Emacs [Org mode](https://orgmode.org/) for implementing the [Getting Things Done](https://en.wikipedia.org/wiki/Getting_Things_Done) (GTD) approach, which helps me manage projects, track tasks, and maintain a structured workflow. This tool has become an integral part of my life, enabling me to efficiently plan and execute my goals. Additionally, I maintain a comprehensive collection of personal notes in Markdown, which I’m transitioning to [Obsidian](https://obsidian.md/) to create a more organized "[second brain](https://www.buildingasecondbrain.com/)" for accessing and managing my ideas and knowledge.
-
-
-## Personal Interests
-
-Outside of my professional pursuits, I’m deeply committed to personal growth and continuous learning.  I try to make the most of every free moment, including my daily commute, to read and stay informed. Whether it’s diving into books, articles, or research papers, I strive to turn even brief periods into opportunities for learning and enrichment.
-
-I have a passion for languages. While I am fluent in English and Spanish, I have studied French, Italian, and German in the past but haven’t practiced them recently. I plan to revisit these languages to refresh and improve my skills.
-
-Whenever I get the chance, I love traveling and immersing myself in nature. Some of my most cherished experiences include exploring Kyoto in Japan, taking a scenic train journey in Sri Lanka, visiting the Kon-Tiki Museum in Oslo, and marveling at the Alishan National Scenic Area in Taiwan. The highlight of my hiking adventures was the solo [Tour du Mont Blanc](https://www.autourdumontblanc.com/en/), though the most meaningful hikes were those with my parents during my childhood. My understanding of photography and videography is more technical than artistic at the moment, but I’m casually developing my creative skills as a hobby.
-
-When it comes to relaxation, I enjoy savoring good coffee and exploring different teas. From rich, aromatic coffees to authentic Chinese, Taiwanese, and Japanese teas, I enjoy discovering and appreciating their unique flavors. To stay healthy, I dedicate some reasonable time to gym workouts, cycling, and yoga.
-
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/anton-dergunov/) and share your thoughts on my blog posts. Happy reading!
-
+If you'd like to talk about retrieval, ranking, LLM evaluation, or anything you've read here, reach out on [LinkedIn](https://www.linkedin.com/in/anton-dergunov/) — I'm always happy to connect.
