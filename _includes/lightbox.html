@@ -1,0 +1,83 @@
+<script>
+  // Figures link to the full-resolution file. Show it in an overlay instead of
+  // navigating away; without JS the link still works as a plain download.
+  (function () {
+    // Only take over links that point at an image; anything else (a source
+    // page, a PDF) should navigate as usual.
+    var IMAGE = /\.(jpe?g|png|gif|webp|avif|svg)(\?.*)?$/i;
+    var links = [].slice.call(document.querySelectorAll('.figure-frame a[href]'))
+                  .filter(function (a) { return IMAGE.test(a.getAttribute('href')); });
+    if (!links.length) return;
+
+    var box, img, closeBtn, lastFocus;
+
+    function build() {
+      box = document.createElement('div');
+      box.className = 'lightbox';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-modal', 'true');
+      box.hidden = true;
+
+      img = document.createElement('img');
+      img.alt = '';
+
+      closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'lightbox__close';
+      closeBtn.setAttribute('aria-label', 'Close image');
+      closeBtn.textContent = '×';
+
+      box.appendChild(img);
+      box.appendChild(closeBtn);
+      document.body.appendChild(box);
+
+      box.addEventListener('click', function (e) {
+        if (e.target === img) return;   // clicking the picture itself keeps it open
+        close();
+      });
+      closeBtn.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !box.hidden) close();
+      });
+    }
+
+    function open(href, alt) {
+      if (!box) build();
+      lastFocus = document.activeElement;
+      // If the file will not load (offline, dead external link), don't strand
+      // the reader on an empty overlay — just follow the link.
+      img.onerror = function () { close(); window.location.href = href; };
+      img.src = href;
+      img.alt = alt || '';
+      box.hidden = false;
+      document.body.classList.add('is-locked');
+      requestAnimationFrame(function () { box.setAttribute('data-open', ''); });
+      closeBtn.focus();
+    }
+
+    function close() {
+      if (!box || box.hidden) return;
+      box.removeAttribute('data-open');
+      document.body.classList.remove('is-locked');
+      var done = function () {
+        box.hidden = true;
+        img.onerror = null;
+        img.removeAttribute('src');
+        box.removeEventListener('transitionend', done);
+      };
+      box.addEventListener('transitionend', done);
+      setTimeout(done, 250);           // in case the transition never fires
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    links.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        // Leave modified clicks to the browser (new tab, save, etc.).
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        var inner = a.querySelector('img');
+        open(a.getAttribute('href'), inner ? inner.alt : '');
+      });
+    });
+  })();
+</script>
