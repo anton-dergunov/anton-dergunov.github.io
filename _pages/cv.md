@@ -1,13 +1,13 @@
 ---
-layout: archive
+layout: list
 title: "CV"
 permalink: /cv/
-author_profile: true
+body_class: cv-body
+rail_toc: h1
+rail_note: "Also available as PDF or Word."
 redirect_from:
   - /resume
 ---
-
-{% include base_path %}
 
 {% include cv_download.html %}
 

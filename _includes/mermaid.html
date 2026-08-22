@@ -1,0 +1,65 @@
+<script>
+  // Loaded only on pages that contain a ```mermaid fence.
+  (function () {
+    // kramdown emits fenced ```mermaid as <pre><code class="language-mermaid">.
+    // Mermaid wants <pre class="mermaid"> holding the raw source.
+    var codes = document.querySelectorAll('pre > code.language-mermaid');
+    if (!codes.length) return;
+
+    var sources = [];
+    codes.forEach(function (code) {
+      var holder = document.createElement('pre');
+      holder.className = 'mermaid';
+      holder.textContent = code.textContent;
+      sources.push(code.textContent);
+      code.parentElement.replaceWith(holder);
+    });
+
+    // Must be a classic script: the bundle assigns its global with `var`, which
+    // would be module-scoped (and therefore lost) under a dynamic import().
+    var s = document.createElement('script');
+    s.src = '{{ "/assets/js/mermaid.min.js" | relative_url }}';
+    s.onload = function () {
+      var mermaid = window.mermaid;
+      if (!mermaid) return;
+
+      var css = getComputedStyle(document.documentElement);
+      var tok = function (n) { return css.getPropertyValue(n).trim(); };
+
+      var render = function () {
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'strict',
+          fontFamily: '"IBM Plex Sans", sans-serif',
+          theme: 'base',
+          themeVariables: {
+            background: tok('--surface'),
+            primaryColor: tok('--green-wash'),
+            primaryTextColor: tok('--ink'),
+            primaryBorderColor: tok('--green'),
+            secondaryColor: tok('--sunk'),
+            tertiaryColor: tok('--surface'),
+            lineColor: tok('--muted'),
+            textColor: tok('--ink'),
+            mainBkg: tok('--green-wash'),
+            nodeBorder: tok('--green'),
+            clusterBkg: tok('--surface'),
+            clusterBorder: tok('--line'),
+            edgeLabelBackground: tok('--surface'),
+            fontSize: '14px'
+          }
+        });
+        document.querySelectorAll('pre.mermaid').forEach(function (el, i) {
+          el.removeAttribute('data-processed');
+          el.textContent = sources[i];
+        });
+        return mermaid.run({ querySelector: 'pre.mermaid' });
+      };
+
+      render();
+      // Redraw with the other palette when the theme flips.
+      document.documentElement.addEventListener('themechange', render);
+    };
+    document.body.appendChild(s);
+  })();
+</script>
