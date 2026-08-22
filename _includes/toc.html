@@ -1,0 +1,24 @@
+{%- comment -%}
+  Table of contents built from the rendered H2s, with no plugin and no JS.
+  kramdown's auto_ids gives every heading an id.
+  Usage: {% include toc.html html=content %}          (H2s, the default)
+         {% include toc.html html=content level='h1' %}  (the CV's setext sections)
+{%- endcomment -%}
+{%- assign tag = include.level | default: 'h2' -%}
+{%- assign open = '<' | append: tag | append: ' id="' -%}
+{%- assign close = '</' | append: tag | append: '>' -%}
+{%- assign headings = include.html | split: open -%}
+{%- if headings.size > 1 -%}
+<details class="rail-toc" open>
+  <summary>Contents</summary>
+  <ol>
+    {%- for chunk in headings offset: 1 -%}
+      {%- assign id = chunk | split: '"' | first -%}
+      {%- assign text = chunk | split: close | first | split: '>' | last | strip_html | strip -%}
+      {%- if text != '' -%}
+      <li><a href="#{{ id }}">{{ text }}</a></li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ol>
+</details>
+{%- endif -%}

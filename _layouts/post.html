@@ -1,0 +1,45 @@
+---
+layout: base
+---
+<article itemscope itemtype="https://schema.org/BlogPosting">
+
+  {%- comment -%}
+    Jekyll auto-generates page.excerpt from the first paragraph when front matter
+    omits it. Showing that as a standfirst would just repeat the opening line, so
+    only use an excerpt the author wrote — detected by it not appearing in the body.
+  {%- endcomment -%}
+  {%- assign standfirst = page.excerpt | markdownify | strip_html | strip_newlines | strip -%}
+  {%- assign probe = standfirst | slice: 0, 50 -%}
+  {%- assign body_text = content | strip_html | strip_newlines -%}
+
+  <header class="article-head">
+    {%- assign topic = site.data.topics[page.topic] %}
+    {%- if topic %}<span class="eyebrow">{{ topic.name }}</span>{%- endif %}
+    <h1 itemprop="headline">{{ page.title }}</h1>
+    {%- if standfirst != '' and page.show_excerpt != false %}
+      {%- unless body_text contains probe %}
+    <p class="standfirst">{{ standfirst }}</p>
+      {%- endunless %}
+    {%- endif %}
+  </header>
+
+  <div class="band">
+    <div class="rail">
+      <span class="rail-mark">
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
+      </span>
+      <span class="rail-mark">{% include read-time.html %}</span>
+      {%- include toc.html html=content %}
+    </div>
+
+    <div class="body-col" itemprop="articleBody">
+      {{ content }}
+
+      {%- if page.tags and page.tags.size > 0 %}
+      <ul class="chips" aria-label="Tags">
+        {%- for tag in page.tags %}<li class="chip">{{ tag }}</li>{%- endfor %}
+      </ul>
+      {%- endif %}
+    </div>
+  </div>
+</article>

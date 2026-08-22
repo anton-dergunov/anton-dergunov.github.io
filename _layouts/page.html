@@ -1,0 +1,14 @@
+---
+layout: base
+---
+<article class="band">
+  <div class="rail">
+    {%- if page.rail_note %}<p class="rail-note">{{ page.rail_note }}</p>{%- endif %}
+  </div>
+  <div class="body-col{% if page.body_class %} {{ page.body_class }}{% endif %}">
+    {%- if page.title and page.hide_title != true %}
+    <h1 class="page-title">{{ page.title }}</h1>
+    {%- endif %}
+    {{ content }}
+  </div>
+</article>
