@@ -1,6 +1,7 @@
 ---
 title:     "Automating HDR Photo Creation in Adobe Lightroom"
 excerpt:   "A free Lightroom plugin to batch-merge exposure brackets into HDR images automatically."
+topic:     tools-and-automation
 date:      2025-04-02
 permalink: /posts/2025/04/automating-hdr-photo-creation-in-adobe-lightroom
 tags:

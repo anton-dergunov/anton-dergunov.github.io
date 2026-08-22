@@ -1,5 +1,6 @@
 ---
 title:     "Maximal Marginal Relevance"
+topic:     machine-learning
 date:      2024-07-15
 permalink: /posts/2024/07/maximal-marginal-relevance
 tags:
@@ -131,10 +132,10 @@ $$
 where:
 - C - document collection
 - Q - query
-- R - ranked list of documents retrieved by the IR system (\\( R \subseteq C \\))
-- S - subset of documents in R already provided to the user (\\( S \subseteq C \\))
+- R - ranked list of documents retrieved by the IR system ($$R \subseteq C$$)
+- S - subset of documents in R already provided to the user ($$S \subseteq C$$)
 - R \\ S - subset of documents not yet offered to the user
-- \\( \lambda \\) - hyperparameter to prefer more relevant or more diverse documents
+- $$\lambda$$ - hyperparameter to prefer more relevant or more diverse documents
 
 Let's implement this technique (see [5, 6] for other implementations). First, we select the most relevant document. Then we iteratively select the document that gives the maximum MMR score (most relevant one and most dissimilar to the documents that we have already selected), until we select the requested number of documents.
 
@@ -185,19 +186,19 @@ print_selected(article_mmr_order, article_similarities, article_titles)
 | 0.6396927237510681 | The Best Parks and Green Spaces in London     |
 | 0.7076156735420227 | Unique Shopping Experiences in London         |
 
-The new set of articles does not contain duplicates. However, there is an article not quite related to our query: "Python Tips for Mastering Data Science". This issue can be mitigated by selecting a better \\( \lambda \\) value.
+The new set of articles does not contain duplicates. However, there is an article not quite related to our query: "Python Tips for Mastering Data Science". This issue can be mitigated by selecting a better $$\lambda$$ value.
 
 Referring to the MMR formula again:
 
-- \\( \lambda = 1 \\): Computes incrementally the standard relevance-ranked list
-- \\( \lambda = 0 \\): Computes a maximal diversity ranking among documents in R
-- \\( \lambda \in [0,1] \\): Optimizes a linear combination of both criteria
+- $$\lambda = 1$$: Computes incrementally the standard relevance-ranked list
+- $$\lambda = 0$$: Computes a maximal diversity ranking among documents in R
+- $$\lambda \in [0,1]$$: Optimizes a linear combination of both criteria
 
 According to [1]:
 
-> Users wishing to sample the information space around the query, should set \\( \lambda \\) , at a smaller value, and those wishing to focus in on multiple potentially overlapping or reinforcing relevant documents, should set \\( \lambda \\), to a value closer to 1. For document retrieval, we found that a particularly effective search strategy... is to start with a small \\( \lambda \\) (e.g. \\( \lambda = .3 \\)) in order to understand the information space in the region of the query, and then to focus on the most important parts using a reformulated query and a larger value of \\( \lambda \\) (e.g. \\( \lambda = .7 \\)).
+> Users wishing to sample the information space around the query, should set $$\lambda$$ , at a smaller value, and those wishing to focus in on multiple potentially overlapping or reinforcing relevant documents, should set $$\lambda$$, to a value closer to 1. For document retrieval, we found that a particularly effective search strategy... is to start with a small $$\lambda$$ (e.g. $$\lambda = .3$$) in order to understand the information space in the region of the query, and then to focus on the most important parts using a reformulated query and a larger value of $$\lambda$$ (e.g. $$\lambda = .7$$).
 
-By setting a higher value of \\( \lambda = .7 \\):
+By setting a higher value of $$\lambda = .7$$:
 
 ```python
 article_mmr_order_07 = maximal_marginal_relevance(article_similarities,
@@ -216,7 +217,7 @@ print_selected(article_mmr_order_07, article_similarities, article_titles)
 | 0.6938719153404236 | Top Photography Spots in London                  |
 | 0.6432080268859863 | Day Trips from London: Exploring the Countryside |
 
-Now, all articles are related to `London`, and there are no duplicates. Increasing \\( \lambda \\) further to .8, then we get:
+Now, all articles are related to `London`, and there are no duplicates. Increasing $$\lambda$$ further to .8, then we get:
 
 ```python
 article_mmr_order_08 = maximal_marginal_relevance(article_similarities,
@@ -235,7 +236,7 @@ print_selected(article_mmr_order_08, article_similarities, article_titles)
 | 0.6938719153404236 | Top Photography Spots in London            |
 | 0.6981644034385681 | Best Photo Spots in London                 |
 
-Again, all articles are related to `London`, but we have a duplicate pair: "Top Photography Spots in London" and "Best Photo Spots in London". For this example, \\( \lambda = .7 \\) works well.
+Again, all articles are related to `London`, but we have a duplicate pair: "Top Photography Spots in London" and "Best Photo Spots in London". For this example, $$\lambda = .7$$ works well.
 
 For the complete implementation, refer to the [Jupyter Notebook](https://github.com/anton-dergunov/blog-code/blob/main/2024-07-maximal-marginal-relevance/maximal_marginal_relevance.ipynb).
 
