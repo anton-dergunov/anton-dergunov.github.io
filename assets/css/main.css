@@ -172,6 +172,7 @@
   --warn: #9C4B33;
   --warn-wash: #F4E4DE;
   --shadow: 0 1px 2px rgba(34, 36, 31, .05);
+  --selection: rgba(34, 36, 31, .14);
 
   --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --display: "Playfair Display", Georgia, serif;
@@ -203,6 +204,7 @@
     --warn: #E29278;
     --warn-wash: #331F19;
     --shadow: 0 1px 2px rgba(0, 0, 0, .35);
+    --selection: rgba(231, 229, 219, .20);
     color-scheme: dark;
   }
 }
@@ -224,6 +226,7 @@
   --warn: #E29278;
   --warn-wash: #331F19;
   --shadow: 0 1px 2px rgba(0, 0, 0, .35);
+  --selection: rgba(231, 229, 219, .20);
   color-scheme: dark;
 }
 
@@ -290,7 +293,9 @@ small { font-size: .85em; color: var(--muted); }
 
 hr, hr.rule { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 
-::selection { background: var(--green-wash); color: var(--green-ink); }
+/* Neutral wash rather than an accent tint: selection should not recolour the
+   text it covers. Set explicitly because the browser default is bright blue. */
+::selection { background: var(--selection); }
 
 .eyebrow {
   font: 500 .72rem/1 var(--mono);
