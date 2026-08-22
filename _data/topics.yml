@@ -1,0 +1,11 @@
+# Topic labels for the blog index. Key = the post's `topic:` value.
+# Display order follows the order of this file.
+machine-learning:
+  name: "Machine Learning"
+  note: "Retrieval, ranking, and evaluation."
+llms-and-agents:
+  name: "LLMs & Agents"
+  note: "Planning, retrieval, and applications built on language models."
+tools-and-automation:
+  name: "Tools & Automation"
+  note: "Small systems that remove friction."

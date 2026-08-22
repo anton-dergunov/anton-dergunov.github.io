@@ -1,16 +1,10 @@
-<figure class="center-figure">
-  {% if include.url %}
-    <a href="{{ include.url }}">
-      <img src="{{ include.src }}" alt="{{ include.alt }}">
-    </a>
-  {% else %}
-    <div>
-      <img src="{{ include.src }}" alt="{{ include.alt }}">
-    </div>
-  {% endif %}
-  {% if include.caption %}
-    <figcaption>
-      {{ include.caption | markdownify | remove:"<p>" | remove:"</p>" }}
-    </figcaption>
-  {% endif %}
+<figure class="figure-frame">
+  {%- if include.url %}
+    <a href="{{ include.url }}"><img src="{{ include.src }}" alt="{{ include.alt }}" loading="lazy" decoding="async"></a>
+  {%- else %}
+    <img src="{{ include.src }}" alt="{{ include.alt }}" loading="lazy" decoding="async">
+  {%- endif %}
+  {%- if include.caption %}
+  <figcaption>{{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}</figcaption>
+  {%- endif %}
 </figure>
