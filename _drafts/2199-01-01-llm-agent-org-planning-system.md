@@ -12,6 +12,9 @@ tags:
 
 ---
 
+TODO Also mention the changed approach:
+from bottom up to top down
+
 ## The angle: planning, not knowledge management
 
 Get this straight before writing a word, because the obvious framing is the wrong one.
@@ -98,7 +101,7 @@ Crowded, and worth citing precisely so the post cannot be dismissed as unaware. 
 
 ## What is actually new here
 
-Five candidates, roughly in order of how well they hold up. The post probably rides on the first two.
+The strongest claim is the framing itself, set out at the top: **GTD's organise step is what broke, it broke because it needs a second person, and an LLM is now a serviceable second person.** The six below are what makes that concrete. None has to be unclaimed on its own.
 
 ### 1. The system is built around deletion, not accretion
 
@@ -199,9 +202,11 @@ The architecture I ended up with — **commitments in org, reference and shelves
 
 ## Notes for writing
 
-- **Lead with the failure chain, not the tooling.** Abandoned weekly review → untrusted system → externalisation stops working → graveyard. That earns the rest of the post from readers who do not care about Emacs.
+- **Uniqueness is not the bar.** Papers need novelty; a blog post needs a specific, credible, first-person account. The crowded prior art makes this post *more* useful, not less — "I read those and here is where they did not fit my case" is a service. Stop optimising for nobody-has-done-this and optimise for nobody-has-done-this-*and-written-honestly-about-what-broke*.
+- **Lead with the failure chain, not the tooling.** Collected for ten years, never organised → 70% dead → untrusted plan → externalisation stops releasing anything → guilt-generating graveyard. That earns the rest of the post from readers who do not care about Emacs.
 - **Do not bury the prior art.** Cite `claude-obsidian` early and generously, then say what is different. A post that pretends the space is empty gets dismissed in the first comment.
-- The deletion thesis is the headline. Candidate titles along that line: *"The bottleneck moved: notes on letting an agent prune a ten-year planning system"*, or *"Your second brain does not need more ingestion"*.
+- Titles, favouring the review framing over the deletion one now: *"I did the first half of GTD for ten years"*, *"The organise step needs a second person"*, or on the deletion angle *"Your second brain does not need more ingestion"*.
+- **Concrete before-and-after is the strongest evidence available and it is free** — I have the git history. One real section, before and after, with the reasons. Productivity.org went from ~70 accreted items to ~35 with bodies.
 - Screenshots carry the Emacs half, same budget note as the agenda-rebuild post.
 - The Masicampo counter-argument is the section that makes this more than a tutorial. Do not cut it for length.
 - Cross-reference: this shares a spine with the agenda-rebuild post in `Blog.org`. Decide which one goes first — probably that one, so this can assume the system exists.
