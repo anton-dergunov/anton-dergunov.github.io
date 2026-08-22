@@ -9,7 +9,7 @@
                   .filter(function (a) { return IMAGE.test(a.getAttribute('href')); });
     if (!links.length) return;
 
-    var box, img, closeBtn, lastFocus;
+    var box, img, note, closeBtn, lastFocus;
 
     function build() {
       box = document.createElement('div');
@@ -21,6 +21,10 @@
       img = document.createElement('img');
       img.alt = '';
 
+      note = document.createElement('p');
+      note.className = 'lightbox__note';
+      note.hidden = true;
+
       closeBtn = document.createElement('button');
       closeBtn.type = 'button';
       closeBtn.className = 'lightbox__close';
@@ -28,6 +32,7 @@
       closeBtn.textContent = '×';
 
       box.appendChild(img);
+      box.appendChild(note);
       box.appendChild(closeBtn);
       document.body.appendChild(box);
 
@@ -44,9 +49,16 @@
     function open(href, alt) {
       if (!box) build();
       lastFocus = document.activeElement;
-      // If the file will not load (offline, dead external link), don't strand
-      // the reader on an empty overlay — just follow the link.
-      img.onerror = function () { close(); window.location.href = href; };
+      // If the file will not load (offline, dead external link), say so in
+      // place. Navigating to the broken URL would lose the article as well.
+      note.hidden = true;
+      img.hidden = false;
+      img.onerror = function () {
+        img.hidden = true;
+        note.hidden = false;
+        note.innerHTML = 'That image could not be loaded. ' +
+          '<a href="' + href.replace(/"/g, '&quot;') + '">Open it directly</a>.';
+      };
       img.src = href;
       img.alt = alt || '';
       box.hidden = false;
@@ -71,6 +83,7 @@
     }
 
     links.forEach(function (a) {
+      a.classList.add('is-zoomable');
       a.addEventListener('click', function (e) {
         // Leave modified clicks to the browser (new tab, save, etc.).
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
