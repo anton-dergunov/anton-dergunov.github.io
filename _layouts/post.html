@@ -36,9 +36,12 @@ layout: base
       {{ content }}
 
       {%- if page.tags and page.tags.size > 0 %}
-      <ul class="chips" aria-label="Tags">
-        {%- for tag in page.tags %}<li class="chip">{{ tag }}</li>{%- endfor %}
-      </ul>
+      <footer class="article-tags">
+        <p class="tags-label">Tags</p>
+        <ul class="chips">
+          {%- for tag in page.tags %}<li class="chip">{{ tag }}</li>{%- endfor %}
+        </ul>
+      </footer>
       {%- endif %}
     </div>
   </div>
