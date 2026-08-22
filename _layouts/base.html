@@ -19,10 +19,14 @@
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }} Feed"
           href="{{ '/feed.xml' | relative_url }}">
 
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    {%- comment -%}
+      katex.css first: it sets `.katex { font: normal 1.21em … }`, which main.css
+      needs to override to bring maths back in line with the body text.
+    {%- endcomment -%}
     {%- if content contains 'katex' %}
     <link rel="stylesheet" href="{{ '/assets/css/katex.css' | relative_url }}">
     {%- endif %}
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
     {% include head/custom.html %}
     {% include analytics.html %}
@@ -139,6 +143,10 @@
         addEventListener('resize', onScroll, { passive: true });
       })();
     </script>
+    {%- endif %}
+
+    {%- if content contains 'figure-frame' and content contains '<a href' %}
+    {% include lightbox.html %}
     {%- endif %}
 
     {%- if content contains 'language-mermaid' %}
