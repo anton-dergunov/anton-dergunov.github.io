@@ -440,13 +440,16 @@ hr, hr.rule { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   text-decoration: none;
 }
 .rail-toc a:hover { color: var(--green); border-left-color: var(--green); }
+.rail-toc a.is-current {
+  color: var(--ink);
+  font-weight: 500;
+  border-left-color: var(--green);
+}
 
 /* The content column carries the readable measure. */
 .body-col { min-width: 0; }
 .body-col > * { max-width: var(--measure); }
 .body-col > .full-bleed,
-.body-col > figure,
-.body-col > .figure-frame,
 .body-col > table,
 .body-col > .table-scroll,
 .body-col > pre { max-width: none; }
@@ -459,7 +462,7 @@ hr, hr.rule { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .body-col > .page-title + * { margin-top: 2.5rem; }
 .body-col > p, .body-col > ul, .body-col > ol { margin-bottom: 0; }
 
-.body-col ul, .body-col ol { padding-left: 1.2rem; }
+.body-col ul:not(.chips), .body-col ol { padding-left: 1.2rem; }
 .body-col li + li { margin-top: .45rem; }
 .body-col li > ul, .body-col li > ol { margin-top: .45rem; }
 
@@ -477,6 +480,13 @@ hr, hr.rule { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   .rail-toc { margin-top: 0; flex-basis: 100%; }
   .rail-toc ol { border-left: 0; padding-left: 0; }
   .rail-toc a { padding-left: 0; border-left: 0; }
+
+  /* With no rail beside it, a left-aligned measure reads as off-centre on a
+     tablet. Centre the whole block instead of the grid item: auto margins on a
+     grid item resolve against max-width rather than the track, which overflows
+     the viewport on a phone. On phones the measure exceeds the width available,
+     so this is a no-op there. */
+  .band, .article-head { max-width: var(--measure); margin-inline: auto; }
 }
 
 /* ---------- article header ---------- */
@@ -684,6 +694,24 @@ tbody tr:hover { background: var(--surface); }
 @media (max-width: 34rem) {
   .post-item { grid-template-columns: minmax(0, 1fr); }
   .post-item .date { justify-self: start; }
+}
+
+/* ---------- end-of-article tags ---------- */
+
+.article-tags {
+  margin-top: 4.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+.article-tags .tags-label {
+  margin: 0;
+  font: 500 .74rem/1 var(--mono);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
 
 /* ---------- footer ---------- */

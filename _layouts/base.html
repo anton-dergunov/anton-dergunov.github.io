@@ -91,6 +91,56 @@
       })();
     </script>
 
+
+    {%- if content contains 'rail-toc' %}
+    <script>
+      // Highlight the table-of-contents entry for the section currently in view.
+      (function () {
+        var links = [].slice.call(document.querySelectorAll('.rail-toc a'));
+        if (!links.length) return;
+
+        var pairs = [];
+        links.forEach(function (a) {
+          var el = document.getElementById(decodeURIComponent(a.hash.slice(1)));
+          if (el) pairs.push({ el: el, link: a });
+        });
+        if (!pairs.length) return;
+
+        var current = null;
+        function mark(link) {
+          if (link === current) return;
+          if (current) current.classList.remove('is-current');
+          if (link) link.classList.add('is-current');
+          current = link;
+        }
+
+        function update() {
+          var active = pairs[0];
+          for (var i = 0; i < pairs.length; i++) {
+            if (pairs[i].el.getBoundingClientRect().top <= 140) active = pairs[i];
+            else break;
+          }
+          // Within a screen of the bottom, settle on the final section.
+          if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
+            active = pairs[pairs.length - 1];
+          }
+          mark(active.link);
+        }
+
+        var ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { update(); ticking = false; });
+        }
+
+        update();
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+      })();
+    </script>
+    {%- endif %}
+
     {%- if content contains 'language-mermaid' %}
     {% include mermaid.html %}
     {%- endif %}
