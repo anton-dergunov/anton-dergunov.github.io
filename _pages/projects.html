@@ -1,0 +1,35 @@
+---
+layout: list
+permalink: /projects/
+title: "Projects"
+rail_toc: h2
+rail_note: "Research and ML first, then the tools I built and use."
+---
+
+{%- comment -%}
+  Rendered from _data/projects.yml, which `portfolio blog` generates from
+  ~/projects/_structure/portfolio/projects.yaml. Edit the descriptions there.
+{%- endcomment -%}
+
+<p class="projects-lede">My own projects, grouped by what they are about. Each says where it stands, and work that is not done yet is listed as what comes next.</p>
+
+{%- for group in site.data.projects.groups %}
+<section class="topic-group project-group project-group--{{ group.kind }}">
+  <div class="topic-head">
+    <h2 id="{{ group.id }}">{{ group.title }}</h2>
+    <span class="count">{{ group.projects.size }} project{% if group.projects.size != 1 %}s{% endif %}</span>
+  </div>
+  {%- if group.blurb %}
+  <p class="project-group__blurb">{{ group.blurb }}</p>
+  {%- endif %}
+  {%- if group.kind == "tools" %}
+  <div class="project-grid">
+    {%- for p in group.projects %}{% include project-card.html project=p compact=true %}{% endfor %}
+  </div>
+  {%- else %}
+  <div class="project-list">
+    {%- for p in group.projects %}{% include project-card.html project=p %}{% endfor %}
+  </div>
+  {%- endif %}
+</section>
+{%- endfor %}
