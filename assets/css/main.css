@@ -712,6 +712,73 @@ tbody tr:hover { background: var(--surface); }
   .post-item .date { justify-self: start; }
 }
 
+/* ---------- projects ---------- */
+
+.projects-lede { color: var(--muted); }
+.body-col > .projects-lede + .project-group { margin-top: 2.75rem; }
+
+.project-group__blurb {
+  margin: -.35rem 0 1rem;
+  font-size: .94rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.project-list { display: flex; flex-direction: column; }
+
+.project-item {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.2rem .2rem 1.3rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.project-item__head { display: flex; align-items: baseline; gap: .4rem 1rem; flex-wrap: wrap; }
+.project-item h3 { font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: -.01em; line-height: 1.2; }
+.project-item h3 a { color: var(--ink); text-decoration: none; }
+.project-item h3 a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+
+.status {
+  margin-left: auto;
+  font: 500 .64rem/1 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .38em .6em;
+  border-radius: 3px;
+  white-space: nowrap;
+  background: var(--sunk);
+  color: var(--muted);
+}
+.status--active { background: var(--green-wash); color: var(--green-ink); }
+.status--prototype { background: var(--ochre-wash); color: var(--ochre); }
+.status--planned { background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
+
+.project-item__summary { margin: 0; font-size: .94rem; line-height: 1.55; color: var(--ink); }
+.project-item__next { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
+.project-item__label {
+  font: 500 .64rem/1 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: .35rem;
+}
+.project-item__shot { padding: .6rem; }
+.project-item__shot img { max-width: 100%; height: auto; }
+.project-item__links { margin: 0; display: flex; flex-wrap: wrap; gap: .2rem 1.1rem; font: 400 .74rem/1.6 var(--mono); color: var(--faint); }
+.project-item__links a { color: var(--muted); text-decoration: none; overflow-wrap: anywhere; }
+.project-item__links a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Tools: two columns of short cards. */
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
+.project-item--compact { padding: 1rem .2rem 1.1rem; gap: .4rem; }
+.project-item--compact h3 { font-size: 1.1rem; }
+.project-item--compact .project-item__summary { font-size: .88rem; color: var(--muted); }
+
+@media (max-width: 40rem) {
+  .project-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ---------- lightbox ---------- */
 
 /* Only links the lightbox actually enhanced get the zoom cursor; a figure

@@ -1,0 +1,43 @@
+{%- comment -%}
+  One project from _data/projects.yml.
+  Usage: {% include project-card.html project=p %}           (research: summary, next, topics)
+         {% include project-card.html project=p compact=true %}  (tools: tagline only)
+  `stable` projects carry no status label; the others say where they stand.
+{%- endcomment -%}
+{%- assign p = include.project -%}
+<article class="project-item{% if include.compact %} project-item--compact{% endif %}">
+  <header class="project-item__head">
+    <h3>{% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</h3>
+    {%- unless p.status == "stable" %}
+    <span class="status status--{{ p.status }}">{{ p.status }}</span>
+    {%- endunless %}
+  </header>
+  {%- if p.image %}
+  <figure class="figure-frame project-item__shot">
+    <a href="{{ '/images/projects/' | append: p.image | relative_url }}"><img src="{{ '/images/projects/' | append: p.image | relative_url }}" alt="{{ p.title }}" loading="lazy" decoding="async"></a>
+  </figure>
+  {%- endif %}
+  {%- if include.compact %}
+  <p class="project-item__summary">{{ p.tagline }}</p>
+  {%- else %}
+  <p class="project-item__summary">{{ p.summary }}</p>
+  {%- if p.next %}
+  <p class="project-item__next"><span class="project-item__label">Next</span> {{ p.next }}</p>
+  {%- endif %}
+  {%- if p.topics %}
+  <ul class="chips">
+    {%- for topic in p.topics %}<li class="chip">{{ topic | replace: "-", " " }}</li>{%- endfor %}
+  </ul>
+  {%- endif %}
+  {%- endif %}
+  <p class="project-item__links">
+    {%- if p.url %}
+    <a href="{{ p.url }}">{{ p.url | remove: "https://" }}</a>
+    {%- elsif p.private %}
+    <span>private for now</span>
+    {%- else %}
+    <span>not published yet</span>
+    {%- endif %}
+    {%- if p.homepage %} <a href="{{ p.homepage }}">live site</a>{%- endif %}
+  </p>
+</article>
