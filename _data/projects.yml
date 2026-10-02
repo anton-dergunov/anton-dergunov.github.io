@@ -27,11 +27,12 @@ groups:
   - title: Mandarin Speech Coach
     repo: mandarin-speech-coach
     status: prototype
-    tagline: 'Mandarin pronunciation coach: your pitch contour against a target phrase, aligned per character
-      with Whisper, wav2vec2 CTC alignment and F0 tracking.'
-    summary: A web app for Mandarin pronunciation practice. It transcribes a recording, aligns it to the
-      target phrase character by character, and draws the pitch contour in tone colours, so the learner
-      sees the evidence instead of a single score.
+    tagline: 'Mandarin pronunciation practice that shows the evidence instead of a score: your pitch contour
+      against a target phrase, aligned per character (Whisper, wav2vec2 CTC alignment, F0 tracking).'
+    summary: A different way to practise Mandarin tones. Where pronunciation assessment usually returns
+      a score, this shows the learner's own pitch contour against the target phrase, aligned character
+      by character and drawn in tone colours, so what went wrong is visible. A recording is transcribed,
+      force-aligned and pitch-tracked to produce it.
     url: https://github.com/anton-dergunov/mandarin-speech-coach
     next: An alignment evaluation harness, a surface-tone classifier, and a compact aligner fine-tuned
       to pinyin initials and finals.
@@ -52,17 +53,21 @@ groups:
     repo: spoken-usage-retrieval
     status: active
     tagline: Retrieving and ranking authentic word and phrase usage from native speech.
-    summary: Finds real examples of a word or phrase in native speech and plays the exact moment it is
-      spoken. It builds a searchable corpus from the captions of curated YouTube channels, matches words
-      and short phrases by surface form and morphology, and ranks and diversifies the results across videos
-      behind a JSON API and a React player.
+    summary: 'An information-retrieval system over native speech: it finds real uses of a word or phrase
+      and plays the exact moment each is spoken. An indexing pipeline builds the corpus from the captions
+      of curated YouTube channels; retrieval matches words and short phrases by surface form and by lemma,
+      with analysers compared across ten languages; results are ranked and diversified across videos.
+      Experiments on aligning speech to subtitles and on word-level translation alignment are kept in
+      the repo.'
     url: https://github.com/anton-dergunov/spoken-usage-retrieval
-    next: Forced alignment, learned ranking, and catalogues beyond Spanish.
+    next: 'Human relevance judgments with a calibrated LLM judge, then multi-stage ranking: ranking features,
+      a learned ranker and a multilingual reranker.'
     topics:
     - information-retrieval
     - ranking
     - search
     - speech
+    - forced-alignment
     - nlp
     - language-learning
     - python
@@ -73,11 +78,13 @@ groups:
       of 4,257 visual symbols: hybrid lexical-semantic retrieval, embedding models, reranking, calibration,
       and abstention.'
     summary: 'A retrieval test bed: given a task headline from a planner, return the one icon that conveys
-      it, or nothing. Icons are matched on generated descriptions instead of their names, no LLM runs
-      on the query path, and a calibrated gate abstains when no icon is good enough.'
+      it, or nothing. The matching signal is generated: a vision model describes each of the 4,257 icons
+      (what it shows, which tasks it suits, which it does not), and that description, never the icon''s
+      name, is what gets matched. No LLM runs on the query path, and a calibrated gate abstains when no
+      icon is good enough.'
     url: https://github.com/anton-dergunov/task-concept-retrieval
-    next: A labelled gold set of real task headlines, and a benchmark of embedding, reranking and fine-tuned
-      matchers against it.
+    next: A second generation of icon descriptions, a labelled gold set of real task headlines, and a
+      matcher fine-tuned on them, benchmarked against embedding and reranking baselines.
     topics:
     - information-retrieval
     - semantic-search
@@ -116,12 +123,13 @@ groups:
   - title: Agentic Org Planner
     repo: agentic-org-planner
     status: active
-    tagline: Org-mode planning system for Emacs with an LLM agent that reads and edits the plan, its changes
-      reviewed as diffs.
-    summary: 'A complete Emacs configuration for planning in plain-text Org files: a visual agenda, schedule
-      view, capture and saved searches. A Claude Code assistant runs beside it, aware of the file and
-      selection in front of you, and proposes edits as diffs to accept or reject; a generated context
-      file tells it the conventions of the plan it is editing.'
+    tagline: 'Org-mode planning system for Emacs with an LLM agent working on the plan: it adds, files
+      and edits tasks in your own files, every change reviewed as a diff.'
+    summary: 'A planning system in plain-text Org files in which an LLM agent is a working participant.
+      The agent runs beside the agenda, knows the file and selection in front of you and, from a generated
+      context file, the conventions of your plan; it adds and edits tasks and files what you captured
+      during the day, showing each change as a diff to accept or reject. Underneath is a complete Emacs
+      configuration: a visual agenda, schedule view, capture and saved searches.'
     url: https://github.com/anton-dergunov/agentic-org-planner
     next: The audit and route skills, which review the plan and file inbox items, moving into the repo.
     topics:
@@ -156,11 +164,13 @@ groups:
   - title: Agentic paper library
     repo: agentic-paper-library
     status: planned
-    tagline: 'Research papers as context for a coding agent: arXiv, PDF and web articles converted to
-      Markdown with equations, figures and page-numbered headings.'
-    summary: 'The tooling behind my own paper library: converters that turn a paper into Markdown an agent
-      can read and cite by section and page, a topic tree, and skills for adding papers, reading them
-      with the agent and writing literature reviews.'
+    tagline: 'Reading and organising a research-paper library with a coding agent: papers converted to
+      Markdown the agent can read and cite, and skills for adding, reading and reviewing them.'
+    summary: A way to read and organise research papers with a coding agent at the centre. Papers from
+      arXiv, PDFs and web articles are converted to Markdown with equations, figures and page-numbered
+      headings, so the agent can read across the whole library and cite by section and page. Skills add
+      a paper and place it in the topic tree, keep notes on each one, and write a literature review for
+      an area.
     next: Published without my own collection of papers.
     topics:
     - context-engineering
@@ -175,12 +185,14 @@ groups:
   - title: Acervo
     repo: acervo-llm-dictionary
     status: active
-    tagline: 'Personal dictionary whose entries are written by LLMs and approved by the learner: offline-first,
-      multimodal, with measured decisions about where a model is trusted.'
+    tagline: 'Personal dictionary whose content is generated by LLMs and multimodal models and approved
+      by the learner: entries, pictures, voices, clips of native speech, audio loops and illustrated stories,
+      tuned by experiment.'
     summary: A self-hosted, offline-first vocabulary store. Paste a word or the sentence you met it in;
-      the entry is written for you and waits in an inbox until you approve it. Pictures per sense, voices
-      and clips of native speech are generated or selected by models, and where a model is trusted or
-      checked was decided by experiments kept in the repo.
+      the entry is written for you and waits in an inbox until you approve it. Around the entry, models
+      generate a picture for each sense and spoken audio, select clips of native speakers using the word
+      on YouTube, and turn a handful of words into audio loops and illustrated stories. Where a model
+      is trusted and where it is checked was decided by experiments kept in the repo.
     url: https://github.com/anton-dergunov/acervo-llm-dictionary
     next: The quality track for articles, stories and clip selection.
     topics:
@@ -237,10 +249,11 @@ groups:
   - title: Deep RL notebooks
     repo: hugging-face-deep-rl
     status: active
-    tagline: Deep reinforcement learning in notebooks with a shared library, following the Hugging Face
-      Deep RL course.
-    summary: Notebooks and a small shared library written while working through the Hugging Face Deep
-      Reinforcement Learning course, unit by unit.
+    tagline: 'Deep reinforcement learning notebooks with a shared library: a cleaned-up, modernised take
+      on the hands-on units of the Hugging Face Deep RL course.'
+    summary: 'The hands-on units of the Hugging Face Deep RL course, reworked instead of copied: current
+      library versions, the workarounds removed, and the common code moved into a small tested library.
+      So far PPO on CartPole and Lunar Lander, and Q-learning on Frozen Lake.'
     url: https://github.com/anton-dergunov/hugging-face-deep-rl
     next: The remaining hands-on units.
     topics:
@@ -295,15 +308,14 @@ groups:
     status: active
     tagline: A mobile-first, offline-capable course for learning Vim through short exercises, with every
       taught command checked against native Vim.
-    summary: A course you install as a web app and play in short exercises. The editor runs real Vim commands,
-      and each command it teaches is checked against native Vim.
+    summary: A course for learning Vim in short exercises, designed for a phone first and usable offline
+      once installed. The editor in each exercise executes real Vim commands, and every command the course
+      teaches is checked against native Vim.
     url: https://github.com/anton-dergunov/vim-mastery
     homepage: https://anton-dergunov.github.io/vim-mastery/
     topics:
     - vim
-    - pwa
-    - codemirror
-    - javascript
+    - tutorial
   - title: Harmonic
     repo: harmonic
     status: stable
@@ -329,7 +341,6 @@ groups:
     - self-hosted
     - nutrition
     - calorie-tracker
-    - typescript
   - title: workspace-backup
     repo: workspace-backup
     status: stable
