@@ -126,6 +126,25 @@
         else if (e.key === 'ArrowLeft') show(at - 1);
         else if (e.key === 'ArrowRight') show(at + 1);
       });
+
+      // A sideways scroll (a two-finger swipe on a trackpad, a tilt wheel,
+      // Shift + wheel) steps through the set. A swipe arrives as a long run of
+      // events that keeps coming while it coasts, so one run moves one picture;
+      // a pause starts the next. Taking the event also keeps the browser from
+      // reading the swipe as "back". An up-and-down scroll is left alone.
+      var run = 0, last = 0, stepped = false;
+      box.addEventListener('wheel', function (e) {
+        var dx = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+        if (!dx || (!e.shiftKey && Math.abs(e.deltaY) > Math.abs(dx))) return;
+        e.preventDefault();
+        if (e.timeStamp - last > 200) { run = 0; stepped = false; }
+        last = e.timeStamp;
+        run += e.deltaMode ? dx * 16 : dx;      // lines or pages, roughly as pixels
+        if (!stepped && Math.abs(run) >= 40) {
+          stepped = true;
+          show(at + (run > 0 ? 1 : -1));
+        }
+      }, { passive: false });
     }
 
     function show(i) {
