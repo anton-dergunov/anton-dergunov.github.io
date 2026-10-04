@@ -27,10 +27,12 @@ layout: base
     <div class="rail">
       <span class="rail-mark">
         <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
-        {% if page.modified %}
-        (updated {{ page.modified | date: "%-d %B %Y" }})
-        {% endif %}
       </span>
+      {% if page.modified %}
+        <span class="rail-mark">
+          (updated <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.modified | date: "%-d %B %Y" }}</time>)
+        </span>
+      {% endif %}
       <span class="rail-mark">{% include read-time.html %}</span>
       {%- include toc.html html=content %}
     </div>
