@@ -162,7 +162,7 @@ groups:
     next: Cleaned of personal data and published.
     media:
     - type: image
-      src: /images/projects/agent-context-pipeline/overview.png
+      src: /images/projects/agent-context-pipeline/overview-wide.png
       caption: One item's way through the pipeline, from a captured LinkedIn post to a numbered entry
         the agent is asked to file.
     - type: image
@@ -328,10 +328,6 @@ groups:
     summary: Finds bracketed sequences among mixed shots and imports each as a stack, so HDR merges no
       longer start with selecting groups by hand.
     url: https://github.com/anton-dergunov/lightroom-bracket-stacker
-    media:
-    - type: image
-      src: /images/projects/lightroom-bracket-stacker/demo.gif
-      caption: A run over a folder of bracketed exposures.
     topics:
     - lightroom
     - lightroom-plugin
@@ -388,10 +384,6 @@ groups:
     summary: A thin layer over restic, resticprofile and rclone for backing up source code and ML workspaces,
       with a preview report of what a run would include.
     url: https://github.com/anton-dergunov/workspace-backup
-    media:
-    - type: image
-      src: /images/projects/workspace-backup/preview_report.png
-      caption: The backup preview, listing what is included and what is excluded by marker or by rule.
     topics:
     - backup
     - restic
