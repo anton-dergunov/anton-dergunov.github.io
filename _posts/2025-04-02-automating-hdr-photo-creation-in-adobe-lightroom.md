@@ -3,6 +3,7 @@ title:     "Automating HDR Photo Creation in Adobe Lightroom"
 excerpt:   "A free Lightroom plugin to batch-merge exposure brackets into HDR images automatically."
 topic:     tools-and-automation
 date:      2025-04-02
+modified:  2026-10-04
 permalink: /posts/2025/04/automating-hdr-photo-creation-in-adobe-lightroom
 tags:
   - automation
@@ -239,7 +240,7 @@ A good walkthrough of this workflow is available in the video:
 
 ## Automating HDR Merging with a Custom Lightroom Plugin
 
-To address the limitations in Lightroom’s manual HDR merging workflow, I developed a small tool: the [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker). As the name suggests, the plugin automates the first crucial step - detecting groups of exposure-bracketed photos and stacking them automatically.
+To address the limitations in Lightroom’s manual HDR merging workflow, I developed a small tool: the [Bracket Stacker Plugin for Lightroom Classic](https://github.com/anton-dergunov/lightroom-bracket-stacker). As the name suggests, the plugin automates the first crucial step - detecting groups of exposure-bracketed photos and stacking them automatically.
 
 Unlike Lightroom’s built-in Auto-Stack by Capture Time feature, which relies on time gaps between shots, my plugin analyzes EXIF metadata embedded in each image file to group photos that were taken as part of an exposure bracket sequence. I found this method to be more reliable, because it works even when timing between shots is inconsistent.
 
@@ -290,44 +291,24 @@ These patterns are used by the plugin to reliably identify bracketed groups - so
 
 > 📌 **Note**: Standard EXIF fields (like `EXIF:ExposureMode`) are generally consistent across camera brands. However, `MakerNotes` fields (such as `ReleaseMode` and `SequenceLength`) are proprietary and vary between manufacturers. At present, the plugin supports Sony cameras, but I plan to expand it to support additional camera brands. You can find the complete list of Sony-specific tags used by ExifTool [here](https://exiftool.org/TagNames/Sony.html).
 
-### Plugin Architecture
-
-The solution is structured into two key components:
-
-- **Python Script**.
-  This script analyzes the EXIF metadata of all imported files and identifies exposure-bracketed groups. It outputs a group description file, which lists image sequences that should be stacked together.
-- **Lightroom Plugin**.
-  This plugin reads the group description file and uses the Lightroom SDK to automatically create stacks inside Lightroom. Once stacked, these groups can be batch-merged into HDR photos using Lightroom’s built-in merge functionality.
-
 
 ## The Automated Process for Merging HDR Photos in Adobe Lightroom
 
-This section outlines the full workflow for using the plugin to automate HDR merging in Adobe Lightroom Classic.
+This section outlines the workflow for using Bracket Stacker to automatically identify exposure brackets, import them as stacks, and batch-merge them into HDR images in Adobe Lightroom Classic.
 
 ### 🧩 Installation Instructions
 
-**Python Script:**
+1. **Download the plugin.**
 
-1. Install Python (if not already installed).
-2. Clone the Repository:
-```sh
-git clone https://github.com/anton-dergunov/lightroom-hdr-auto-stack.git
-cd lightroom-hdr-auto-stack
-```
-3. Install Dependencies:
-```sh
-pip install -r requirements.txt
-```
+   Download the latest `bracket-stacker.zip` release from [the plugin GitHub page](https://github.com/anton-dergunov/lightroom-bracket-stacker/releases) and unzip it. The archive contains the `bracket-stacker.lrplugin` folder with ExifTool already included.
 
-**Lightroom Plugin:**
+2. **Add the plugin to Lightroom Classic.**
 
-1. Launch Adobe Lightroom Classic.
-_(Note: The non-Classic version does not have plugin support as of now.)_
-2. Open Plug-in Manager:
-  - Navigate to **File → Plug-in Manager**.
-3. Add the Plugin:
-  - Click **Add** and select the `auto-stacker.lrplugin` folder.
-  - Enable the plugin once added.
+   - Launch **Adobe Lightroom Classic**.
+   - Open **File → Plug-in Manager**.
+   - Click **Add**.
+   - Select the `bracket-stacker.lrplugin` folder.
+   - Make sure the plugin is enabled.
 
 ### ⚙️ Usage Instructions
 
@@ -337,28 +318,60 @@ _(Note: The non-Classic version does not have plugin support as of now.)_
    caption="The Automated Process for Merging HDR Photos in Adobe Lightroom"
 %}
 
-1. **Detect Bracketed Images**.
-  Run the Python script to analyze your photo directory and generate a group description file based on detected exposure brackets.
-```sh
-python group_sony_bracketed_photos.py --input /path/to/photos --output groups.txt
-```
-  You can also specify a different file extension with `--extension` (default is ARW).
+1. **Import and automatically stack bracketed images.**
 
-2. **Import and Auto-Stack in Lightroom**.
-  - In Lightroom Classic, navigate to **Library → Plug-in Extras → Import and Auto Stack Photos**.
-  - Provide the path to the generated `groups.txt` file.
-  - The plugin will import the images and automatically stack them based on detected brackets.
+   All Bracket Stacker commands are available under **Library → Plug-in Extras**.
 
-3. **Batch Create HDR Images**.
-  - Open the folder with the imported stacks in Lightroom.
-  - Collapse all stacks: **Photo → Stacking → Collapse All Stacks**.
-  - Select all stacks: **Edit → Select All**.
-  - Begin the merge: **Photo → Photo Merge → HDR…**
-    Lightroom will queue a batch merge for each stack using your last-used HDR merge settings (such as Deghosting). Note that this step will take some time depending on the number of stacks.
+   Choose one of:
 
-4. **Access and Export HDR Images**.
-  - If you’re working in Lightroom Classic, you can continue editing directly. To quickly locate HDR files, filter the Library view by the `.dng` extension.
-  - If you prefer the cloud-based version of Lightroom, you can export the HDR images. They’re saved in the same folder as the originals and typically named using the first file’s name followed by `-HDR.dng`.
+   - **Import Only Bracketed Photos, as Stacks...** — imports only the bracketed sequences found in a folder, with each sequence as a separate stack. This is useful when Lightroom Classic is being used mainly for HDR merging.
+   - **Import Entire Folder, Brackets as Stacks...** — imports all photos in the folder, while automatically stacking the detected bracketed sequences.
+
+   Select the folder containing the photos. Subfolders are included.
+
+   The plugin examines the camera metadata using the bundled ExifTool, shows what it found, and asks for confirmation before importing. Photos that are already in the Lightroom catalog are skipped. A bracketed sequence is skipped if any of its photos is already in the catalog, because Lightroom only allows the plugin to create the stack while importing the photos.
+
+   Exposure brackets receive the keyword **Exposure bracket** under **Bracket Stacker**. Focus brackets receive **Focus bracket**, making it possible to distinguish the two types using Lightroom's Library filters.
+
+   If focus brackets are detected, the confirmation dialog also allows them to be excluded or, when importing the entire folder, imported without stacking.
+
+2. **Batch-create HDR images.**
+
+   - Choose **Photo → Stacking → Collapse All Stacks**.
+   - If focus brackets were imported, filter the Library by the **Exposure bracket** keyword first, so that focus stacks are not sent to the HDR merge.
+   - Select the stacks.
+   - Choose **Photo → Photo Merge → HDR...**.
+   - Lightroom will process the selected stacks in turn using the HDR settings you last used, such as Deghost Amount.
+
+   On macOS, the shortcuts are **Control+H** for HDR merge with the dialog and **Control+Shift+H** to merge without showing the dialog.
+
+   In the HDR dialog, enable **Create Stack** if you want each resulting HDR image to remain stacked with its source photos.
+
+   Merging a large number of stacks can take some time, but once complete, the HDR images can be compared directly with their original exposures while culling.
+
+3. **Optionally combine focus brackets.**
+
+   Lightroom does not provide focus stacking. For focus brackets, select the photos in a focus stack and choose **Photo → Edit In → Open as Layers in Photoshop**. In Photoshop, use **Edit → Auto-Align Layers**, followed by **Edit → Auto-Blend Layers** with **Stack Images** selected.
+
+   Dedicated focus-stacking applications such as Helicon Focus can also be used from a Lightroom selection.
+
+4. **Find the HDR images.**
+
+   Lightroom saves the generated HDR images next to the source photos. Their filenames end in `-HDR.dng`.
+
+   To find them, filter the Library by file type **DNG**. If you use the cloud-based version of Lightroom for editing, export or copy the generated HDR files from Lightroom Classic.
+
+5. **Optionally remove the extra exposures.**
+
+   After HDR merging, you can use **Reject Extra Exposures After HDR Merge...** under **Library → Plug-in Extras**.
+
+   The command flags the over- and under-exposed source photos in merged stacks as rejected while keeping the base exposure. Alternatively, you can choose to flag all source photos.
+
+   Stacks without an HDR image are left untouched.
+
+   Afterwards, use **Photo → Delete Rejected Photos**. **Remove** removes the photos from the Lightroom catalog, while **Delete from Disk** also moves the corresponding files to the Trash.
+
+Note: Earlier version of this plugin required preprocessing with Python scripts as a separate step, but this is no longer required.
 
 
 ### 📸 Real-World Workflow
@@ -378,14 +391,14 @@ By automating the HDR merge workflow, this tool helps me focus more on the creat
 
 You can find the source code, instructions, and more details here:
 
-👉 [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
+👉 [Bracket Stacker Plugin for Lightroom Classic](https://github.com/anton-dergunov/lightroom-bracket-stacker)
 
 If you find it useful, I’d love to hear your experience, and any suggestions for improvement or wider camera support.
 
 
 ## References
 
-1. [Lightroom Auto Stacker Plugin](https://github.com/anton-dergunov/lightroom-exposure-bracket-auto-stacker)
+1. [Bracket Stacker Plugin for Lightroom Classic](https://github.com/anton-dergunov/lightroom-bracket-stacker)
 2. [Michael Freeman – Mastering HDR Photography, Ilex, 2008](https://www.amazon.com/Mastering-High-Dynamic-Range-Photography/dp/1905814240)
 3. [The Ultimate Guide to Exposure Bracketing](https://www.mikesmithphotography.com/videos/exposure-bracketing)
 4. [HDR Photography is NOT DEAD!](https://f64academy.com/hdr-photography-is-not-dead/)
