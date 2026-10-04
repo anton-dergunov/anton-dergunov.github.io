@@ -328,6 +328,10 @@ groups:
     summary: Finds bracketed sequences among mixed shots and imports each as a stack, so HDR merges no
       longer start with selecting groups by hand.
     url: https://github.com/anton-dergunov/lightroom-bracket-stacker
+    media:
+    - type: image
+      src: /images/projects/lightroom-bracket-stacker/demo.webp
+      caption: Importing a folder as stacks, collapsing them, and merging each stack into an HDR image.
     topics:
     - lightroom
     - lightroom-plugin
