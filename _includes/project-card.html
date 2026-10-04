@@ -3,41 +3,81 @@
   Usage: {% include project-card.html project=p %}           (research: summary, next, topics)
          {% include project-card.html project=p compact=true %}  (tools: tagline only)
   `stable` projects carry no status label; the others say where they stand.
+  `media` is the project's pictures and videos, in order. One is shown at a time:
+  the row scrolls sideways, the buttons step through it, and a picture opens full
+  size in the lightbox, which steps through the same set. Videos play in place.
+  On a research card the gallery sits under the summary; a tool that has one
+  becomes a full-width card with it at the side.
 {%- endcomment -%}
 {%- assign p = include.project -%}
-<article class="project-item{% if include.compact %} project-item--compact{% endif %}">
-  <header class="project-item__head">
-    <h3>{% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</h3>
-    {%- unless p.status == "stable" %}
-    <span class="status status--{{ p.status }}">{{ p.status }}</span>
-    {%- endunless %}
-  </header>
-  {%- if p.image %}
-  <figure class="figure-frame project-item__shot">
-    <a href="{{ '/images/projects/' | append: p.image | relative_url }}"><img src="{{ '/images/projects/' | append: p.image | relative_url }}" alt="{{ p.title }}" loading="lazy" decoding="async"></a>
-  </figure>
-  {%- endif %}
-  {%- if include.compact %}
-  <p class="project-item__summary">{{ p.tagline }}</p>
-  {%- else %}
-  <p class="project-item__summary">{{ p.summary }}</p>
-  {%- if p.next %}
-  <p class="project-item__next"><span class="project-item__label">Next</span> {{ p.next }}</p>
-  {%- endif %}
-  {%- if p.topics %}
-  <ul class="chips">
-    {%- for topic in p.topics %}<li class="chip">{{ topic | replace: "-", " " }}</li>{%- endfor %}
-  </ul>
-  {%- endif %}
-  {%- endif %}
-  <p class="project-item__links">
-    {%- if p.url %}
-    <a href="{{ p.url }}">{{ p.url | remove: "https://" }}</a>
-    {%- elsif p.private %}
-    <span>private for now</span>
-    {%- else %}
-    <span>not published yet</span>
+{%- capture shot -%}
+  {%- if p.media %}
+  <div class="figure-frame project-item__shot shots{% if p.media.size > 1 %} shots--many{% endif %}" data-gallery>
+    <div class="shots__track">
+      {%- for m in p.media %}
+      {%- assign lead = m.src | slice: 0 -%}
+      {%- if lead == '/' %}{% assign src = m.src | relative_url %}{% else %}{% assign src = m.src %}{% endif -%}
+      {%- assign alt = m.alt | default: m.caption | default: p.title %}
+      <figure class="shots__slide">
+        {%- if m.type == "video" %}
+        {%- if m.poster %}
+        {%- assign lead = m.poster | slice: 0 -%}
+        {%- if lead == '/' %}{% assign poster = m.poster | relative_url %}{% else %}{% assign poster = m.poster %}{% endif %}
+        <video controls playsinline preload="none" poster="{{ poster }}" src="{{ src }}" aria-label="{{ alt | escape }}"></video>
+        {%- else %}
+        <video controls playsinline preload="metadata" src="{{ src }}#t=0.1" aria-label="{{ alt | escape }}"></video>
+        {%- endif %}
+        {%- else %}
+        <a href="{{ src }}" title="Open the full image"{% if m.caption %} data-caption="{{ m.caption | escape }}"{% endif %}><img src="{{ src }}" alt="{{ alt | escape }}" loading="lazy" decoding="async"></a>
+        {%- endif %}
+        {%- if m.caption %}
+        <figcaption>{{ m.caption | escape }}</figcaption>
+        {%- endif %}
+      </figure>
+      {%- endfor %}
+    </div>
+    {%- if p.media.size > 1 %}
+    <div class="shots__nav" hidden>
+      <button type="button" class="shots__prev" aria-label="Previous">&larr;</button>
+      <span class="shots__count" aria-live="polite">1 / {{ p.media.size }}</span>
+      <button type="button" class="shots__next" aria-label="Next">&rarr;</button>
+    </div>
     {%- endif %}
-    {%- if p.homepage %} <a href="{{ p.homepage }}">live site</a>{%- endif %}
-  </p>
+  </div>
+  {%- endif %}
+{%- endcapture -%}
+<article class="project-item{% if include.compact %} project-item--compact{% endif %}{% if p.media %} project-item--has-shot{% endif %}">
+  <div class="project-item__body">
+    <header class="project-item__head">
+      <h3>{% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</h3>
+      {%- unless p.status == "stable" %}
+      <span class="status status--{{ p.status }}">{{ p.status }}</span>
+      {%- endunless %}
+    </header>
+    {%- if include.compact %}
+    <p class="project-item__summary">{{ p.tagline }}</p>
+    {%- else %}
+    <p class="project-item__summary">{{ p.summary }}</p>
+    {{ shot }}
+    {%- if p.next %}
+    <p class="project-item__next"><span class="project-item__label">Next</span> {{ p.next }}</p>
+    {%- endif %}
+    {%- if p.topics %}
+    <ul class="chips">
+      {%- for topic in p.topics %}<li class="chip">{{ topic | replace: "-", " " }}</li>{%- endfor %}
+    </ul>
+    {%- endif %}
+    {%- endif %}
+    <p class="project-item__links">
+      {%- if p.url %}
+      <a href="{{ p.url }}">{{ p.url | remove: "https://" }}</a>
+      {%- elsif p.private %}
+      <span>private for now</span>
+      {%- else %}
+      <span>not published yet</span>
+      {%- endif %}
+      {%- if p.homepage %} <a href="{{ p.homepage }}">live site</a>{%- endif %}
+    </p>
+  </div>
+  {%- if include.compact %}{{ shot }}{%- endif %}
 </article>

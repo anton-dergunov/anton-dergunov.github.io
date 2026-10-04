@@ -1,6 +1,68 @@
 <script>
+  // A gallery ([data-gallery]) shows one of its slides at a time in a row that
+  // scrolls sideways. Without JS the row still scrolls; here it gets buttons
+  // and a counter.
+  (function () {
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    [].forEach.call(document.querySelectorAll('[data-gallery]'), function (gallery) {
+      var track = gallery.querySelector('.shots__track');
+      var nav = gallery.querySelector('.shots__nav');
+      if (!track || !nav) return;
+
+      var slides = track.children;
+      var prev = nav.querySelector('.shots__prev');
+      var next = nav.querySelector('.shots__next');
+      var count = nav.querySelector('.shots__count');
+      var shown = -1, waiting = false;
+
+      function left(i) { return slides[i].offsetLeft - slides[0].offsetLeft; }
+
+      function current() {
+        var best = 0;
+        for (var i = 1; i < slides.length; i++) {
+          if (Math.abs(left(i) - track.scrollLeft) < Math.abs(left(best) - track.scrollLeft)) best = i;
+        }
+        return best;
+      }
+
+      function update() {
+        waiting = false;
+        var i = current();
+        if (i === shown) return;
+        // A video scrolled out of view should not keep playing.
+        if (shown >= 0) {
+          var video = slides[shown].querySelector('video');
+          if (video) video.pause();
+        }
+        shown = i;
+        count.textContent = (i + 1) + ' / ' + slides.length;
+        prev.disabled = i === 0;
+        next.disabled = i === slides.length - 1;
+      }
+
+      function go(i) {
+        if (i < 0 || i >= slides.length) return;
+        track.scrollTo({ left: left(i), behavior: calm ? 'auto' : 'smooth' });
+      }
+
+      prev.addEventListener('click', function () { go(current() - 1); });
+      next.addEventListener('click', function () { go(current() + 1); });
+      track.addEventListener('scroll', function () {
+        if (waiting) return;
+        waiting = true;
+        requestAnimationFrame(update);
+      }, { passive: true });
+
+      nav.hidden = false;
+      gallery.setAttribute('data-enhanced', '');
+      update();
+    });
+  })();
+
   // Figures link to the full-resolution file. Show it in an overlay instead of
   // navigating away; without JS the link still works as a plain download.
+  // The pictures of one gallery form a set the overlay steps through.
   (function () {
     // Only take over links that point at an image; anything else (a source
     // page, a PDF) should navigate as usual.
@@ -9,7 +71,17 @@
                   .filter(function (a) { return IMAGE.test(a.getAttribute('href')); });
     if (!links.length) return;
 
-    var box, img, note, closeBtn, lastFocus;
+    var box, img, note, caption, count, closeBtn, prevBtn, nextBtn, lastFocus;
+    var set = [], at = 0;
+
+    function button(cls, label, text) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = cls;
+      b.setAttribute('aria-label', label);
+      b.textContent = text;
+      return b;
+    }
 
     function build() {
       box = document.createElement('div');
@@ -25,30 +97,46 @@
       note.className = 'lightbox__note';
       note.hidden = true;
 
-      closeBtn = document.createElement('button');
-      closeBtn.type = 'button';
-      closeBtn.className = 'lightbox__close';
-      closeBtn.setAttribute('aria-label', 'Close image');
-      closeBtn.textContent = '×';
+      caption = document.createElement('p');
+      caption.className = 'lightbox__caption';
 
-      box.appendChild(img);
-      box.appendChild(note);
-      box.appendChild(closeBtn);
+      count = document.createElement('span');
+      count.className = 'lightbox__count';
+
+      closeBtn = button('lightbox__close', 'Close image', '×');
+      prevBtn = button('lightbox__step lightbox__step--prev', 'Previous image', '←');
+      nextBtn = button('lightbox__step lightbox__step--next', 'Next image', '→');
+
+      [img, note, caption, count, closeBtn, prevBtn, nextBtn].forEach(function (el) {
+        box.appendChild(el);
+      });
       document.body.appendChild(box);
 
       box.addEventListener('click', function (e) {
-        if (e.target === img) return;   // clicking the picture itself keeps it open
+        // Clicking the picture, its caption or a button keeps it open.
+        if (e.target === img || e.target === caption || e.target.closest('button')) return;
         close();
       });
       closeBtn.addEventListener('click', close);
+      prevBtn.addEventListener('click', function () { show(at - 1); });
+      nextBtn.addEventListener('click', function () { show(at + 1); });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !box.hidden) close();
+        if (box.hidden) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') show(at - 1);
+        else if (e.key === 'ArrowRight') show(at + 1);
       });
     }
 
-    function open(href, alt) {
-      if (!box) build();
-      lastFocus = document.activeElement;
+    function show(i) {
+      if (i < 0 || i >= set.length) return;
+      at = i;
+      var a = set[i];
+      var href = a.getAttribute('href');
+      var inner = a.querySelector('img');
+      var text = a.getAttribute('data-caption') || '';
+      var many = set.length > 1;
+
       // If the file will not load (offline, dead external link), say so in
       // place. Navigating to the broken URL would lose the article as well.
       note.hidden = true;
@@ -60,7 +148,27 @@
           '<a href="' + href.replace(/"/g, '&quot;') + '">Open it directly</a>.';
       };
       img.src = href;
-      img.alt = alt || '';
+      img.alt = inner ? inner.alt : '';
+
+      caption.textContent = text;
+      caption.hidden = !text;
+      count.textContent = (i + 1) + ' / ' + set.length;
+      count.hidden = prevBtn.hidden = nextBtn.hidden = !many;
+      prevBtn.disabled = i === 0;
+      nextBtn.disabled = i === set.length - 1;
+      box.classList.toggle('lightbox--captioned', !!text);
+
+      // Keep the gallery behind on the same picture, so closing returns to it.
+      var slide = a.closest('.shots__slide');
+      if (slide) slide.parentNode.scrollLeft = slide.offsetLeft - slide.parentNode.firstElementChild.offsetLeft;
+    }
+
+    function open(a) {
+      if (!box) build();
+      lastFocus = a;
+      var gallery = a.closest('[data-gallery]');
+      set = gallery ? links.filter(function (l) { return gallery.contains(l); }) : [a];
+      show(set.indexOf(a));
       box.hidden = false;
       document.body.classList.add('is-locked');
       requestAnimationFrame(function () { box.setAttribute('data-open', ''); });
@@ -79,7 +187,9 @@
       };
       box.addEventListener('transitionend', done);
       setTimeout(done, 250);           // in case the transition never fires
-      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      // The picture last shown may not be the one that was clicked.
+      var back = set[at] || lastFocus;
+      if (back && back.focus) back.focus({ preventScroll: true });
     }
 
     links.forEach(function (a) {
@@ -88,8 +198,7 @@
         // Leave modified clicks to the browser (new tab, save, etc.).
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
-        var inner = a.querySelector('img');
-        open(a.getAttribute('href'), inner ? inner.alt : '');
+        open(a);
       });
     });
   })();
