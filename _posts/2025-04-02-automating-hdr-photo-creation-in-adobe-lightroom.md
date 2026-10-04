@@ -289,7 +289,7 @@ Here’s how the plugin uses specific `EXIF` and `MakerNotes` fields to detect e
 
 These patterns are used by the plugin to reliably identify bracketed groups - something that is not feasible using timestamps alone.
 
-> 📌 **Note**: Standard EXIF fields (like `EXIF:ExposureMode`) are generally consistent across camera brands. However, `MakerNotes` fields (such as `ReleaseMode` and `SequenceLength`) are proprietary and vary between manufacturers. At present, the plugin supports Sony cameras, but I plan to expand it to support additional camera brands. You can find the complete list of Sony-specific tags used by ExifTool [here](https://exiftool.org/TagNames/Sony.html).
+> 📌 **Note**: Camera-specific MakerNotes fields vary between manufacturers. The plugin supports several camera brands, with different levels of testing. See the [camera support documentation](https://github.com/anton-dergunov/lightroom-bracket-stacker/blob/main/docs/camera-support.md) for the current status.
 
 
 ## The Automated Process for Merging HDR Photos in Adobe Lightroom
