@@ -727,12 +727,10 @@ tbody tr:hover { background: var(--surface); }
 .project-list { display: flex; flex-direction: column; }
 
 .project-item {
-  display: flex;
-  flex-direction: column;
-  gap: .55rem;
   padding: 1.2rem .2rem 1.3rem;
   border-bottom: 1px solid var(--line-soft);
 }
+.project-item__body { display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
 
 .project-item__head { display: flex; align-items: baseline; gap: .4rem 1rem; flex-wrap: wrap; }
 .project-item h3 { font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: -.01em; line-height: 1.2; }
@@ -763,20 +761,72 @@ tbody tr:hover { background: var(--surface); }
   color: var(--faint);
   margin-right: .35rem;
 }
-.project-item__shot { padding: .6rem; }
-.project-item__shot img { max-width: 100%; height: auto; }
+/* Pictures and videos: one slide at a time in a row that scrolls sideways, the
+   full image in the lightbox. The buttons appear once the script has run;
+   until then the row keeps its scrollbar. */
+.project-item__shot { padding: .5rem; margin: .25rem 0; overflow: hidden; }
+.project-item__shot a { display: block; }
+.project-item__shot img,
+.project-item__shot video { display: block; width: 100%; max-height: 24rem; object-fit: contain; }
+.shots__track {
+  display: flex;
+  gap: .5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+.shots[data-enhanced] .shots__track { scrollbar-width: none; }
+.shots[data-enhanced] .shots__track::-webkit-scrollbar { display: none; }
+.shots__slide { flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: start; }
+.shots__slide figcaption { margin: .5rem .2rem .1rem; }
+.shots__slide video { background: #000; border-radius: 2px; }
+/* Slides of one height, so the card does not jump when stepping through. */
+.shots--many .shots__slide img,
+.shots--many .shots__slide video { aspect-ratio: 16 / 10; max-height: none; }
+.shots__nav { display: flex; align-items: center; justify-content: flex-end; gap: .6rem; margin: .4rem .2rem .1rem; }
+.shots__nav[hidden] { display: none; }
+.shots__count { font: 400 .72rem/1 var(--mono); color: var(--faint); min-width: 3.2em; text-align: center; }
+.shots__nav button,
+.lightbox__step {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 999px;
+  width: 1.9rem;
+  height: 1.9rem;
+  font: 400 .9rem/1 var(--mono);
+  cursor: pointer;
+}
+.shots__nav button:hover:not(:disabled),
+.lightbox__step:hover:not(:disabled) { color: var(--green); border-color: var(--green); }
+.shots__nav button:disabled,
+.lightbox__step:disabled { opacity: .35; cursor: default; }
 .project-item__links { margin: 0; display: flex; flex-wrap: wrap; gap: .2rem 1.1rem; font: 400 .74rem/1.6 var(--mono); color: var(--faint); }
 .project-item__links a { color: var(--muted); text-decoration: none; overflow-wrap: anywhere; }
 .project-item__links a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
 
-/* Tools: two columns of short cards. */
-.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
-.project-item--compact { padding: 1rem .2rem 1.1rem; gap: .4rem; }
+/* Tools: two columns of short cards. One with a screenshot takes the full
+   width, text on the left and the preview on the right. */
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; grid-auto-flow: dense; }
+.project-item--compact { padding: 1rem .2rem 1.1rem; }
+.project-item--compact .project-item__body { gap: .4rem; }
 .project-item--compact h3 { font-size: 1.1rem; }
 .project-item--compact .project-item__summary { font-size: .88rem; color: var(--muted); }
+.project-item--compact.project-item--has-shot {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 0 1.5rem;
+  align-items: start;
+}
+.project-item--compact .project-item__shot { margin: 0; }
+.project-item--compact .project-item__shot img,
+.project-item--compact .project-item__shot video { aspect-ratio: 16 / 10; max-height: none; }
 
 @media (max-width: 40rem) {
   .project-grid { grid-template-columns: minmax(0, 1fr); }
+  .project-item--compact.project-item--has-shot { grid-template-columns: minmax(0, 1fr); gap: .7rem 0; }
 }
 
 /* ---------- lightbox ---------- */
@@ -791,8 +841,10 @@ tbody tr:hover { background: var(--surface); }
   inset: 0;
   z-index: 100;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: .9rem;
   padding: clamp(1rem, 4vw, 3rem);
   background: color-mix(in srgb, var(--paper) 92%, #000);
   cursor: zoom-out;
@@ -823,6 +875,29 @@ tbody tr:hover { background: var(--surface); }
   cursor: default;
 }
 .lightbox__note a { color: var(--green); }
+/* With a caption under it, the picture gives up the room the caption needs. */
+.lightbox--captioned img { max-height: calc(100% - 5rem); }
+.lightbox__caption {
+  margin: 0;
+  max-width: 70ch;
+  text-align: center;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.5;
+  cursor: default;
+}
+.lightbox__caption[hidden], .lightbox__count[hidden], .lightbox__step[hidden] { display: none; }
+.lightbox__count {
+  position: absolute;
+  top: clamp(.75rem, 2vw, 1.5rem);
+  left: clamp(.75rem, 2vw, 1.5rem);
+  font: 400 .78rem/2.2rem var(--mono);
+  color: var(--muted);
+  cursor: default;
+}
+.lightbox__step { position: absolute; top: 50%; transform: translateY(-50%); width: 2.2rem; height: 2.2rem; }
+.lightbox__step--prev { left: clamp(.4rem, 1vw, 1rem); }
+.lightbox__step--next { right: clamp(.4rem, 1vw, 1rem); }
 
 .lightbox__close {
   position: absolute;

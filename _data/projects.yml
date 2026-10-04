@@ -36,6 +36,10 @@ groups:
     url: https://github.com/anton-dergunov/mandarin-speech-coach
     next: An alignment evaluation harness, a surface-tone classifier, and a compact aligner fine-tuned
       to pinyin initials and finals.
+    media:
+    - type: image
+      src: /images/projects/mandarin-speech-coach/demo.png
+      caption: One phrase, your pitch contour against the target, aligned per character.
     topics:
     - speech
     - pronunciation
@@ -62,6 +66,10 @@ groups:
     url: https://github.com/anton-dergunov/spoken-usage-retrieval
     next: 'Human relevance judgments with a calibrated LLM judge, then multi-stage ranking: ranking features,
       a learned ranker and a multilingual reranker.'
+    media:
+    - type: image
+      src: /images/projects/spoken-usage-retrieval/web-demo.webp
+      caption: The web demo, searching Spanish speech for a phrase.
     topics:
     - information-retrieval
     - ranking
@@ -93,27 +101,6 @@ groups:
     - reranking
     - calibration
     - python
-  - title: Interest-aligned vocabulary recommendation
-    repo: interest-aligned-vocabulary-recommendation
-    status: planned
-    tagline: 'Vocabulary recommendation for a single learner: what would this person want to learn next,
-      answered from their own multilingual vocabulary, with no crowd to pool.'
-    summary: 'Recommenders for language learning usually ask what a learner does not know, pooled over
-      many learners. With one user there is no interaction matrix, so the question becomes what this learner
-      would want next, from three signals kept apart: topical relevance, difficulty and novelty. Design
-      notes only so far.'
-    url: https://github.com/anton-dergunov/interest-aligned-vocabulary-recommendation
-    next: A first prototype (embed senses, cluster, propose, log every decision), evaluated within one
-      subject as a crossover design.
-    topics:
-    - recommender-systems
-    - cold-start
-    - information-retrieval
-    - language-learning
-    - llm
-    - nlp
-    - sentence-embeddings
-    - topic-modeling
 - id: agents
   title: Agents and context engineering
   kind: research
@@ -132,6 +119,27 @@ groups:
       configuration: a visual agenda, schedule view, capture and saved searches.'
     url: https://github.com/anton-dergunov/agentic-org-planner
     next: The audit and route skills, which review the plan and file inbox items, moving into the repo.
+    media:
+    - type: image
+      src: /images/projects/agentic-org-planner/agent-audit.png
+      caption: 'Claude Code audits a plan file: one finding, and the change it proposes shown inline in
+        the file.'
+    - type: image
+      src: /images/projects/agentic-org-planner/agent-route.png
+      caption: 'Routing a day''s captured items: two merged into existing tasks, a duplicate caught, one
+        new task.'
+    - type: image
+      src: /images/projects/agentic-org-planner/capture-inbox.png
+      caption: The capture inbox, with what was extracted from the selected paper below the queue.
+    - type: image
+      src: /images/projects/agentic-org-planner/agenda.png
+      caption: Today's agenda, a timeline with a now-line and a warning on two overlapping meetings.
+    - type: image
+      src: /images/projects/agentic-org-planner/schedule.png
+      caption: The day's calendar beside the conflicts view, and free slots for the next two weeks.
+    - type: image
+      src: /images/projects/agentic-org-planner/plan-file.png
+      caption: A plan file as it is displayed, with status and priority badges, tags and checklists.
     topics:
     - emacs
     - org-mode
@@ -141,7 +149,7 @@ groups:
     - planning
     - productivity
   - title: Agent context pipeline
-    repo: info-triage
+    repo: agent-context-pipeline
     status: active
     tagline: Capture from any device, extraction to clean Markdown (web pages, PDFs, OCR, speech), and
       retrieval of related notes, delivered as an inbox a coding agent can file.
@@ -150,7 +158,27 @@ groups:
       links and titles, and looks up related notes ahead of the agent (BM25 recall, a cross-encoder rerank,
       an abstain gate). The agent's token cost with and without that lookup is measured in the design
       notes.
+    url: https://github.com/anton-dergunov/agent-context-pipeline
     next: Cleaned of personal data and published.
+    media:
+    - type: image
+      src: /images/projects/agent-context-pipeline/overview.png
+      caption: One item's way through the pipeline, from a captured LinkedIn post to a numbered entry
+        the agent is asked to file.
+    - type: image
+      src: /images/projects/agent-context-pipeline/before-after.png
+      caption: The old backlog of unresolvable short links, and the same links as the index lists them
+        now.
+    - type: image
+      src: /images/projects/agent-context-pipeline/follow-to-source.png
+      caption: Three real cases of following a post to the paper or repository it is about.
+    - type: image
+      src: /images/projects/agent-context-pipeline/neighbours.png
+      caption: Possible neighbours from the user's own notes, and what they save the agent in searches
+        and tokens.
+    - type: image
+      src: /images/projects/agent-context-pipeline/emacs.png
+      caption: The queue in Emacs, with the selected item's index below it.
     topics:
     - context-engineering
     - ai-agents
@@ -160,10 +188,9 @@ groups:
     - speech-to-text
     - retrieval
     - self-hosted
-    private: true
   - title: Agentic paper library
     repo: agentic-paper-library
-    status: planned
+    status: active
     tagline: 'Reading and organising a research-paper library with a coding agent: papers converted to
       Markdown the agent can read and cite, and skills for adding, reading and reviewing them.'
     summary: A way to read and organise research papers with a coding agent at the centre. Papers from
@@ -171,6 +198,7 @@ groups:
       headings, so the agent can read across the whole library and cite by section and page. Skills add
       a paper and place it in the topic tree, keep notes on each one, and write a literature review for
       an area.
+    url: https://github.com/anton-dergunov/agentic-paper-library
     next: Published without my own collection of papers.
     topics:
     - context-engineering
@@ -216,6 +244,16 @@ groups:
       chosen through blind A/B listening.'
     url: https://github.com/anton-dergunov/lexibeat
     next: A visualiser with the words synchronised to the audio.
+    media:
+    - type: video
+      src: https://github.com/user-attachments/assets/cb72cf63-2582-4521-846b-b3942fc83a10
+      caption: Radio format, news-style retrieval practice with shorter segments. Turn the sound on.
+    - type: video
+      src: https://github.com/user-attachments/assets/d8c08bb1-e300-4c18-8ec9-1c0053a5f790
+      caption: Story format, a narrative with longer connected phrases.
+    - type: video
+      src: https://github.com/user-attachments/assets/46a03899-5088-402c-afdc-73bd68ce1b27
+      caption: Spanish to English, 12 words and phrases over a generated rhythmic backing track.
     topics:
     - language-learning
     - audio
@@ -261,17 +299,6 @@ groups:
     - deep-reinforcement-learning
     - pytorch
     - jupyter-notebook
-  - title: Distributed training
-    repo: distributed-ml-training
-    status: planned
-    tagline: Multi-GPU and distributed training with PyTorch.
-    summary: A study of distributed training in PyTorch, built up from a manual data-parallel loop.
-    next: DistributedDataParallel, sharded variants, and a benchmark report.
-    topics:
-    - pytorch
-    - distributed-training
-    - gpu
-    private: true
 - id: tools
   title: Tools and apps
   kind: tools
@@ -284,6 +311,10 @@ groups:
     summary: 'Built for reading papers with a coding agent: a citation in the chat opens the paper beside
       it at the cited section, table or page, and highlights are saved into the PDF.'
     url: https://github.com/anton-dergunov/vscode-pdf-viewer
+    media:
+    - type: image
+      src: /images/projects/vscode-pdf-viewer/demo.webp
+      caption: Clicking a citation in Claude Code's answer opens the PDF beside the chat at that section.
     topics:
     - vscode-extension
     - pdf-viewer
@@ -297,6 +328,10 @@ groups:
     summary: Finds bracketed sequences among mixed shots and imports each as a stack, so HDR merges no
       longer start with selecting groups by hand.
     url: https://github.com/anton-dergunov/lightroom-bracket-stacker
+    media:
+    - type: image
+      src: /images/projects/lightroom-bracket-stacker/demo.gif
+      caption: A run over a folder of bracketed exposures.
     topics:
     - lightroom
     - lightroom-plugin
@@ -324,6 +359,10 @@ groups:
     summary: 'A menu-bar controller for Spotify on macOS: track info at a glance, like, add to a playlist,
       global hotkeys.'
     url: https://github.com/anton-dergunov/harmonic
+    media:
+    - type: image
+      src: /images/projects/harmonic/app.jpg
+      caption: The menu bar item and the player window.
     topics:
     - macos
     - spotify
@@ -349,6 +388,10 @@ groups:
     summary: A thin layer over restic, resticprofile and rclone for backing up source code and ML workspaces,
       with a preview report of what a run would include.
     url: https://github.com/anton-dergunov/workspace-backup
+    media:
+    - type: image
+      src: /images/projects/workspace-backup/preview_report.png
+      caption: The backup preview, listing what is included and what is excluded by marker or by rule.
     topics:
     - backup
     - restic
