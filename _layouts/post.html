@@ -28,18 +28,26 @@ layout: base
       <span class="rail-mark">
         <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
       </span>
-      {% if page.modified %}
-        <span class="rail-mark">
-          (updated <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.modified | date: "%-d %B %Y" }}</time>)
-        </span>
-      {% endif %}
+      {%- assign latest_update = nil %}
+      {%- if page.updates %}{% assign latest_update = page.updates | sort: "date" | last %}{% endif %}
+      {%- assign modified = page.last_modified_at | default: latest_update.date %}
+      {%- if modified %}
+      <meta itemprop="dateModified" content="{{ modified | date_to_xmlschema }}">
+      {%- endif %}
+      {%- if latest_update %}
+      <span class="rail-mark">
+        <a href="#post-history">Updated <time datetime="{{ latest_update.date | date_to_xmlschema }}">{{ latest_update.date | date: "%-d %b %Y" }}</time></a>
+      </span>
+      {%- endif %}
       <span class="rail-mark">{% include read-time.html %}</span>
       {%- include toc.html html=content %}
     </div>
 
     <div class="body-col" itemprop="articleBody">
+      {%- include post-updates.html mode="note" %}
       {{ content }}
 
+      {%- include post-updates.html mode="history" %}
       {%- if page.tags and page.tags.size > 0 %}
       <footer class="article-tags">
         <p class="tags-label">Tags</p>
