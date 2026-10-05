@@ -3,7 +3,15 @@ title:     "Automating HDR Photo Creation in Adobe Lightroom"
 excerpt:   "A free Lightroom plugin to batch-merge exposure brackets into HDR images automatically."
 topic:     tools-and-automation
 date:      2025-04-02
-modified:  2026-10-04
+last_modified_at: 2026-10-04
+updates:
+  - date:    2026-10-04
+    summary: "Rewritten for Bracket Stacker, the plugin's successor: everything now happens inside Lightroom, with no Python step."
+    changes:
+      - "The plugin was renamed and moved to a new repository; all links point there."
+      - "Installation is a zip download with ExifTool bundled, replacing the clone-and-pip setup."
+      - "Import, stacking, focus-bracket handling and rejecting extra exposures are now menu commands."
+      - "Camera support is no longer Sony-only."
 permalink: /posts/2025/04/automating-hdr-photo-creation-in-adobe-lightroom
 tags:
   - automation

@@ -419,6 +419,8 @@ hr, hr.rule { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   text-transform: uppercase;
   color: var(--faint);
 }
+.rail-mark a { color: var(--green); text-decoration: none; }
+.rail-mark a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .rail-note { color: var(--muted); font-size: .82rem; line-height: 1.45; }
 
 .rail-toc { margin-top: .9rem; }
@@ -919,6 +921,85 @@ body.is-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .lightbox { transition: none; }
 }
+
+/* ---------- post updates ----------
+   Both blocks come from _includes/post-updates.html: a one-sentence note above
+   the article for the latest revision, and the full timeline below it. */
+
+.update-note {
+  padding: 1rem 1.3rem;
+  border-left: 3px solid var(--green);
+  background: var(--green-wash);
+  border-radius: 0 4px 4px 0;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+.update-note p { margin: 0; }
+.update-note .update-note__label {
+  margin-bottom: .35rem;
+  font: 500 .7rem/1.3 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+}
+.update-note a { white-space: nowrap; }
+.body-col > .update-note + * { margin-top: 1.75rem; }
+
+.post-history {
+  margin-top: 4.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
+}
+.post-history .post-history__label {
+  margin: 0 0 1.1rem;
+  font: 500 .74rem/1 var(--mono);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.post-history > ol {
+  list-style: none;
+  margin: 0 0 0 4px;
+  padding: 0;
+  border-left: 1px solid var(--line);
+}
+.post-history > ol > li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: .92rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.post-history > ol > li + li { margin-top: 1.4rem; }
+/* The marker straddles the list's left border, which is the timeline's line. */
+.post-history > ol > li::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: .28rem;
+  width: 7px;
+  height: 7px;
+  box-sizing: border-box;
+  border: 1px solid var(--faint);
+  border-radius: 50%;
+  background: var(--paper);
+}
+.post-history > ol > li.is-latest::before { border-color: var(--green); background: var(--green); }
+.post-history time {
+  display: block;
+  margin-bottom: .25rem;
+  font: 500 .7rem/1.3 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.post-history .is-latest > time { color: var(--green); }
+.post-history p { margin: 0; }
+.post-history .is-latest > p { color: var(--ink); }
+.post-history li > ul { margin-top: .5rem; }
+.post-history li li + li { margin-top: .25rem; }
+.post-history + .article-tags { margin-top: 2.25rem; }
 
 /* ---------- end-of-article tags ---------- */
 

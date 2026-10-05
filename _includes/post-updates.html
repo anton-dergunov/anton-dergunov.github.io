@@ -1,0 +1,45 @@
+{%- comment -%}
+  Reader-facing revision notes, driven by front matter:
+      updates:
+        - date:    2026-10-04
+          summary: "One sentence on what changed."
+          changes:            # optional
+            - "A detail."
+  Only substantive revisions belong here; last_modified_at covers the rest.
+  Usage: {% include post-updates.html mode="note" %}     (latest update, top of the post)
+         {% include post-updates.html mode="history" %}  (full timeline, end of the post)
+{%- endcomment -%}
+{%- if page.updates and page.updates.size > 0 -%}
+{%- assign updates = page.updates | sort: "date" | reverse -%}
+{%- assign latest = updates | first -%}
+{%- if include.mode == "note" %}
+<aside class="update-note">
+  <p class="update-note__label">Updated <time datetime="{{ latest.date | date_to_xmlschema }}">{{ latest.date | date: "%-d %B %Y" }}</time></p>
+  <p>{{ latest.summary | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+    {%- if latest.changes or updates.size > 1 %} <a href="#post-history">What changed&nbsp;↓</a>{%- endif %}</p>
+</aside>
+{%- elsif include.mode == "history" %}
+<section class="post-history" id="post-history" aria-labelledby="post-history-label">
+  <p class="post-history__label" id="post-history-label">History</p>
+  <ol>
+    {%- for update in updates %}
+    <li{% if forloop.first %} class="is-latest"{% endif %}>
+      <time datetime="{{ update.date | date_to_xmlschema }}">{{ update.date | date: "%-d %b %Y" }}</time>
+      <p>{{ update.summary | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+      {%- if update.changes %}
+      <ul>
+        {%- for change in update.changes %}
+        <li>{{ change | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+    <li>
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %b %Y" }}</time>
+      <p>First published.</p>
+    </li>
+  </ol>
+</section>
+{%- endif -%}
+{%- endif -%}

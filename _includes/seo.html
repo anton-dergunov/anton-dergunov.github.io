@@ -26,6 +26,12 @@
 {%- endif %}
 {%- if page.date %}
 <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+{%- assign latest_update = nil %}
+{%- if page.updates %}{% assign latest_update = page.updates | sort: "date" | last %}{% endif %}
+{%- assign modified = page.last_modified_at | default: latest_update.date %}
+{%- if modified %}
+<meta property="article:modified_time" content="{{ modified | date_to_xmlschema }}">
+{%- endif %}
 {%- endif %}
 
 <meta name="twitter:card" content="{% if seo_image %}summary_large_image{% else %}summary{% endif %}">
