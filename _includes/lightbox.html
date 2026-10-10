@@ -71,7 +71,7 @@
                   .filter(function (a) { return IMAGE.test(a.getAttribute('href')); });
     if (!links.length) return;
 
-    var box, img, note, caption, count, closeBtn, prevBtn, nextBtn, lastFocus;
+    var box, img, note, captions, count, closeBtn, prevBtn, nextBtn, lastFocus;
     var set = [], at = 0;
 
     function button(cls, label, text) {
@@ -97,8 +97,8 @@
       note.className = 'lightbox__note';
       note.hidden = true;
 
-      caption = document.createElement('p');
-      caption.className = 'lightbox__caption';
+      captions = document.createElement('div');
+      captions.className = 'lightbox__captions';
 
       count = document.createElement('span');
       count.className = 'lightbox__count';
@@ -107,14 +107,14 @@
       prevBtn = button('lightbox__step lightbox__step--prev', 'Previous image', '←');
       nextBtn = button('lightbox__step lightbox__step--next', 'Next image', '→');
 
-      [img, note, caption, count, closeBtn, prevBtn, nextBtn].forEach(function (el) {
+      [img, note, captions, count, closeBtn, prevBtn, nextBtn].forEach(function (el) {
         box.appendChild(el);
       });
       document.body.appendChild(box);
 
       box.addEventListener('click', function (e) {
         // Clicking the picture, its caption or a button keeps it open.
-        if (e.target === img || e.target === caption || e.target.closest('button')) return;
+        if (e.target === img || e.target.closest('.lightbox__caption, button')) return;
         close();
       });
       closeBtn.addEventListener('click', close);
@@ -153,7 +153,6 @@
       var a = set[i];
       var href = a.getAttribute('href');
       var inner = a.querySelector('img');
-      var text = a.getAttribute('data-caption') || '';
       var many = set.length > 1;
 
       // If the file will not load (offline, dead external link), say so in
@@ -169,13 +168,13 @@
       img.src = href;
       img.alt = inner ? inner.alt : '';
 
-      caption.textContent = text;
-      caption.hidden = !text;
+      [].forEach.call(captions.children, function (c, j) {
+        c.classList.toggle('is-current', j === i);
+      });
       count.textContent = (i + 1) + ' / ' + set.length;
       count.hidden = prevBtn.hidden = nextBtn.hidden = !many;
       prevBtn.disabled = i === 0;
       nextBtn.disabled = i === set.length - 1;
-      box.classList.toggle('lightbox--captioned', !!text);
 
       // Keep the gallery behind on the same picture, so closing returns to it.
       var slide = a.closest('.shots__slide');
@@ -187,6 +186,18 @@
       lastFocus = a;
       var gallery = a.closest('[data-gallery]');
       set = gallery ? links.filter(function (l) { return gallery.contains(l); }) : [a];
+      // Every caption of the set is laid out at once, so the room under the
+      // picture fits the longest and does not change from one to the next.
+      var any = false;
+      captions.textContent = '';
+      set.forEach(function (l) {
+        var p = document.createElement('p');
+        p.className = 'lightbox__caption';
+        p.textContent = l.getAttribute('data-caption') || '';
+        if (p.textContent) any = true;
+        captions.appendChild(p);
+      });
+      captions.hidden = !any;
       show(set.indexOf(a));
       box.hidden = false;
       document.body.classList.add('is-locked');

@@ -842,11 +842,13 @@ tbody tr:hover { background: var(--surface); }
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  flex-direction: column;
+  /* The picture has a row of its own, so a caption of another length under
+     it does not move it. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
   align-items: center;
-  justify-content: center;
-  gap: .9rem;
   padding: clamp(1rem, 4vw, 3rem);
   background: color-mix(in srgb, var(--paper) 92%, #000);
   cursor: zoom-out;
@@ -859,6 +861,8 @@ tbody tr:hover { background: var(--surface); }
    the closed overlay stays on top of the page and eats every click. */
 .lightbox[hidden] { display: none; }
 .lightbox img {
+  grid-area: 1 / 1;
+  min-height: 0;
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -868,6 +872,7 @@ tbody tr:hover { background: var(--surface); }
   cursor: default;
 }
 .lightbox__note {
+  grid-area: 1 / 1;
   margin: 0;
   max-width: 32ch;
   text-align: center;
@@ -877,18 +882,26 @@ tbody tr:hover { background: var(--surface); }
   cursor: default;
 }
 .lightbox__note a { color: var(--green); }
-/* With a caption under it, the picture gives up the room the caption needs. */
-.lightbox--captioned img { max-height: calc(100% - 5rem); }
-.lightbox__caption {
-  margin: 0;
+/* The captions of the whole set lie on top of each other, only the current
+   one visible, so the row is as tall as the longest and stays that tall. */
+.lightbox__captions {
+  grid-area: 2 / 1;
+  display: grid;
   max-width: 70ch;
+  margin-top: .9rem;
+}
+.lightbox__caption {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  margin: 0;
   text-align: center;
   color: var(--muted);
   font-size: .9rem;
   line-height: 1.5;
   cursor: default;
 }
-.lightbox__caption[hidden], .lightbox__count[hidden], .lightbox__step[hidden] { display: none; }
+.lightbox__caption.is-current { visibility: visible; }
+.lightbox__captions[hidden], .lightbox__count[hidden], .lightbox__step[hidden] { display: none; }
 .lightbox__count {
   position: absolute;
   top: clamp(.75rem, 2vw, 1.5rem);
