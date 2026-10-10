@@ -197,9 +197,29 @@ groups:
       arXiv, PDFs and web articles are converted to Markdown with equations, figures and page-numbered
       headings, so the agent can read across the whole library and cite by section and page. Skills add
       a paper and place it in the topic tree, keep notes on each one, and write a literature review for
-      an area.
+      an area. Each converter, prompt and choice of model was measured on real papers, and the experiments
+      are in the repository.
     url: https://github.com/anton-dergunov/agentic-paper-library
     next: Published without my own collection of papers.
+    media:
+    - type: image
+      src: /images/projects/agentic-paper-library/reading.png
+      caption: Reading a paper's PDF in VS Code with Claude Code beside it; the answer links to the page
+        and the table.
+    - type: image
+      src: /images/projects/agentic-paper-library/markdown.png
+      caption: An equation and a table on the PDF page, as text taken from the PDF, and as the Markdown
+        the agent reads.
+    - type: image
+      src: /images/projects/agentic-paper-library/overview.png
+      caption: The overview note a skill writes for a paper, to read in a few minutes before the paper
+        itself.
+    - type: image
+      src: /images/projects/agentic-paper-library/literature-review.png
+      caption: A literature review of a topic, written from one note for each paper.
+    - type: image
+      src: /images/projects/agentic-paper-library/experiments.png
+      caption: Six of the 22 experiments behind the design, each with what was measured and what was decided.
     topics:
     - context-engineering
     - ai-agents
