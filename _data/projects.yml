@@ -243,6 +243,53 @@ groups:
       is trusted and where it is checked was decided by experiments kept in the repo.
     url: https://github.com/anton-dergunov/acervo-llm-dictionary
     next: The quality track for articles, stories and clip selection.
+    media:
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/word.png
+      caption: One word's entry, with the picture drawn for each of its three meanings.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/pictures.png
+      caption: Three meanings of one word, each drawn in a different style from a brief a language model
+        wrote.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/clips.png
+      caption: A clip of a native speaker using the word, with the passage and its translation.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/capture.png
+      caption: A pasted sentence and the entry drafted from it, shown for review before it is saved.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/photo.png
+      caption: A photographed page with one word tapped, and what was measured to choose the OCR and the
+        models.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/chat.png
+      caption: A question about an entry, and the change it proposes shown marked in the entry.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/story.png
+      caption: One part of an illustrated story written around the learner's words, and the story's four
+        pictures.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/loop.png
+      caption: An audio loop playing on a phone, the translation held back until it is spoken.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/map.png
+      caption: The map of 1,457 meanings, zoomed in on one word and its neighbours.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/anki.png
+      caption: One Anki card built from an entry, and how cards go out and review state comes back.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/sync.png
+      caption: One self-hosted server, and a complete copy of the dictionary on every device.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/devices.png
+      caption: The same word on a phone, a tablet and a desktop, each holding the whole vocabulary offline.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/pipeline.png
+      caption: How an entry is made, from two model calls while you wait to the background job on the
+        server.
+    - type: image
+      src: /images/projects/acervo-llm-dictionary/experiments.png
+      caption: Eight experiments behind the design, each with what was measured and what was decided.
     topics:
     - llm
     - language-learning
