@@ -71,12 +71,13 @@
     <p class="project-item__links">
       {%- if p.url %}
       <a href="{{ p.url }}">{{ p.url | remove: "https://" }}</a>
+      {%- elsif p.homepage %}
       {%- elsif p.private %}
       <span>private for now</span>
       {%- else %}
       <span>not published yet</span>
       {%- endif %}
-      {%- if p.homepage %} <a href="{{ p.homepage }}">live site</a>{%- endif %}
+      {%- if p.homepage %} <a href="{{ p.homepage }}">{{ p.homepage | remove: "https://" }}</a>{%- endif %}
     </p>
   </div>
   {%- if include.compact %}{{ shot }}{%- endif %}
