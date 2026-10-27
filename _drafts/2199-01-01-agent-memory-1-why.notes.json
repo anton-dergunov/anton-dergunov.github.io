@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvfua7ebnua9un",
+      "cell": "",
+      "start": 404,
+      "quote": "I ran the same temporal knowledge graph",
+      "prefix": " experiment: 67 changed facts\n\n\n",
+      "suffix": " twice on 67 questions about fac",
+      "note": "There must be intro before that",
+      "created": "2026-10-19T22:41:59.794Z",
+      "updated": "2026-10-19T22:42:18.490Z"
+    },
+    {
+      "id": "mvfub2do9vjeov",
+      "cell": "",
+      "start": 548,
+      "quote": "The second\ntime",
+      "prefix": "answered 18% of them correctly. ",
+      "suffix": " it answered 82%. Nothing change",
+      "note": "Say that it was with changes",
+      "created": "2026-10-19T22:42:39.948Z",
+      "updated": "2026-10-19T22:42:51.914Z"
+    },
+    {
+      "id": "mvfubskxth2v72",
+      "cell": "",
+      "start": 756,
+      "quote": "a cheap bill",
+      "prefix": "oken run: no error, no warning, ",
+      "suffix": ". The working\nversion made 720 m",
+      "note": "Remove",
+      "created": "2026-10-19T22:43:13.905Z",
+      "updated": "2026-10-19T22:43:20.459Z"
+    },
+    {
+      "id": "mvfucdzyzowpsq",
+      "cell": "",
+      "start": 866,
+      "quote": ",",
+      "prefix": "ts memory. On the same\nquestions",
+      "suffix": " plain keyword search over the r",
+      "note": "",
+      "created": "2026-10-19T22:43:41.662Z",
+      "updated": "2026-10-19T22:43:41.662Z"
+    },
+    {
+      "id": "mvfugucdwb6bz3",
+      "cell": "",
+      "start": 2195,
+      "quote": "memory.search(\"food\", user_id",
+      "prefix": "I like pizza\", user_id=\"alice\")\n",
+      "suffix": "=\"alice\")\n\nThat shows the interf",
+      "note": "Why this example",
+      "created": "2026-10-19T22:47:09.469Z",
+      "updated": "2026-10-19T22:47:17.802Z"
+    },
+    {
+      "id": "mvfule7u71a090",
+      "cell": "",
+      "start": 2551,
+      "quote": "The conversation",
+      "prefix": " whether a memory\nsystem helps.\n",
+      "suffix": "Every part of the series uses th",
+      "note": "Neednto say why we intro it here",
+      "created": "2026-10-19T22:50:41.850Z",
+      "updated": "2026-10-19T22:51:33.191Z"
+    },
+    {
+      "id": "mvfus5x5wsg4p4",
+      "cell": "",
+      "start": 4738,
+      "quote": "Two choices",
+      "prefix": "d anything smarter than a list.\n",
+      "suffix": " that separate the systemsThe sy",
+      "note": "Will good idea to show the diagram here",
+      "created": "2026-10-19T22:55:57.689Z",
+      "updated": "2026-10-19T22:56:20.352Z"
+    },
+    {
+      "id": "mvfuvfyedr8dmr",
+      "cell": "",
+      "start": 6477,
+      "quote": "memory rewrote the profile with the old diet in a\n\"previously\" clause.",
+      "prefix": "n it had\ndrawn from it. Textual ",
+      "suffix": "\nEach design has its own way to ",
+      "note": "Better to out into failures",
+      "created": "2026-10-19T22:58:30.662Z",
+      "updated": "2026-10-19T22:58:45.809Z"
+    },
+    {
+      "id": "mvfv3cv3fmzebu",
+      "cell": "",
+      "start": 6647,
+      "quote": "could have their own Wikipedia article",
+      "prefix": "ty\nprompt asks for things that \"",
+      "suffix": "\", so the\npeanut allergy, an att",
+      "note": "Rewrite to out explain background.",
+      "created": "2026-10-19T23:04:39.903Z",
+      "updated": "2026-10-19T23:05:07.469Z"
+    },
+    {
+      "id": "mvfvacanht86i9",
+      "cell": "",
+      "start": 8075,
+      "quote": "Every model call in every notebook and in the experiment is the same small\nmodel,",
+      "prefix": "as run, and what to keep in mind",
+      "suffix": " gemini-3.1-flash-lite, at tempe",
+      "note": "Rewrite so it does not sound like tech detail",
+      "created": "2026-10-19T23:10:05.759Z",
+      "updated": "2026-10-19T23:10:28.058Z"
+    }
+  ]
+}

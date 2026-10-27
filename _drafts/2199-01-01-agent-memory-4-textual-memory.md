@@ -42,14 +42,7 @@ separate model call reads the current profile and the new conversation and
 writes the whole profile again, under a size cap. The answering model never
 writes; it reads the whole profile, every time.
 
-```mermaid
-flowchart LR
-    C[A conversation,<br/>after it ends] --> R[Rewriter:<br/>one LLM call]
-    P[(One text profile,<br/>under a cap)] --> R
-    R -->|replaces it| P
-    P -->|all of it| A[The prompt for<br/>the next answer]
-    Q[A question] --> A
-```
+{% include diagram.html name="textual" alt="Textual memory's architecture, with the running example. Writing: after each session, one LLM call reads the current profile and the new session and writes the whole profile again. Memory: one text profile under four headings, 153 words after two sessions; the diet line now says pescatarian and keeps the old diet as 'previously'. Reading: no search; the whole profile goes into the prompt, and the answer covers every constraint." %}
 
 There is no vector store, no graph, no search and no tool call. This is the
 simplest design that still deserves the name memory, and it is close to what
@@ -326,7 +319,7 @@ Next, [part 5](/posts/2199/01/agent-memory-5-mem0/) splits the profile into
 separate facts and searches them: Mem0.
 
 The notebook for this part, with every prompt and reply, is
-[textual.ipynb][notebook]; the experiment's account of every wrong answer is
+[01-textual.ipynb][notebook]; the experiment's account of every wrong answer is
 in [docs/findings/textual.md][findings].
 
 ## References
@@ -351,7 +344,7 @@ Other sources:
 [dynamic-cheatsheet]: https://arxiv.org/abs/2504.07952
 [dynamicmem]: https://arxiv.org/abs/2606.22877
 [mastra-om]: https://mastra.ai/research/observational-memory
-[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/textual.ipynb
+[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/01-textual.ipynb
 [findings]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/docs/findings/textual.md
 
 <!-- SERIES -->

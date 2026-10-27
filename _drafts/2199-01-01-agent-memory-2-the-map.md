@@ -44,15 +44,7 @@ unless something puts that fact back into the prompt.
 information across that gap. Strip the branding and every system I have read
 about is the same loop wrapped around a model that does not change:
 
-```mermaid
-flowchart LR
-    I[A conversation] --> W[Write: decide<br/>what to keep]
-    W --> M[Manage: merge, update,<br/>supersede, forget]
-    M --> S[(Store)]
-    S --> R[Read: select<br/>and condense]
-    R --> A[The prompt for<br/>the next answer]
-    A --> I
-```
+{% include diagram.html name="overview" alt="The loop every memory system in the series is built on. Write: a conversation is turned into memory (consolidation, updating), and the question is who writes: nobody, a pipeline, a background process or the answering agent. Memory: what is kept, in a shape that differs per system (a text profile, a list of facts, a dated graph, blocks in the prompt, conclusions at levels). Read: a new question gets what it needs (retrieval, condensation), and the question is whether everything is inserted or a search selects. Use: the answering model gets instructions, what memory returned, and the question." %}
 
 The survey [Rethinking Memory in LLM-based Agents][rethinking] names six
 operations inside that loop, and it is worth having the vocabulary, because
@@ -163,6 +155,8 @@ one fact that mattered.
 
 Here is every system in the series, and the products from
 [part 3](/posts/2199/01/agent-memory-3-frontier-assistants/), on that map:
+
+{% include diagram.html name="map" alt="A map of memory systems on two axes: who writes the memory (nobody, a pipeline, the answering agent, a background process) and whether the read path inserts everything or selects. Nobody writes: full context inserts everything; plain retrieval, and Claude's and ChatGPT's search over past chats, select. A pipeline writes: Mem0 and Zep/Graphiti select. The answering agent writes: Letta's core memory blocks and ChatGPT's saved memories are inserted; Letta's archival store and Claude's API memory tool select. A background process writes: textual memory, Mastra's Observational Memory and ChatGPT's dreaming summary are inserted; Honcho selects." %}
 
 | Who writes | Read path: insert everything | Read path: select |
 |---|---|---|

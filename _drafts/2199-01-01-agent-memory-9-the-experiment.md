@@ -143,10 +143,10 @@ session dates:
 | retrieval | nobody | BM25 over rounds (a user message and the reply after it) | top 10 rounds, with dates |
 | textual memory | a rewrite call after each session | about 50 lines of my code, after PersonaMem-v3 | the whole profile |
 | Mem0 | an extraction pipeline | mem0ai 2.2.1 | `search()` defaults |
-| Honcho, chat | a background reasoner | Honcho v3.3.0, self-hosted | the dialectic agent |
-| Honcho, repr | the same store | the same server | dated conclusions, no model call |
 | Graphiti | a pipeline into a dated graph | graphiti-core 0.31.1 on Neo4j | `search()` defaults |
 | Letta | the answering agent | Letta 0.16.8, self-hosted | the agent answers itself |
+| Honcho, chat | a background reasoner | Honcho v3.3.0, self-hosted | the dialectic agent |
+| Honcho, repr | the same store | the same server | dated conclusions, no model call |
 
 **Measures.** Beyond accuracy, probes read the whole memory after each history
 and the context given to the answer, and record whether the new value was
@@ -170,13 +170,13 @@ explains. All runs are here, the baselines first.
 | retrieval (BM25, top 10 rounds) | **97%** | 90–99% | **0.002** | 0 | 0 | none |
 | textual memory | 93% | 84–97% | 0.022 | 10 | 27 | none |
 | Mem0 | 84% | 73–91% | 0.040 | 10 | 38 | none (local files) |
-| Honcho, dialectic chat | 87% | 76–93% | 0.029 | 38 | 115 | API, deriver, Postgres, Redis |
-| Honcho, representation | 93% | 84–97% | 0.028 | 38 | 115 | the same |
 | Graphiti, 8,000-character episodes | 18% | 11–29% | 0.238 | 121 | 145 | Neo4j |
 | Graphiti, one episode per message | 82% | 71–89% | 0.640 | 720 | 839 | Neo4j |
 | Letta, a whole session per request | 58% | 46–69% | 0.029 | 11 | 43 | Letta server, Postgres |
 | Letta, one step per user message | 69% | 57–78% | 0.132 | 81 | 379 | the same |
 | Letta, with a persona that keeps facts current | 90% | 80–95% | 0.152 | 88 | 265 | the same |
+| Honcho, dialectic chat | 87% | 76–93% | 0.029 | 38 | 115 | API, deriver, Postgres, Redis |
+| Honcho, representation | 93% | 84–97% | 0.028 | 38 | 115 | the same |
 
 Read the rows that work as one band. Seven configurations sit between 82%
 and 97% with overlapping intervals, and the order among them is not a result.
@@ -226,11 +226,11 @@ system, check what it stored before you look at its score.
 | retrieval | n/a | n/a | n/a | 54 | 52/54 | 5,761 |
 | textual memory | 85% | 64% | 7% | 39 | 37/39 | 1,513 |
 | Mem0 | 78% | 81% | 37% | 45 | 41/45 | 930 |
-| Honcho, chat | 82% | 81% | 64% | 39 | 33/39 | 77 |
-| Honcho, repr | 82% | 81% | 64% | 53 | 51/53 | 935 |
 | Graphiti | 78% | 70% | 21% | 39 | 37/39 | 284 |
 | Letta | 42% | 33% | 24% | 15 | 12/15 | 884 |
 | Letta, persona | 79% | 66% | 9% | 43 | 42/43 | 1,288 |
+| Honcho, chat | 82% | 81% | 64% | 39 | 33/39 | 77 |
+| Honcho, repr | 82% | 81% | 64% | 53 | 51/53 | 935 |
 
 Three readings.
 
@@ -284,12 +284,12 @@ Then each system has a failure of its own, one per part:
 
 | System | Its characteristic failure | Example |
 |---|---|---|
+| full context | the new value in the prompt, the old one in the answer | "She moved to Chicago" outweighed the later "moved back to the suburbs again" |
 | textual memory ([part 4](/posts/2199/01/agent-memory-4-textual-memory/)) | the "previously" clause invites arithmetic | "25 postcards… (up from 17)", answered as 25 − 17 = 8 |
 | Mem0 ([part 5](/posts/2199/01/agent-memory-5-mem0/)) | two values kept as two facts, then combined | "three sessions" and "five sessions", answered as 8 |
 | Graphiti ([part 6](/posts/2199/01/agent-memory-6-graphiti/)) | dating by when a fact became true closes the wrong fact | Paris, said later but dated earlier, closed as superseded by Hawaii |
 | Letta ([part 7](/posts/2199/01/agent-memory-7-letta/)) | notices the revision and does not write it; the phrase-match search cannot find it | "Congratulations on hitting 600 followers!", and no edit, 18 times |
 | Honcho ([part 8](/posts/2199/01/agent-memory-8-honcho/)) | the dialectic agent refuses to choose between two dated values | "there is conflicting information… clarification is required", 5 of 9 errors |
-| full context | the new value in the prompt, the old one in the answer | "She moved to Chicago" outweighed the later "moved back to the suburbs again" |
 
 The last row matters as a control. Full context had both values in the prompt
 in all 58 questions that have an old value, and was marked wrong in six of

@@ -563,6 +563,20 @@ figcaption { color: var(--muted); font-size: .85rem; line-height: 1.5; }
 }
 .figure-frame figcaption { margin-top: .8rem; }
 
+/* Architecture diagrams (_includes/diagram.html): one file per theme, the other
+   hidden, by the same rules that switch the palette. They may run wider than the
+   measure, up to their drawn width of 880px. */
+.body-col > .diagram { max-width: 880px; }
+.diagram a { display: block; }
+.diagram img { width: 100%; border-radius: 0; }
+.diagram-dark { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .diagram-light { display: none !important; }
+  :root:not([data-theme="light"]) .diagram-dark { display: block !important; }
+}
+:root[data-theme="dark"] .diagram-light { display: none !important; }
+:root[data-theme="dark"] .diagram-dark { display: block !important; }
+
 /* ---------- callouts ----------
    Authored in Markdown as a blockquote plus a kramdown class:
        > Text of the note.

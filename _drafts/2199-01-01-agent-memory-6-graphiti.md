@@ -45,14 +45,7 @@ changes their mind, the old edge is neither deleted nor overwritten: it gets
 an end date. [Graphiti][graphiti-repo] is the open-source library at Zep's
 core.
 
-```mermaid
-flowchart LR
-    M[One message] --> E[1. Find entities]
-    E --> R[2. Match them to<br/>entities in the graph]
-    R --> F[3. Extract facts<br/>between them]
-    F --> C[4. Compare each new fact<br/>with stored facts]
-    C -->|new edge;<br/>old edge gets an end date| G[(Graph of entities<br/>and dated facts)]
-```
+{% include diagram.html name="graphiti" alt="Zep and Graphiti's architecture, with the running example. Writing: every message goes through four LLM steps (find entities, match them to stored ones, extract facts, compare with stored facts), 36 calls for ten messages. Memory: a graph of entities whose edges are facts with dates; the vegetarian edge was closed on 20 June 2026 and a pescatarian edge opened. Reading: a hybrid search with a 0.6 similarity floor returned nine facts, including the closed one; the pescatarian fact, Jonas's coeliac disease and Kreuzberg fell below the floor, so the answer missed the diet, gluten and the area." %}
 
 Of all the systems in this series, it is the only one that models time
 explicitly, and that is why it is here.
@@ -317,7 +310,7 @@ do that.
 Next, [part 7](/posts/2199/01/agent-memory-7-letta/) hands the writing to the
 answering agent itself: Letta.
 
-The notebook for this part is [zep-graphiti.ipynb][notebook]; the experiment's
+The notebook for this part is [03-zep-graphiti.ipynb][notebook]; the experiment's
 account of every wrong answer is in [docs/findings/graphiti.md][findings].
 
 ## References
@@ -348,7 +341,7 @@ Other sources:
 [a-tma]: https://arxiv.org/abs/2607.01935
 [agent-native]: https://arxiv.org/abs/2606.24775
 [graphiti-repo]: https://github.com/getzep/graphiti
-[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/zep-graphiti.ipynb
+[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/03-zep-graphiti.ipynb
 [findings]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/docs/findings/graphiti.md
 
 <!-- SERIES -->

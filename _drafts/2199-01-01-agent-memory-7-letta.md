@@ -44,14 +44,7 @@ blocks of text, such as `human` (what the agent knows about the user) and
 agent edits them itself with tool calls, in the middle of its turn. Older
 messages leave the prompt and stay searchable through another tool.
 
-```mermaid
-flowchart LR
-    U[A user message] --> AG[The answering agent]
-    B[Memory blocks:<br/>persona, human] -->|always in the prompt| AG
-    AG -->|memory_insert,<br/>memory_replace| B
-    AG -->|conversation_search| H[(Past messages)]
-    AG --> R[The reply]
-```
+{% include diagram.html name="letta" alt="Letta's architecture, with the running example. Writing: the answering agent itself decides mid-turn what to remember and edits its human memory block with a tool call (memory_replace); a sleep-time agent can do this in the background instead. Memory: small text blocks that are in the agent's prompt on every call, plus a recall log of every message. In July the vegetarian line was replaced in place, with no history kept. Reading: no search is needed for the blocks; the agent may search recall with a tool. All six constraints were in the prompt." %}
 
 There is no extraction pipeline and no search over memories to miss: the
 model that answers is the model that decides what to remember. That makes it
@@ -318,7 +311,7 @@ in its own way.
 Next, [part 8](/posts/2199/01/agent-memory-8-honcho/) keeps the background
 process and asks it to reason: Honcho.
 
-The notebook for this part is [letta.ipynb][notebook]; the experiment's account
+The notebook for this part is [04-letta.ipynb][notebook]; the experiment's account
 of every wrong answer, with every tool call logged, is in
 [docs/findings/letta.md][findings].
 
@@ -350,7 +343,7 @@ Other sources:
 [mirix]: https://arxiv.org/abs/2507.07957
 [letta-repo]: https://github.com/letta-ai/letta
 [letta-files]: https://www.letta.com/blog/benchmarking-ai-agent-memory
-[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/letta.ipynb
+[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/04-letta.ipynb
 [findings]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/docs/findings/letta.md
 
 <!-- SERIES -->

@@ -48,16 +48,7 @@ and it records the conclusions it was drawn from.
 | inductive | a pattern, likely true | *Anton plans meals carefully around constraints* |
 | abductive | a guess about why | *Anton may have had a bad allergic reaction in the past* |
 
-```mermaid
-flowchart BT
-    M[Messages] -->|on arrival:<br/>one LLM call| E[explicit:<br/>what was said]
-    E -->|in the background| D[deductive:<br/>what follows; replaces<br/>outdated conclusions]
-    D --> I[inductive:<br/>patterns]
-    I --> H[abductive:<br/>guesses about why]
-    E -.-> Q[A question, answered from<br/>the tagged conclusions]
-    D -.-> Q
-    I -.-> Q
-```
+{% include diagram.html name="honcho" alt="Honcho's architecture, with the running example. Writing: when messages arrive, a deriver makes one LLM call that extracts what was said as explicit conclusions; later, in the background, a dreamer reasons over the store and adds deductive and inductive conclusions, retiring outdated ones. Memory: conclusions at four levels of certainty (explicit, deductive, inductive, and abductive, which Honcho announced but has not implemented), each citing its premises; the vegetarian fact and a deduction drawn from it were retired. Reading: either Honcho's dialectic agent writes an answer from the conclusions (an LLM call), or the representation endpoint returns the conclusions themselves (no LLM call). All six constraints reached the prompt." %}
 
 What was said is extracted when the messages arrive. The higher levels are
 worked out later, by a background process Honcho calls the *dreamer*. Because
@@ -180,10 +171,12 @@ reason the level is not in Honcho's repository yet.
 
 ### Reading
 
-Honcho's read path, which it calls *dialectic*, answers a question about the
-user in plain language, written from the stored conclusions, rather than
-returning a list of rows. The notebook's version hands every live conclusion,
-tagged with its level, to one call. The answer had the peanut allergy, Lena's
+Honcho has two read paths. The one it calls *dialectic* answers a question
+about the user in plain language, written from the stored conclusions, rather
+than returning a list of rows; it is an agent, so it costs model calls. The
+other, *representation*, returns the matching conclusions themselves, with
+their dates, and calls no model. The notebook implements the dialectic one:
+its version hands every live conclusion, tagged with its level, to one call. The answer had the peanut allergy, Lena's
 shellfish, gluten-free for Jonas, the budget, Indian food and Kreuzberg; it
 did not state the diet.
 
@@ -291,7 +284,7 @@ they reached the answer as a summary or as dated lines.
 Next, [part 9](/posts/2199/01/agent-memory-9-the-experiment/) runs all of the
 systems on 67 real knowledge-update questions, with the baselines first.
 
-The notebook for this part is [honcho.ipynb][notebook]; the experiment's account
+The notebook for this part is [05-honcho.ipynb][notebook]; the experiment's account
 of every wrong answer is in [docs/findings/honcho.md][findings].
 
 ## References
@@ -316,7 +309,7 @@ Other sources:
 [belief-memory]: https://arxiv.org/abs/2605.05583
 [security-survey]: https://arxiv.org/abs/2604.16548
 [honcho-repo]: https://github.com/plastic-labs/honcho
-[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/honcho.ipynb
+[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/05-honcho.ipynb
 [findings]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/docs/findings/honcho.md
 
 <!-- SERIES -->

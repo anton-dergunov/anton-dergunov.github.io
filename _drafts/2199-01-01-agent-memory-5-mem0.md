@@ -43,15 +43,7 @@ extractor reads the new messages, with the stored facts that look related in
 view, and returns facts to keep. Reading is a similarity search: the question
 is embedded and the closest facts come back.
 
-```mermaid
-flowchart LR
-    C[New messages] --> X[Extractor:<br/>one LLM call]
-    S[(Vector store of<br/>short facts)] -->|related facts<br/>already stored| X
-    X -->|new facts| S
-    Q[A question] --> E[Similarity search]
-    S --> E
-    E -->|closest facts| A[The prompt for<br/>the next answer]
-```
+{% include diagram.html name="mem0" alt="Mem0's architecture, with the running example. Writing: after each session, an LLM call extracts short standalone facts, seeing the related facts already stored, and only adds. Memory: a vector store of nine facts; the old and the new diet are both kept. Reading: a similarity search embeds the question and returns all nine facts, which go into the prompt; the answer covers every constraint." %}
 
 It is the reference design of the whole field: the system almost every paper
 since 2025 compares itself with, and the simplest one that is complete. It
@@ -304,7 +296,7 @@ Next, [part 6](/posts/2199/01/agent-memory-6-graphiti/) gives every fact a
 date range and a place in a graph, and closes the old fact explicitly:
 Zep and Graphiti.
 
-The notebook for this part is [mem0.ipynb][notebook]; the experiment's account
+The notebook for this part is [02-mem0.ipynb][notebook]; the experiment's account
 of every wrong answer is in [docs/findings/mem0.md][findings].
 
 ## References
@@ -339,7 +331,7 @@ Other sources:
 [memory-r1]: https://arxiv.org/abs/2508.19828
 [sage]: https://arxiv.org/abs/2605.30711
 [mem0-repo]: https://github.com/mem0ai/mem0
-[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/mem0.ipynb
+[notebook]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/notebooks/02-mem0.ipynb
 [findings]: https://github.com/anton-dergunov/agent-memory-eval/blob/main/docs/findings/mem0.md
 
 <!-- SERIES -->
