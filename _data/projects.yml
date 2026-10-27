@@ -15,15 +15,6 @@ groups:
       is scored by deterministic checks and an LLM-as-judge.
     url: https://github.com/anton-dergunov/llm-agent-eval-testbed
     next: The evaluation experiments written up as a six-part series.
-    media:
-    - type: image
-      src: /images/projects/llm-agent-eval-testbed/architecture.svg
-      caption: The whole system, from the simulated customer through the agent and its deterministic gates
-        to the checks and the judge.
-    - type: image
-      src: /images/projects/llm-agent-eval-testbed/turn-sequence.svg
-      caption: One conversation turn, step by step, between the customer, the model, the deterministic
-        code and the account record.
     topics:
     - llm-evaluation
     - llm-as-judge
@@ -33,6 +24,63 @@ groups:
     - rag
     - prompt-injection
     - python
+  - title: Agent memory systems, traced and measured
+    repo: agent-memory-eval
+    status: stable
+    tagline: How LLM agent memory systems actually work, traced call by call, and what that costs them
+      on a real benchmark.
+    summary: 'A comparison of agent memory systems that shows their working. One short conversation, in
+      which a user changes their mind, runs through plain full context, textual memory, Mem0, Zep/Graphiti,
+      Letta and Honcho with every model call shown: what was extracted, what was overwritten, what was
+      retrieved, and what it cost. The same systems are then run on the knowledge-update questions of
+      LongMemEval, with accuracy, intervals and cost per question.'
+    url: https://github.com/anton-dergunov/agent-memory-eval
+    media:
+    - type: image
+      src: /images/projects/agent-memory-eval/overview.png
+      caption: The loop every memory system is built on, from who writes the memory to what the answering
+        model is given.
+    - type: image
+      src: /images/projects/agent-memory-eval/map.png
+      caption: A map of the systems by who writes the memory and whether the whole memory or a search
+        result goes into the prompt.
+    - type: image
+      src: /images/projects/agent-memory-eval/textual.png
+      caption: Textual memory, one profile rewritten in the background, traced through three sessions.
+    - type: image
+      src: /images/projects/agent-memory-eval/mem0.png
+      caption: Mem0, facts extracted into a vector store, where the old diet stays live next to the new
+        one.
+    - type: image
+      src: /images/projects/agent-memory-eval/graphiti.png
+      caption: Zep and Graphiti, a dated graph in which the old fact is closed and the new one opened.
+    - type: image
+      src: /images/projects/agent-memory-eval/letta.png
+      caption: Letta, where the answering agent edits its own memory blocks with tool calls mid-turn.
+    - type: image
+      src: /images/projects/agent-memory-eval/honcho.png
+      caption: Honcho, a background reasoner that draws conclusions at several levels and retires them
+        when a fact changes.
+    - type: image
+      src: /images/projects/agent-memory-eval/series.png
+      caption: The same three sessions through five systems, with the calls each one made and what reached
+        the prompt.
+    - type: image
+      src: /images/projects/agent-memory-eval/results.png
+      caption: Accuracy with its 95% interval, and the cost of building the memory and answering, on 67
+        LongMemEval questions.
+    - type: image
+      src: /images/projects/agent-memory-eval/answering.png
+      caption: Once the memory is built, the tokens each answer reads and what it costs against full context.
+    topics:
+    - llm-agents
+    - agent-memory
+    - llm-evaluation
+    - longmemeval
+    - mem0
+    - graphiti
+    - letta
+    - honcho
   - title: Mandarin Speech Coach
     repo: mandarin-speech-coach
     status: prototype
@@ -448,8 +496,7 @@ groups:
     summary: A course for learning Vim in short exercises, designed for a phone first and usable offline
       once installed. The editor in each exercise executes real Vim commands, and every command the course
       teaches is checked against native Vim.
-    url: https://github.com/anton-dergunov/vim-mastery
-    homepage: https://anton-dergunov.github.io/vim-mastery/
+    homepage: https://vim-wilds.pages.dev/
     topics:
     - vim
     - tutorial
