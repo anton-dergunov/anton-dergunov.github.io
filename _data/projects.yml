@@ -470,6 +470,28 @@ groups:
     - pdf-viewer
     - research-papers
     - claude-code
+  - title: Lectern
+    repo: lectern
+    status: active
+    tagline: Read Jupyter notebooks and markdown on a tablet, a phone or an e-ink reader, and publish
+      them as a website.
+    summary: 'Turns notebooks and markdown into clean pages for reading away from the desk: typeset formulas,
+      saved outputs, long code folded, highlights and notes, and page turning on e-ink. It never runs
+      code, so there is no kernel, token or password; it serves the pages from your computer to your own
+      devices, or publishes them as a static site.'
+    url: https://github.com/anton-dergunov/lectern
+    media:
+    - type: image
+      src: /images/projects/lectern/lectern.png
+      caption: A notebook on an iPad in light colours and on a phone in dark, with typeset formulas, folded
+        code, a plot and a note.
+    topics:
+    - jupyter
+    - jupyter-notebook
+    - markdown
+    - e-ink
+    - pwa
+    - static-site
   - title: Bracket Stacker for Lightroom Classic
     repo: lightroom-bracket-stacker
     status: stable
