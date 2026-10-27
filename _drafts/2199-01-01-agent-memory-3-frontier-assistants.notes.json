@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvk73gnduxbfju",
+      "cell": "",
+      "start": 4551,
+      "quote": "The user sees it as a\nmemory summary page,",
+      "prefix": "hesize ChatGPT's memory state\". ",
+      "suffix": " where it can be corrected, and ",
+      "note": "Check it",
+      "created": "2026-10-22T23:51:44.905Z",
+      "updated": "2026-10-22T23:51:57.124Z"
+    },
+    {
+      "id": "mvog3rbcv5mxc5",
+      "cell": "",
+      "start": 5389,
+      "quote": "vegetarian user asking for meal ideas",
+      "prefix": "s over. Its\nsecond example is a ",
+      "suffix": ". The post reports\ngains on Open",
+      "note": "Do we happen to use the same example in our notebooks?",
+      "created": "2026-10-25T23:14:59.976Z",
+      "updated": "2026-10-25T23:15:20.740Z"
+    },
+    {
+      "id": "mvog4ectze9yna",
+      "cell": "",
+      "start": 114,
+      "quote": "What ChatGPT, Claude and Gemini ship (this part)",
+      "prefix": "systems\nA map of memory systems\n",
+      "suffix": "\nTextual memory: one profile, re",
+      "note": "Should probably go last, because it references other mem systems, and it is probably more logical.",
+      "created": "2026-10-25T23:15:29.837Z",
+      "updated": "2026-10-25T23:16:04.283Z"
+    }
+  ]
+}

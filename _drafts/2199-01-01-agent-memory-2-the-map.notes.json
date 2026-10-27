@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvfwillj8ucex4",
+      "cell": "",
+      "start": 2167,
+      "quote": "Condensation",
+      "prefix": " entries a request needs\nread\n\n\n",
+      "suffix": "\nturns the entries found into so",
+      "note": "Is this the correct word? Not compression?",
+      "created": "2026-10-19T23:44:30.677Z",
+      "updated": "2026-10-19T23:44:59.336Z"
+    },
+    {
+      "id": "mvfwl50h5bz76z",
+      "cell": "",
+      "start": 3205,
+      "quote": "tiers",
+      "prefix": "he store? A flat list, a graph, ",
+      "suffix": ", several typed\nstores, a single",
+      "note": "What is this?",
+      "created": "2026-10-19T23:46:29.153Z",
+      "updated": "2026-10-19T23:46:42.179Z"
+    },
+    {
+      "id": "mvfwylx2mp8j6b",
+      "cell": "",
+      "start": 5216,
+      "quote": "nobody can read what was stored.",
+      "prefix": "orpus\n(p. 12). Reads are cheap; ",
+      "suffix": "\nMemory in the weights puts know",
+      "note": "What does it mean?",
+      "created": "2026-10-19T23:56:57.589Z",
+      "updated": "2026-10-19T23:57:16.245Z"
+    },
+    {
+      "id": "mvfwzrittdibd8",
+      "cell": "",
+      "start": 5002,
+      "quote": ". 7, Fig.",
+      "prefix": "decays after\nabout 30 updates (p",
+      "suffix": " 5). Cartridges trains a compact",
+      "note": "Keep pages?",
+      "created": "2026-10-19T23:57:51.509Z",
+      "updated": "2026-10-19T23:59:09.489Z"
+    },
+    {
+      "id": "mvk3rt0u6p0p31",
+      "cell": "",
+      "start": 10940,
+      "quote": "So the first row of every results table in this",
+      "prefix": "nstead of 115K\n(p. 7, Table 2).\n",
+      "suffix": " series is the whole history\nin ",
+      "note": "Double check it is really so",
+      "created": "2026-10-22T22:18:42.201Z",
+      "updated": "2026-10-22T22:19:00.608Z"
+    },
+    {
+      "id": "mvk3sp9qbt2zx9",
+      "cell": "",
+      "start": 11119,
+      "quote": "Three papers from 2023 contain most of the ideas the 2025 products are built\non.",
+      "prefix": "hat.\nWhere the designs came from",
+      "suffix": "\nGenerative Agents stored everyt",
+      "note": "Why CC said so?",
+      "created": "2026-10-22T22:19:24.014Z",
+      "updated": "2026-10-22T22:19:42.593Z"
+    },
+    {
+      "id": "mvk3x5iihpreb6",
+      "cell": "",
+      "start": 11564,
+      "quote": "added a portrait of the user, synthesised from the\nhistory,",
+      "prefix": " descends from that.\nMemoryBank ",
+      "suffix": " and a forgetting curve after Eb",
+      "note": "How it looked like? This articlr must be highly readable.",
+      "created": "2026-10-22T22:22:51.690Z",
+      "updated": "2026-10-22T22:23:33.939Z"
+    },
+    {
+      "id": "mvk3zhejde6bug",
+      "cell": "",
+      "start": 12449,
+      "quote": "Their findings,\nwhich the last part comes\nback to, are that a plain long context often matches memory systems, that the\npublished rankings do not reproduce, and that updating a fact is where they\nfail.",
+      "prefix": " year other groups re-ran them. ",
+      "suffix": "\nWhat this series runsEach syste",
+      "note": "Need more Serezha nces on this claim",
+      "created": "2026-10-22T22:24:40.410Z",
+      "updated": "2026-10-22T22:24:59.578Z"
+    },
+    {
+      "id": "mvk41a9w718i9x",
+      "cell": "",
+      "start": 11961,
+      "quote": "MemGPT treated the context window as RAM and an external store as\ndisk, and gave the model function calls to move information between them",
+      "prefix": "g the textual memory of\npart 4.\n",
+      "suffix": ". A\nsmall editable block of fact",
+      "note": "Need some context on this here",
+      "created": "2026-10-22T22:26:04.484Z",
+      "updated": "2026-10-22T22:26:24.559Z"
+    },
+    {
+      "id": "mvk43cpy3rewcc",
+      "cell": "",
+      "start": 13245,
+      "quote": "the only one that models time explicitly",
+      "prefix": "raph and closes superseded ones\n",
+      "suffix": "\n\n\n7\nLetta (MemGPT)\nthe answerin",
+      "note": "Strong statement, need to double check. Or the only one here?",
+      "created": "2026-10-22T22:27:40.966Z",
+      "updated": "2026-10-22T22:28:39.787Z"
+    }
+  ]
+}
