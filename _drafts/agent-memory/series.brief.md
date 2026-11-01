@@ -5,7 +5,7 @@ status: draft
 
 # Series brief: How LLM agents remember
 
-Working name; the candidates are under "Open questions". The earlier drafts in `v1/` are the material: their content stays, but their order and framing do not.
+The series name is decided (Anton, 2026-11-01). The earlier drafts in `v1/` are the material: their content stays, but their order and framing do not.
 
 ## Reader and purpose
 
@@ -162,10 +162,6 @@ Existing figures are in `agent-memory-eval/docs/figures/` and are copied to `ima
 
 ## Open questions for Anton
 
-- **Series name**, to decide when titles are reviewed:
-  - "How LLM agents remember" (current; long);
-  - "Inside agent memory" (matches the look-inside angle);
-  - "Agent memory, opened up".
-  A kicker line above the title, rendered from `series.yml`, would let each `title` be the part's own name and stay under ~60 characters.
+- **Titles:** the series name is "How LLM agents remember". Each `title` is the part's own name; the series name goes in a kicker line above it ("How LLM agents remember · Part 4"), rendered from `series.yml`. The kicker is still to be added to the layout, in the first drafting session.
 - The list of real situations in version A of the running example.
 - Whether part 1 should tell the 18%/82% story, or leave it to part 8.
