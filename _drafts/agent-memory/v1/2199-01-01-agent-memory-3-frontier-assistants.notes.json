@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvk73gnduxbfju",
+      "cell": "",
+      "start": 4551,
+      "quote": "The user sees it as a\nmemory summary page,",
+      "prefix": "hesize ChatGPT's memory state\". ",
+      "suffix": " where it can be corrected, and ",
+      "note": "Check it",
+      "author": "Anton",
+      "created": "2026-10-22T23:51:44.905Z",
+      "updated": "2026-10-22T23:51:57.124Z"
+    },
+    {
+      "id": "mvog3rbcv5mxc5",
+      "cell": "",
+      "start": 5389,
+      "quote": "vegetarian user asking for meal ideas",
+      "prefix": "s over. Its\nsecond example is a ",
+      "suffix": ". The post reports\ngains on Open",
+      "note": "Do we happen to use the same example in our notebooks?",
+      "author": "Anton",
+      "created": "2026-10-25T23:14:59.976Z",
+      "updated": "2026-10-25T23:15:20.740Z"
+    },
+    {
+      "id": "mvog4ectze9yna",
+      "cell": "",
+      "start": 114,
+      "quote": "What ChatGPT, Claude and Gemini ship (this part)",
+      "prefix": "systems\nA map of memory systems\n",
+      "suffix": "\nTextual memory: one profile, re",
+      "note": "Should probably go last, because it references other mem systems, and it is probably more logical.",
+      "author": "Anton",
+      "created": "2026-10-25T23:15:29.837Z",
+      "updated": "2026-10-25T23:16:04.283Z"
+    },
+    {
+      "id": "mvu1vm9amldpmb",
+      "cell": "",
+      "start": 8686,
+      "quote": "an undated line\n(\"recently hit 500 followers\") reads the same months later.",
+      "prefix": "this series keeps running into: ",
+      "suffix": "\nThe memory tool in the API hand",
+      "note": "Rewrite: it solves this issue",
+      "author": "Anton",
+      "created": "2026-10-29T21:23:22.606Z",
+      "updated": "2026-10-29T21:23:46.981Z"
+    },
+    {
+      "id": "mvu1wky0stsgum",
+      "cell": "",
+      "start": 6110,
+      "quote": "The Claude app",
+      "prefix": "oduct, and\ndocuments all three.\n",
+      "suffix": ". Memory arrived in September 20",
+      "note": "How it reads?",
+      "author": "Anton",
+      "created": "2026-10-29T21:24:07.560Z",
+      "updated": "2026-10-29T21:24:20.275Z"
+    },
+    {
+      "id": "mvu20u6p0qk6wc",
+      "cell": "",
+      "start": 8773,
+      "quote": "tool in the API",
+      "prefix": "e same months later.\nThe memory ",
+      "suffix": " hands the design to the develop",
+      "note": "Describe better the use of- when I use apis?",
+      "author": "Anton",
+      "created": "2026-10-29T21:27:26.161Z",
+      "updated": "2026-10-29T21:27:52.257Z"
+    },
+    {
+      "id": "mvu2312kq23uju",
+      "cell": "",
+      "start": 10044,
+      "quote": "Personal Intelligence connected",
+      "prefix": "ersonalisation.\nIn January 2026 ",
+      "suffix": " Gmail, Photos,\nYouTube and Sear",
+      "note": "How related to memory?",
+      "author": "Anton",
+      "created": "2026-10-29T21:29:08.396Z",
+      "updated": "2026-10-29T21:29:28.527Z"
+    },
+    {
+      "id": "mvu2sqq7qhsbmh",
+      "cell": "",
+      "start": 11098,
+      "quote": "Mastra's",
+      "prefix": " and its numbers are\npublic. In ",
+      "suffix": " Observational Memory, two backg",
+      "note": "Why this system? How did you find it?",
+      "author": "Anton",
+      "created": "2026-10-29T21:49:08.046Z",
+      "updated": "2026-10-29T21:49:23.636Z"
+    },
+    {
+      "id": "mvu2v58u2e24i3",
+      "cell": "",
+      "start": 11343,
+      "quote": "the observed\nmessages are dropped from the prompt",
+      "prefix": ", prioritised observations, and ",
+      "suffix": ". When the observations pass a s",
+      "note": "Is it from the prompt of the answering model the system has chat with? So in other words the chat is auto summarized?",
+      "author": "Anton",
+      "created": "2026-10-29T21:51:00.174Z",
+      "updated": "2026-10-29T21:51:29.594Z"
+    },
+    {
+      "id": "mvu2w9kik2ih6h",
+      "cell": "",
+      "start": 11441,
+      "quote": "40,000",
+      "prefix": "ations pass a second\nthreshold (",
+      "suffix": " by default), a Reflector rewrit",
+      "note": "Why these numbers? How exactly observer and reflector interact? Draw diagram, very unclear.",
+      "author": "Anton",
+      "created": "2026-10-29T21:51:52.434Z",
+      "updated": "2026-10-29T21:53:18.524Z"
+    },
+    {
+      "id": "mvu2zr9m2r06pw",
+      "cell": "",
+      "start": 11640,
+      "quote": "The log sits at the start of the\nprompt and changes only when the Observer or Reflector runs",
+      "prefix": "s no retrieval and no database. ",
+      "suffix": ", so the prompt\nprefix stays the",
+      "note": "Even if i start a new session?",
+      "author": "Anton",
+      "created": "2026-10-29T21:54:35.338Z",
+      "updated": "2026-10-29T21:54:48.690Z"
+    },
+    {
+      "id": "mvu30lzyc1jalx",
+      "cell": "",
+      "start": 12066,
+      "quote": "most",
+      "prefix": "lice I ran in part 9.\nIt is the ",
+      "suffix": " developed version of the textua",
+      "note": "Why the *most*?",
+      "author": "Anton",
+      "created": "2026-10-29T21:55:15.166Z",
+      "updated": "2026-10-29T21:55:28.499Z"
+    },
+    {
+      "id": "mvu33yo69qsq23",
+      "cell": "",
+      "start": 13923,
+      "quote": "That is the left\ncolumn of the map",
+      "prefix": "t, a search over the raw chats. ",
+      "suffix": " and the \"nobody writes\" row, th",
+      "note": "Which map? We keep referring to the map, but we need to be clear. I would even not mention the maps. Ideally references between the parts of these blog series must be minimal, because I would like to enable people to read this independently.",
+      "author": "Anton",
+      "created": "2026-10-29T21:57:51.558Z",
+      "updated": "2026-10-29T21:59:05.655Z"
+    }
+  ]
+}

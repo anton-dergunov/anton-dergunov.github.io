@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvu3x1r0hpjq7f",
+      "cell": "",
+      "start": 404,
+      "quote": "The running example of this series",
+      "prefix": " experiment: 67 changed facts\n\n\n",
+      "suffix": ": in March a user tells an assis",
+      "note": "We need to put the exact example (maybe a short version) here! Also every blog post should reference the notebook that user can open and play.",
+      "author": "Anton",
+      "created": "2026-10-29T22:20:28.572Z",
+      "updated": "2026-10-29T22:21:23.471Z"
+    },
+    {
+      "id": "mvu40xusel90cu",
+      "cell": "",
+      "start": 933,
+      "quote": "The memory is one plain-text profile of the user",
+      "prefix": "hat inserts everything.\nThe idea",
+      "suffix": ". After each conversation, a\nsep",
+      "note": "Show an example of this.",
+      "author": "Anton",
+      "created": "2026-10-29T22:23:30.148Z",
+      "updated": "2026-10-29T22:23:43.133Z"
+    },
+    {
+      "id": "mvu42042m4hdlw",
+      "cell": "",
+      "start": 2111,
+      "quote": "The user portrait of MemoryBank (2023) is the ancestor",
+      "prefix": "o this loop.\nWhere it comes from",
+      "suffix": ": next to\nthe raw turns and summ",
+      "note": "The ancestor of this system is… Also make a rule for Claude to write like that in normal English.",
+      "author": "Anton",
+      "created": "2026-10-29T22:24:19.730Z",
+      "updated": "2026-10-29T22:24:54.938Z"
+    },
+    {
+      "id": "mvu43fouzu4hs9",
+      "cell": "",
+      "start": 2445,
+      "quote": "with sections for who the user is",
+      "prefix": "ies. Its memory is one profile,\n",
+      "suffix": ", their interests and preference",
+      "note": "Show it! Specific example!",
+      "author": "Anton",
+      "created": "2026-10-29T22:25:26.574Z",
+      "updated": "2026-10-29T22:25:36.784Z"
+    },
+    {
+      "id": "mvu44pz4jr8e8u",
+      "cell": "",
+      "start": 3062,
+      "quote": "In that paper",
+      "prefix": "er than a raw log of\nactivity.\n\n",
+      "suffix": " this baseline did something the",
+      "note": "Which one?",
+      "author": "Anton",
+      "created": "2026-10-29T22:26:26.560Z",
+      "updated": "2026-10-29T22:26:33.133Z"
+    },
+    {
+      "id": "mvu45z1hfkzlm5",
+      "cell": "",
+      "start": 3357,
+      "quote": "51.4% (§4.3, p.\n17).",
+      "prefix": "val scored 56.9% and used it in ",
+      "suffix": " Its reading: \"a topically relev",
+      "note": "Paragraph of what?",
+      "author": "Anton",
+      "created": "2026-10-29T22:27:24.964Z",
+      "updated": "2026-10-29T22:27:33.293Z"
+    },
+    {
+      "id": "mvu4o5vdycwciq",
+      "cell": "",
+      "start": 4097,
+      "quote": "identical to the one in the LongMemEval\nexperiment",
+      "prefix": "e\nPersonaMem-v3 description and ",
+      "suffix": " of part 9. It\nhas a 3,000-word ",
+      "note": "Make it clear that this is what we test, not what the benchmark provides",
+      "author": "Anton",
+      "created": "2026-10-29T22:41:33.625Z",
+      "updated": "2026-10-29T22:42:03.031Z"
+    },
+    {
+      "id": "mvu4r5siyma608",
+      "cell": "",
+      "start": 4680,
+      "quote": "Every model\ncall is gemini-3.1-flash-lite at temperature 0",
+      "prefix": " \"next week\" and \"eight years\". ",
+      "suffix": ", as everywhere in this\nseries.\n",
+      "note": "This is a detail. We must write about the concepts, not about the implementation details.",
+      "author": "Anton",
+      "created": "2026-10-29T22:43:53.490Z",
+      "updated": "2026-10-29T22:44:26.074Z"
+    },
+    {
+      "id": "mvu4scyzg6vcyo",
+      "cell": "",
+      "start": 3561,
+      "quote": "Dynamic Cheatsheet\nkeeps",
+      "prefix": "wo relatives are worth knowing. ",
+      "suffix": " a single self-curated document ",
+      "note": "I got nothing from it! We must write about it to present well.",
+      "author": "Anton",
+      "created": "2026-10-29T22:44:49.451Z",
+      "updated": "2026-10-29T22:45:09.116Z"
+    },
+    {
+      "id": "mvu4tc1ctkt1c6",
+      "cell": "",
+      "start": 5622,
+      "quote": "Compare Mem0",
+      "prefix": "e \"the\nweek of March 16, 2026\". ",
+      "suffix": " in\npart 5, which resolved the s",
+      "note": "Readers are reading one blog after another! There must be no expectation they are jumping back and forward. References to other blog posts and works are good. Jumping back and forward is very bad! These articles will be read by people from start to finish, they must be optimized for reading like a narrative, not like a reference.",
+      "author": "Anton",
+      "created": "2026-10-29T22:45:34.896Z",
+      "updated": "2026-10-29T22:47:05.037Z"
+    },
+    {
+      "id": "mvu4xjxwu7bskv",
+      "cell": "",
+      "start": 12225,
+      "quote": "real data",
+      "prefix": "ppends, ends at 59% (p. 11).\nOn ",
+      "suffix": "On the 67 LongMemEval knowledge-",
+      "note": "Logically it would read much better in part 9 where we have context!",
+      "author": "Anton",
+      "created": "2026-10-29T22:48:51.764Z",
+      "updated": "2026-10-29T22:49:10.925Z"
+    }
+  ]
+}

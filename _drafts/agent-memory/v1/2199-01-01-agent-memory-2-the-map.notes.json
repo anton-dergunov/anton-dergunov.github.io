@@ -9,6 +9,7 @@
       "prefix": " entries a request needs\nread\n\n\n",
       "suffix": "\nturns the entries found into so",
       "note": "Is this the correct word? Not compression?",
+      "author": "Anton",
       "created": "2026-10-19T23:44:30.677Z",
       "updated": "2026-10-19T23:44:59.336Z"
     },
@@ -20,6 +21,7 @@
       "prefix": "he store? A flat list, a graph, ",
       "suffix": ", several typed\nstores, a single",
       "note": "What is this?",
+      "author": "Anton",
       "created": "2026-10-19T23:46:29.153Z",
       "updated": "2026-10-19T23:46:42.179Z"
     },
@@ -31,6 +33,7 @@
       "prefix": "orpus\n(p. 12). Reads are cheap; ",
       "suffix": "\nMemory in the weights puts know",
       "note": "What does it mean?",
+      "author": "Anton",
       "created": "2026-10-19T23:56:57.589Z",
       "updated": "2026-10-19T23:57:16.245Z"
     },
@@ -42,6 +45,7 @@
       "prefix": "decays after\nabout 30 updates (p",
       "suffix": " 5). Cartridges trains a compact",
       "note": "Keep pages?",
+      "author": "Anton",
       "created": "2026-10-19T23:57:51.509Z",
       "updated": "2026-10-19T23:59:09.489Z"
     },
@@ -53,6 +57,7 @@
       "prefix": "nstead of 115K\n(p. 7, Table 2).\n",
       "suffix": " series is the whole history\nin ",
       "note": "Double check it is really so",
+      "author": "Anton",
       "created": "2026-10-22T22:18:42.201Z",
       "updated": "2026-10-22T22:19:00.608Z"
     },
@@ -64,6 +69,7 @@
       "prefix": "hat.\nWhere the designs came from",
       "suffix": "\nGenerative Agents stored everyt",
       "note": "Why CC said so?",
+      "author": "Anton",
       "created": "2026-10-22T22:19:24.014Z",
       "updated": "2026-10-22T22:19:42.593Z"
     },
@@ -75,6 +81,7 @@
       "prefix": " descends from that.\nMemoryBank ",
       "suffix": " and a forgetting curve after Eb",
       "note": "How it looked like? This articlr must be highly readable.",
+      "author": "Anton",
       "created": "2026-10-22T22:22:51.690Z",
       "updated": "2026-10-22T22:23:33.939Z"
     },
@@ -86,6 +93,7 @@
       "prefix": " year other groups re-ran them. ",
       "suffix": "\nWhat this series runsEach syste",
       "note": "Need more Serezha nces on this claim",
+      "author": "Anton",
       "created": "2026-10-22T22:24:40.410Z",
       "updated": "2026-10-22T22:24:59.578Z"
     },
@@ -97,6 +105,7 @@
       "prefix": "g the textual memory of\npart 4.\n",
       "suffix": ". A\nsmall editable block of fact",
       "note": "Need some context on this here",
+      "author": "Anton",
       "created": "2026-10-22T22:26:04.484Z",
       "updated": "2026-10-22T22:26:24.559Z"
     },
@@ -108,6 +117,7 @@
       "prefix": "raph and closes superseded ones\n",
       "suffix": "\n\n\n7\nLetta (MemGPT)\nthe answerin",
       "note": "Strong statement, need to double check. Or the only one here?",
+      "author": "Anton",
       "created": "2026-10-22T22:27:40.966Z",
       "updated": "2026-10-22T22:28:39.787Z"
     }

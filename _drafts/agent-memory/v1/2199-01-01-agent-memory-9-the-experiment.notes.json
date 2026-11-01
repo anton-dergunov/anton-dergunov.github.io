@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "mvu51wkyxtue4b",
+      "cell": "",
+      "start": 22214,
+      "quote": "costs nothing",
+      "prefix": "able from the committed results ",
+      "suffix": ". The raw model calls are\nkept, ",
+      "note": "Reword this. This sounds punchy. We need to say simply.",
+      "author": "Anton",
+      "created": "2026-10-29T22:52:14.770Z",
+      "updated": "2026-10-29T22:52:47.669Z"
+    },
+    {
+      "id": "mvu531b6p5wp62",
+      "cell": "",
+      "start": 22229,
+      "quote": "The raw model calls are\nkept, but not published.",
+      "prefix": "ommitted results costs nothing. ",
+      "suffix": "\nThat ends the series. The short",
+      "note": "Either explain why, or don’t write.",
+      "author": "Anton",
+      "created": "2026-10-29T22:53:07.554Z",
+      "updated": "2026-10-29T22:53:21.748Z"
+    },
+    {
+      "id": "mvu554ikxnu49e",
+      "cell": "",
+      "start": 932,
+      "quote": "LoCoMo",
+      "prefix": " beating the others, usually on ",
+      "suffix": ". When\nother groups re-run the s",
+      "note": "What is LoCoMo? Why is it different? Why they use this dataset?",
+      "author": "Anton",
+      "created": "2026-10-29T22:54:45.020Z",
+      "updated": "2026-10-29T22:55:03.437Z"
+    },
+    {
+      "id": "mvu5jezi4nvczb",
+      "cell": "",
+      "start": 2467,
+      "quote": "This experiment has no vendor",
+      "prefix": "ry reliably buys there is\ncost.\n",
+      "suffix": ". It runs every system on the sa",
+      "note": "Rewrite. I am not a vendor",
+      "author": "Anton",
+      "created": "2026-10-29T23:05:51.774Z",
+      "updated": "2026-10-29T23:06:18.822Z"
+    },
+    {
+      "id": "mvu5kdgfz1g4m3",
+      "cell": "",
+      "start": 2657,
+      "quote": "LongMemEval's",
+      "prefix": "say why it was wrong.\nThe data: ",
+      "suffix": " knowledge-update questionsLongM",
+      "note": "Add context about it. Also, why this dataset. What are others",
+      "author": "Anton",
+      "created": "2026-10-29T23:06:36.447Z",
+      "updated": "2026-10-29T23:07:00.868Z"
+    },
+    {
+      "id": "mvu5l8xutzu0m7",
+      "cell": "",
+      "start": 3009,
+      "quote": "standard S version",
+      "prefix": " notebooks\nare built on. On the ",
+      "suffix": ", measured on the cleaned releas",
+      "note": "Say why versions",
+      "author": "Anton",
+      "created": "2026-10-29T23:07:17.250Z",
+      "updated": "2026-10-29T23:07:28.136Z"
+    },
+    {
+      "id": "mvu609jud5ef74",
+      "cell": "",
+      "start": 3066,
+      "quote": "Value",
+      "prefix": "red on the cleaned release:\n\n\n\n\n",
+      "suffix": "\n\n\n\n\nSessions per question\n48 on",
+      "note": "Explain better",
+      "author": "Anton",
+      "created": "2026-10-29T23:18:57.882Z",
+      "updated": "2026-10-29T23:19:05.876Z"
+    },
+    {
+      "id": "mvu61sqsanqkyq",
+      "cell": "",
+      "start": 3825,
+      "quote": "Answers are scored by an LLM judge",
+      "prefix": "e same user's\nother attributes.\n",
+      "suffix": " with a prompt per question type",
+      "note": "Show how exactly",
+      "author": "Anton",
+      "created": "2026-10-29T23:20:09.412Z",
+      "updated": "2026-10-29T23:20:16.616Z"
+    },
+    {
+      "id": "mvu62k4or97hrd",
+      "cell": "",
+      "start": 4067,
+      "quote": "minus 6 abstention questions",
+      "prefix": "e 78 knowledge-update questions ",
+      "suffix": "\nleave 72. Five went to a pilot,",
+      "note": "What are they?",
+      "author": "Anton",
+      "created": "2026-10-29T23:20:44.904Z",
+      "updated": "2026-10-29T23:20:52.239Z"
+    },
+    {
+      "id": "mvu63q2vqsc6k8",
+      "cell": "",
+      "start": 4563,
+      "quote": "the whole history,",
+      "prefix": "5 of the 67 were run again with ",
+      "suffix": " about\n124,000 tokens, for the f",
+      "note": "Explain why",
+      "author": "Anton",
+      "created": "2026-10-29T23:21:39.271Z",
+      "updated": "2026-10-29T23:21:45.646Z"
+    },
+    {
+      "id": "mvu66bh0hnzhwg",
+      "cell": "",
+      "start": 6406,
+      "quote": "probes",
+      "prefix": "l\n\n\n\nMeasures. Beyond accuracy, ",
+      "suffix": " read the whole memory after eac",
+      "note": "Explain better or later",
+      "author": "Anton",
+      "created": "2026-10-29T23:23:40.308Z",
+      "updated": "2026-10-29T23:23:49.594Z"
+    },
+    {
+      "id": "mvu69blsxjb6ve",
+      "cell": "",
+      "start": 10661,
+      "quote": "Three readings.",
+      "prefix": "epr\n82%\n81%\n64%\n53\n51/53\n935\n\n\n\n",
+      "suffix": "\nAlmost nobody resolves the conf",
+      "note": "Explain each better and in more detail",
+      "author": "Anton",
+      "created": "2026-10-29T23:26:00.448Z",
+      "updated": "2026-10-29T23:26:14.409Z"
+    },
+    {
+      "id": "mvu6a0we9j7dl2",
+      "cell": "",
+      "start": 12104,
+      "quote": "Why the answers were wrong",
+      "prefix": "e a difference of this kind.\n3. ",
+      "suffix": "I read every wrong answer next t",
+      "note": "Also say it is the error analysis",
+      "author": "Anton",
+      "created": "2026-10-29T23:26:33.230Z",
+      "updated": "2026-10-29T23:26:44.258Z"
+    },
+    {
+      "id": "mvu6ddp1r7lefe",
+      "cell": "",
+      "start": 14660,
+      "quote": "date every fact, update the line when a value changes and keep\nthe earlier one, search with one or two words",
+      "prefix": "ree lines in the\npersona block (",
+      "suffix": ") raised the revisions written\na",
+      "note": "More details",
+      "author": "Anton",
+      "created": "2026-10-29T23:29:09.781Z",
+      "updated": "2026-10-29T23:29:16.114Z"
+    }
+  ]
+}

@@ -43,6 +43,8 @@ excerpt_separator: "\n\n"
 include:
   - _pages
 exclude:
+  - "*.brief.md"                # writing plans beside the drafts (writing-guide skill)
+  - _drafts/agent-memory/v1     # earlier drafts, kept as source material
   - Gemfile
   - Gemfile.lock
   - LICENSE
