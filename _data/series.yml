@@ -4,7 +4,7 @@
 # Reordering parts means changing `part:` in the posts and the order of `parts` here.
 
 agent-memory:
-  name: "How LLM agents remember"   # working name; to decide when the titles are reviewed
+  name: "How LLM agents remember"
   parts:
     - "Why look inside agent memory"
     - "How agent memory works"
