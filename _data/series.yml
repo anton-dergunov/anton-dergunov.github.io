@@ -1,0 +1,17 @@
+# Series of posts. A post joins one with `series: <key>` and `part: <n>` in its front matter;
+# _includes/series-nav.html then shows the list of parts at the top and previous/next at the end.
+# Links come from the posts themselves, so a part with no post yet is listed without a link.
+# Reordering parts means changing `part:` in the posts and the order of `parts` here.
+
+agent-memory:
+  name: "How LLM agents remember"   # working name; to decide when the titles are reviewed
+  parts:
+    - "Why look inside agent memory"
+    - "How agent memory works"
+    - "Textual memory: one profile, rewritten"
+    - "Mem0: facts in a vector store"
+    - "Zep and Graphiti: facts with dates, in a graph"
+    - "Letta: an agent that edits its own memory"
+    - "Honcho: a reasoner that works in the background"
+    - "The experiment: 67 changed facts"
+    - "What ChatGPT, Claude and Gemini ship"

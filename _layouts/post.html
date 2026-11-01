@@ -45,7 +45,9 @@ layout: base
 
     <div class="body-col" itemprop="articleBody">
       {%- include post-updates.html mode="note" %}
+      {%- include series-nav.html mode="top" %}
       {{ content }}
+      {%- include series-nav.html mode="bottom" %}
 
       {%- include post-updates.html mode="history" %}
       {%- if page.tags and page.tags.size > 0 %}

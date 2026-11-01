@@ -9,6 +9,7 @@
       "prefix": " experiment: 67 changed facts\n\n\n",
       "suffix": " twice on 67 questions about fac",
       "note": "There must be intro before that",
+      "author": "Anton",
       "created": "2026-10-19T22:41:59.794Z",
       "updated": "2026-10-19T22:42:18.490Z"
     },
@@ -20,6 +21,7 @@
       "prefix": "answered 18% of them correctly. ",
       "suffix": " it answered 82%. Nothing change",
       "note": "Say that it was with changes",
+      "author": "Anton",
       "created": "2026-10-19T22:42:39.948Z",
       "updated": "2026-10-19T22:42:51.914Z"
     },
@@ -31,6 +33,7 @@
       "prefix": "oken run: no error, no warning, ",
       "suffix": ". The working\nversion made 720 m",
       "note": "Remove",
+      "author": "Anton",
       "created": "2026-10-19T22:43:13.905Z",
       "updated": "2026-10-19T22:43:20.459Z"
     },
@@ -42,6 +45,7 @@
       "prefix": "ts memory. On the same\nquestions",
       "suffix": " plain keyword search over the r",
       "note": "",
+      "author": "Anton",
       "created": "2026-10-19T22:43:41.662Z",
       "updated": "2026-10-19T22:43:41.662Z"
     },
@@ -53,6 +57,7 @@
       "prefix": "I like pizza\", user_id=\"alice\")\n",
       "suffix": "=\"alice\")\n\nThat shows the interf",
       "note": "Why this example",
+      "author": "Anton",
       "created": "2026-10-19T22:47:09.469Z",
       "updated": "2026-10-19T22:47:17.802Z"
     },
@@ -64,6 +69,7 @@
       "prefix": " whether a memory\nsystem helps.\n",
       "suffix": "Every part of the series uses th",
       "note": "Neednto say why we intro it here",
+      "author": "Anton",
       "created": "2026-10-19T22:50:41.850Z",
       "updated": "2026-10-19T22:51:33.191Z"
     },
@@ -75,6 +81,7 @@
       "prefix": "d anything smarter than a list.\n",
       "suffix": " that separate the systemsThe sy",
       "note": "Will good idea to show the diagram here",
+      "author": "Anton",
       "created": "2026-10-19T22:55:57.689Z",
       "updated": "2026-10-19T22:56:20.352Z"
     },
@@ -86,6 +93,7 @@
       "prefix": "n it had\ndrawn from it. Textual ",
       "suffix": "\nEach design has its own way to ",
       "note": "Better to out into failures",
+      "author": "Anton",
       "created": "2026-10-19T22:58:30.662Z",
       "updated": "2026-10-19T22:58:45.809Z"
     },
@@ -97,6 +105,7 @@
       "prefix": "ty\nprompt asks for things that \"",
       "suffix": "\", so the\npeanut allergy, an att",
       "note": "Rewrite to out explain background.",
+      "author": "Anton",
       "created": "2026-10-19T23:04:39.903Z",
       "updated": "2026-10-19T23:05:07.469Z"
     },
@@ -108,6 +117,7 @@
       "prefix": "as run, and what to keep in mind",
       "suffix": " gemini-3.1-flash-lite, at tempe",
       "note": "Rewrite so it does not sound like tech detail",
+      "author": "Anton",
       "created": "2026-10-19T23:10:05.759Z",
       "updated": "2026-10-19T23:10:28.058Z"
     }

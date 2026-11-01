@@ -1,0 +1,53 @@
+{%- comment -%}
+  Navigation for a post that is part of a series (_data/series.yml), driven by front matter:
+      series: agent-memory
+      part:   3
+  Usage: {% include series-nav.html mode="top" %}     (which part this is, and the list of parts)
+         {% include series-nav.html mode="bottom" %}  (previous and next part)
+  Links come from the posts that carry the same `series`, so a part without a post is shown
+  as plain text, and a draft links to the other drafts when the site is built with --drafts.
+{%- endcomment -%}
+{%- if page.series and page.part -%}
+{%- assign series = site.data.series[page.series] -%}
+{%- if series -%}
+{%- assign siblings = site.posts | where: "series", page.series -%}
+{%- assign current = page.part | plus: 0 -%}
+{%- assign total = series.parts.size -%}
+{%- if include.mode == "top" %}
+<nav class="series-nav" aria-label="Series">
+  <details>
+    <summary><span class="series-nav__label">Part {{ current }} of {{ total }}</span> in <em>{{ series.name }}</em></summary>
+    <ol>
+      {%- for title in series.parts %}
+      {%- assign n = forloop.index %}
+      {%- assign post = siblings | where: "part", n | first %}
+      {%- if n == current %}
+      <li aria-current="page"><strong>{{ title }}</strong> (this part)</li>
+      {%- elsif post %}
+      <li><a href="{{ post.url | relative_url }}">{{ title }}</a></li>
+      {%- else %}
+      <li>{{ title }}</li>
+      {%- endif %}
+      {%- endfor %}
+    </ol>
+  </details>
+</nav>
+{%- elsif include.mode == "bottom" %}
+{%- assign prev_n = current | minus: 1 -%}
+{%- assign next_n = current | plus: 1 -%}
+{%- assign prev_i = current | minus: 2 -%}
+{%- assign prev = siblings | where: "part", prev_n | first -%}
+{%- assign next = siblings | where: "part", next_n | first -%}
+{%- if prev or next %}
+<nav class="series-pager" aria-label="Series">
+  {%- if prev %}
+  <a class="series-pager__prev" href="{{ prev.url | relative_url }}"><span class="series-pager__label">← Part {{ prev_n }}</span>{{ series.parts[prev_i] }}</a>
+  {%- endif %}
+  {%- if next %}
+  <a class="series-pager__next" href="{{ next.url | relative_url }}"><span class="series-pager__label">Part {{ next_n }} →</span>{{ series.parts[current] }}</a>
+  {%- endif %}
+</nav>
+{%- endif %}
+{%- endif %}
+{%- endif -%}
+{%- endif -%}
