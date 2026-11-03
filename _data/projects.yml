@@ -14,7 +14,6 @@ groups:
       prompt injection has no action to reach. An LLM plays the customer, and every simulated conversation
       is scored by deterministic checks and an LLM-as-judge.
     url: https://github.com/anton-dergunov/llm-agent-eval-testbed
-    next: The evaluation experiments written up as a six-part series.
     topics:
     - llm-evaluation
     - llm-as-judge
@@ -28,7 +27,7 @@ groups:
     repo: agent-memory-eval
     status: stable
     tagline: How LLM agent memory systems actually work, traced call by call, and what that costs them
-      on a real benchmark.
+      on a real benchmark, LongMemEval.
     summary: 'A comparison of agent memory systems that shows their working. One short conversation, in
       which a user changes their mind, runs through plain full context, textual memory, Mem0, Zep/Graphiti,
       Letta and Honcho with every model call shown: what was extracted, what was overwritten, what was
@@ -91,8 +90,6 @@ groups:
       by character and drawn in tone colours, so what went wrong is visible. A recording is transcribed,
       force-aligned and pitch-tracked to produce it.
     url: https://github.com/anton-dergunov/mandarin-speech-coach
-    next: An alignment evaluation harness, a surface-tone classifier, and a compact aligner fine-tuned
-      to pinyin initials and finals.
     media:
     - type: image
       src: /images/projects/mandarin-speech-coach/demo.png
@@ -121,8 +118,6 @@ groups:
       Experiments on aligning speech to subtitles and on word-level translation alignment are kept in
       the repo.'
     url: https://github.com/anton-dergunov/spoken-usage-retrieval
-    next: 'Human relevance judgments with a calibrated LLM judge, then multi-stage ranking: ranking features,
-      a learned ranker and a multilingual reranker.'
     media:
     - type: image
       src: /images/projects/spoken-usage-retrieval/web-demo.webp
@@ -148,8 +143,6 @@ groups:
       name, is what gets matched. No LLM runs on the query path, and a calibrated gate abstains when no
       icon is good enough.'
     url: https://github.com/anton-dergunov/task-concept-retrieval
-    next: A second generation of icon descriptions, a labelled gold set of real task headlines, and a
-      matcher fine-tuned on them, benchmarked against embedding and reranking baselines.
     topics:
     - information-retrieval
     - semantic-search
@@ -158,11 +151,164 @@ groups:
     - reranking
     - calibration
     - python
-- id: agents
-  title: Agents and context engineering
+- id: reading
+  title: Reading research papers with LLM agents
   kind: research
-  blurb: 'Preparing content so that an LLM agent can use it: extraction to clean Markdown, retrieval done
-    ahead of the agent, and the token cost measured.'
+  subtitle: Designed by measurement
+  blurb: A library of research papers that an LLM agent reads, files and reviews, citing every claim by
+    its page, and two readers that put the paper beside the agent's chat. Each choice of the text format,
+    the prompts and the models was measured on real papers, and the experiments are in the repository.
+    The library works on its own in Claude Code; the readers add the PDF beside the chat, in VS Code at
+    the desk, or on a tablet and a Mac.
+  projects:
+  - title: Agentic paper library
+    repo: agentic-paper-library
+    status: active
+    tagline: 'Reading and organising a research-paper library with a coding agent: each paper kept as
+      its PDF and its text, and skills for adding, reading and reviewing them.'
+    summary: A way to read and organise research papers with a coding agent at the centre. Each paper
+      is kept as its PDF and the PDF's text with a line marking every page, so the agent can read across
+      the whole library, open a page for what the text lacks, and cite by page. Skills look at a paper
+      before it is added, file it in the topic tree, write an overview to read first, and write a literature
+      review for an area; meaning search finds papers by a description. Each choice of format, prompt
+      and model was measured on real papers, and the experiments are in the repository. It works on its
+      own in Claude Code.
+    url: https://github.com/anton-dergunov/agentic-paper-library
+    works_with:
+    - repo: carrel
+      title: Carrel
+    - repo: vscode-pdf-viewer
+      title: PDF Viewer for VS Code
+    media:
+    - type: image
+      src: /images/projects/agentic-paper-library/reading.png
+      caption: Reading a paper's PDF in VS Code with Claude Code beside it; the answer links to the page
+        and the table.
+    - type: image
+      src: /images/projects/agentic-paper-library/paper-info.png
+      caption: A quick look at a paper before adding it, from public records, with its nearest paper in
+        the library.
+    - type: image
+      src: /images/projects/agentic-paper-library/add-paper.png
+      caption: Adding a paper, with the topic folder chosen from the declared tree, the PDF and its text
+        kept, and a summary line written.
+    - type: image
+      src: /images/projects/agentic-paper-library/overview.png
+      caption: The overview note a skill writes for a paper, to read in a few minutes before the paper
+        itself.
+    - type: image
+      src: /images/projects/agentic-paper-library/literature-review.png
+      caption: A literature review of a topic, written from one note for each paper.
+    - type: image
+      src: /images/projects/agentic-paper-library/grow.png
+      caption: Finding missing papers for a topic, and proposing splits and merges of its folders; nothing
+        changes until you choose.
+    - type: image
+      src: /images/projects/agentic-paper-library/experiments.png
+      caption: Six of the 10 experiments behind the design, each with what was measured and what was decided.
+    topics:
+    - ai-agents
+    - context-engineering
+    - llm-evaluation
+    - research-papers
+    - semantic-search
+    - pdf-extraction
+    - claude-code
+  - title: Carrel
+    repo: carrel
+    status: active
+    tagline: 'Read research papers on a tablet or a Mac with Claude Code beside them: the paper, a chat
+      whose citations turn its pages, and the whole library around them, searched by text and by meaning.'
+    summary: 'A reader for an agentic paper library, on a tablet or in a Mac app. Tap a paper and its
+      PDF opens with a Claude Code chat beside it; a citation in an answer turns the paper to the cited
+      table or equation and marks it. Around the paper is the whole library: its topics as a map, its
+      literature reviews, search over every paper''s text, and meaning search over embeddings of the papers,
+      with a map of them laid out by meaning and its regions named by a model. The session runs on the
+      laptop, in the library, so a chat carries on through reloads and a sleeping tablet.'
+    url: https://github.com/anton-dergunov/carrel
+    works_with:
+    - repo: agentic-paper-library
+      title: Agentic paper library
+    - repo: vscode-pdf-viewer
+      title: PDF Viewer for VS Code
+    media:
+    - type: image
+      src: /images/projects/carrel/reading.png
+      caption: 'A citation followed on an iPad: the answer cites the paper''s equation, and a tap turns
+        the paper there and marks it. Beside it, the same reading on an e-ink tablet.'
+    - type: image
+      src: /images/projects/carrel/highlights.png
+      caption: A highlight asked about, and listed in the paper's contents; highlights are saved into
+        the PDF itself.
+    - type: image
+      src: /images/projects/carrel/review.png
+      caption: An area's literature review on the Mac, a peek at a paper it cites, and a chat asked about
+        the review.
+    - type: image
+      src: /images/projects/carrel/map.png
+      caption: The library laid out by meaning, with its regions named, lit by a meaning search for papers
+        on LLM judges.
+    - type: image
+      src: /images/projects/carrel/search.png
+      caption: Searching the papers' full text, and searching by a description of what a paper found.
+    - type: image
+      src: /images/projects/carrel/paper.png
+      caption: What the library knows of a paper, and the overview note to read before it.
+    - type: image
+      src: /images/projects/carrel/library.png
+      caption: Desk, where reading picks up again, and the whole library as a map of its topics.
+    - type: image
+      src: /images/projects/carrel/browse.png
+      caption: Every paper, filtered by area and years, and the library year by year.
+    - type: image
+      src: /images/projects/carrel/chat.png
+      caption: The library's chats, from carrel, VS Code and the terminal, and its slash commands.
+    - type: image
+      src: /images/projects/carrel/looks.png
+      caption: Light, dark and e-ink, and the settings each device keeps.
+    - type: image
+      src: /images/projects/carrel/mac.png
+      caption: The Mac app, with a cited passage marked beside an equation.
+    topics:
+    - claude-code
+    - ai-agents
+    - research-papers
+    - semantic-search
+    - embeddings
+    - pdf-viewer
+    - tablet
+    - e-ink
+    - tailscale
+  - title: PDF Viewer for VS Code
+    repo: vscode-pdf-viewer
+    status: stable
+    tagline: Minimal PDF viewer for VS Code with highlights and links to a section or page, including
+      from the Claude Code chat.
+    summary: 'Built for reading papers with a coding agent: a citation in the chat opens the paper beside
+      it at the cited section, table or page, and highlights are saved into the PDF. It works with any
+      PDF; for papers it is the desk side of the library that carrel reads on a tablet.'
+    url: https://github.com/anton-dergunov/vscode-pdf-viewer
+    works_with:
+    - repo: agentic-paper-library
+      title: Agentic paper library
+    - repo: carrel
+      title: Carrel
+    media:
+    - type: image
+      src: /images/projects/vscode-pdf-viewer/demo.webp
+      caption: Clicking a citation in Claude Code's answer opens the PDF beside the chat at that section.
+    topics:
+    - vscode-extension
+    - pdf-viewer
+    - research-papers
+    - claude-code
+- id: agents
+  title: Agentic planning and context engineering
+  kind: research
+  blurb: 'An LLM agent working inside a plain-text planning system, and the pipeline that prepares what
+    it files: capture from any device, extraction to clean Markdown, related notes retrieved ahead of
+    the agent, and the token cost measured. Each runs on its own; the pipeline''s choices were measured
+    in experiments kept in its repository.'
   projects:
   - title: Agentic Org Planner
     repo: agentic-org-planner
@@ -175,7 +321,9 @@ groups:
       during the day, showing each change as a diff to accept or reject. Underneath is a complete Emacs
       configuration: a visual agenda, schedule view, capture and saved searches.'
     url: https://github.com/anton-dergunov/agentic-org-planner
-    next: The audit and route skills, which review the plan and file inbox items, moving into the repo.
+    works_with:
+    - repo: agent-context-pipeline
+      title: Agent context pipeline
     media:
     - type: image
       src: /images/projects/agentic-org-planner/agent-audit.png
@@ -216,7 +364,9 @@ groups:
       an abstain gate). The agent's token cost with and without that lookup is measured in the design
       notes.
     url: https://github.com/anton-dergunov/agent-context-pipeline
-    next: Cleaned of personal data and published.
+    works_with:
+    - repo: agentic-org-planner
+      title: Agentic Org Planner
     media:
     - type: image
       src: /images/projects/agent-context-pipeline/overview-wide.png
@@ -245,52 +395,6 @@ groups:
     - speech-to-text
     - retrieval
     - self-hosted
-  - title: Agentic paper library
-    repo: agentic-paper-library
-    status: active
-    tagline: 'Reading and organising a research-paper library with a coding agent: each paper kept as
-      its PDF and its text, and skills for adding, reading and reviewing them.'
-    summary: A way to read and organise research papers with a coding agent at the centre. Each paper
-      is kept as its PDF and the PDF's text with a line marking every page, so the agent can read across
-      the whole library, open a page for what the text lacks, and cite by page. Skills look at a paper
-      before it is added, file it in the topic tree, write an overview to read first, and write a literature
-      review for an area. Each choice of format, prompt and model was measured on real papers, and the
-      experiments are in the repository.
-    url: https://github.com/anton-dergunov/agentic-paper-library
-    next: Published without my own collection of papers.
-    media:
-    - type: image
-      src: /images/projects/agentic-paper-library/reading.png
-      caption: Reading a paper's PDF in VS Code with Claude Code beside it; the answer links to the page
-        and the table.
-    - type: image
-      src: /images/projects/agentic-paper-library/paper-info.png
-      caption: A quick look at a paper before adding it, from public records, with its nearest paper in
-        the library.
-    - type: image
-      src: /images/projects/agentic-paper-library/add-paper.png
-      caption: Adding a paper, with the topic folder chosen from the declared tree, the PDF and its text
-        kept, and a summary line written.
-    - type: image
-      src: /images/projects/agentic-paper-library/overview.png
-      caption: The overview note a skill writes for a paper, to read in a few minutes before the paper
-        itself.
-    - type: image
-      src: /images/projects/agentic-paper-library/literature-review.png
-      caption: A literature review of a topic, written from one note for each paper.
-    - type: image
-      src: /images/projects/agentic-paper-library/grow.png
-      caption: Finding missing papers for a topic, and proposing splits and merges of its folders; nothing
-        changes until you choose.
-    - type: image
-      src: /images/projects/agentic-paper-library/experiments.png
-      caption: Six of the 10 experiments behind the design, each with what was measured and what was decided.
-    topics:
-    - context-engineering
-    - ai-agents
-    - research-papers
-    - pdf-extraction
-    - claude-code
 - id: applied
   title: Applied LLM and speech systems
   kind: research
@@ -307,7 +411,6 @@ groups:
       on YouTube, and turn a handful of words into audio loops and illustrated stories. Where a model
       is trusted and where it is checked was decided by experiments kept in the repo.
     url: https://github.com/anton-dergunov/acervo-llm-dictionary
-    next: The quality track for articles, stories and clip selection.
     media:
     - type: image
       src: /images/projects/acervo-llm-dictionary/word.png
@@ -375,7 +478,6 @@ groups:
       (numpy and scipy over CC0 samples), so a loop is byte-identical from a seed; the sound library was
       chosen through blind A/B listening.'
     url: https://github.com/anton-dergunov/lexibeat
-    next: A visualiser with the words synchronised to the audio.
     media:
     - type: video
       src: https://github.com/user-attachments/assets/cb72cf63-2582-4521-846b-b3942fc83a10
@@ -425,7 +527,6 @@ groups:
       library versions, the workarounds removed, and the common code moved into a small tested library.
       So far PPO on CartPole and Lunar Lander, and Q-learning on Frozen Lake.'
     url: https://github.com/anton-dergunov/hugging-face-deep-rl
-    next: The remaining hands-on units.
     topics:
     - reinforcement-learning
     - deep-reinforcement-learning
@@ -435,41 +536,6 @@ groups:
   title: Tools and apps
   kind: tools
   projects:
-  - title: Carrel
-    repo: carrel
-    status: prototype
-    tagline: 'Read a paper on a tablet with Claude Code beside it: the PDF in one pane, a chat in the
-      other, citations that turn the PDF to the cited page.'
-    summary: A tablet reader for an agentic paper library. Tap a paper and its PDF opens with a Claude
-      Code chat beside it; a citation in an answer moves the PDF to its page or opens the other paper
-      in a tab. The session runs on the laptop and the tablet only shows it, over Tailscale, so the chat
-      carries on through reloads and a sleeping tablet.
-    url: https://github.com/anton-dergunov/carrel
-    next: The rest of the plan, from browsing the library to notes taken while reading.
-    topics:
-    - claude-code
-    - research-papers
-    - pdf-viewer
-    - tablet
-    - ai-agents
-    - tailscale
-  - title: PDF Viewer for VS Code
-    repo: vscode-pdf-viewer
-    status: stable
-    tagline: Minimal PDF viewer for VS Code with highlights and links to a section or page, including
-      from the Claude Code chat.
-    summary: 'Built for reading papers with a coding agent: a citation in the chat opens the paper beside
-      it at the cited section, table or page, and highlights are saved into the PDF.'
-    url: https://github.com/anton-dergunov/vscode-pdf-viewer
-    media:
-    - type: image
-      src: /images/projects/vscode-pdf-viewer/demo.webp
-      caption: Clicking a citation in Claude Code's answer opens the PDF beside the chat at that section.
-    topics:
-    - vscode-extension
-    - pdf-viewer
-    - research-papers
-    - claude-code
   - title: Lectern
     repo: lectern
     status: active

@@ -10,12 +10,15 @@ rail_toc: h2
   ~/projects/_structure/portfolio/projects.yaml. Edit the descriptions there.
 {%- endcomment -%}
 
-<p class="projects-lede">My own projects, grouped by what they are about. Each says where it stands, and work that is not done yet is listed as what comes next.</p>
+<p class="projects-lede">My own projects, grouped by what they are about, each with where it stands. Projects that go together say so, and each also works on its own.</p>
 
 {%- for group in site.data.projects.groups %}
 <section class="topic-group project-group project-group--{{ group.kind }}">
   <div class="topic-head">
     <h2 id="{{ group.id }}">{{ group.title }}</h2>
+    {%- if group.subtitle %}
+    <span class="project-group__subtitle">{{ group.subtitle }}</span>
+    {%- endif %}
     <span class="count">{{ group.projects.size }} project{% if group.projects.size != 1 %}s{% endif %}</span>
   </div>
   {%- if group.blurb %}

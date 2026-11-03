@@ -1,13 +1,14 @@
 {%- comment -%}
   One project from _data/projects.yml.
-  Usage: {% include project-card.html project=p %}           (research: summary, next, topics)
+  Usage: {% include project-card.html project=p %}           (research: summary, works with, topics)
          {% include project-card.html project=p compact=true %}  (tools: tagline only)
   `stable` projects carry no status label; the others say where they stand.
   `media` is the project's pictures and videos, in order. One is shown at a time:
   the row scrolls sideways, the buttons step through it, and a picture opens full
   size in the lightbox, which steps through the same set. Videos play in place.
   On a research card the gallery sits under the summary; a tool that has one
-  becomes a full-width card with it at the side.
+  becomes a full-width card with it at the side. `works_with` links to the cards of
+  the projects it goes with, by their ids (project-<repo>).
 {%- endcomment -%}
 {%- assign p = include.project -%}
 {%- capture shot -%}
@@ -46,7 +47,7 @@
   </div>
   {%- endif %}
 {%- endcapture -%}
-<article class="project-item{% if include.compact %} project-item--compact{% endif %}{% if p.media %} project-item--has-shot{% endif %}">
+<article id="project-{{ p.repo }}" class="project-item{% if include.compact %} project-item--compact{% endif %}{% if p.media %} project-item--has-shot{% endif %}">
   <div class="project-item__body">
     <header class="project-item__head">
       <h3>{% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</h3>
@@ -59,8 +60,9 @@
     {%- else %}
     <p class="project-item__summary">{{ p.summary }}</p>
     {{ shot }}
-    {%- if p.next %}
-    <p class="project-item__next"><span class="project-item__label">Next</span> {{ p.next }}</p>
+    {%- if p.works_with %}
+    <p class="project-item__with"><span class="project-item__label">Works with</span>
+      {%- for w in p.works_with %} <a href="#project-{{ w.repo }}">{{ w.title }}</a>{% unless forloop.last %} ·{% endunless %}{% endfor %}</p>
     {%- endif %}
     {%- if p.topics %}
     <ul class="chips">
