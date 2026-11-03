@@ -205,7 +205,8 @@ groups:
         changes until you choose.
     - type: image
       src: /images/projects/agentic-paper-library/experiments.png
-      caption: Six of the 10 experiments behind the design, each with what was measured and what was decided.
+      caption: Seven of the 16 experiments behind the design, each with what was measured and what was
+        decided.
     topics:
     - ai-agents
     - context-engineering
@@ -234,20 +235,20 @@ groups:
     media:
     - type: image
       src: /images/projects/carrel/reading.png
-      caption: 'A citation followed on an iPad: the answer cites the paper''s equation, and a tap turns
+      caption: 'A citation followed on a tablet: the answer cites the paper''s equation, and a tap turns
         the paper there and marks it. Beside it, the same reading on an e-ink tablet.'
     - type: image
       src: /images/projects/carrel/highlights.png
-      caption: A highlight asked about, and listed in the paper's contents; highlights are saved into
-        the PDF itself.
+      caption: A highlight tapped and asked about, the passage carried into the chat; highlights are saved
+        into the PDF itself.
     - type: image
       src: /images/projects/carrel/review.png
       caption: An area's literature review on the Mac, a peek at a paper it cites, and a chat asked about
         the review.
     - type: image
       src: /images/projects/carrel/map.png
-      caption: The library laid out by meaning, with its regions named, lit by a meaning search for papers
-        on LLM judges.
+      caption: The library laid out by meaning, its regions named; nearer, lit by a meaning search for
+        papers on LLM judges, one open in a peek.
     - type: image
       src: /images/projects/carrel/search.png
       caption: Searching the papers' full text, and searching by a description of what a paper found.
@@ -265,10 +266,10 @@ groups:
       caption: The library's chats, from carrel, VS Code and the terminal, and its slash commands.
     - type: image
       src: /images/projects/carrel/looks.png
-      caption: Light, dark and e-ink, and the settings each device keeps.
+      caption: One paper and its chat in light, dark and e-ink.
     - type: image
       src: /images/projects/carrel/mac.png
-      caption: The Mac app, with a cited passage marked beside an equation.
+      caption: The Mac app, where a click on the answer's citation marks the passage it cites.
     topics:
     - claude-code
     - ai-agents
