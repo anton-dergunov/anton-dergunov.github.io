@@ -156,7 +156,7 @@ groups:
 - id: reading
   title: Reading research papers with LLM agents
   kind: research
-  subtitle: Designed by measurement
+  subtitle: designed by measurement
   blurb: A set of tools for keeping your own library of research papers and reading it with the help of
     a coding agent, which finds new papers, explains them and answers questions across the whole library.
     Every part was designed by measurement (the text format the agent reads, the prompts, the models),
