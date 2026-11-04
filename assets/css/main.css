@@ -731,9 +731,19 @@ tbody tr:hover { background: var(--surface); }
 /* ---------- projects ---------- */
 
 .project-group .topic-head { flex-wrap: wrap; row-gap: .35rem; }
+/* A small tag whose bottom edge is a ruler: a tick every 6px, a longer one every 30px. */
 .project-group__subtitle {
-  font: italic 400 .92rem/1 var(--display);
-  color: var(--muted);
+  --tick: color-mix(in srgb, var(--ochre) 40%, transparent);
+  font: 400 .7rem/1 var(--mono);
+  letter-spacing: .04em;
+  color: color-mix(in srgb, var(--ochre) 65%, var(--muted));
+  padding: .3rem .5rem .5rem;
+  border: 1px solid var(--tick);
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 5px, var(--tick) 5px 6px) left bottom / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, transparent 0 29px, var(--tick) 29px 30px) left bottom / 100% 5px no-repeat,
+    color-mix(in srgb, var(--ochre-wash) 55%, transparent);
 }
 
 .project-group__blurb {
