@@ -28,11 +28,12 @@ groups:
     status: stable
     tagline: How LLM agent memory systems actually work, traced call by call, and what that costs them
       on a real benchmark, LongMemEval.
-    summary: 'A comparison of agent memory systems that shows their working. One short conversation, in
-      which a user changes their mind, runs through plain full context, textual memory, Mem0, Zep/Graphiti,
-      Letta and Honcho with every model call shown: what was extracted, what was overwritten, what was
-      retrieved, and what it cost. The same systems are then run on the knowledge-update questions of
-      LongMemEval, with accuracy, intervals and cost per question.'
+    summary: 'A comparison of agent memory systems that shows how each one works. One short conversation,
+      in which a user changes their mind, runs through LLM memory systems chosen to represent each architecture,
+      from plain full context and a textual memory to Mem0, Zep/Graphiti, Letta and Honcho, with every
+      model call shown: what was extracted, what was overwritten, what was retrieved, and what it cost.
+      The same systems are then run on the knowledge-update questions of LongMemEval, with accuracy, intervals
+      and cost per question.'
     url: https://github.com/anton-dergunov/agent-memory-eval
     media:
     - type: image
@@ -85,10 +86,10 @@ groups:
     status: prototype
     tagline: 'Mandarin pronunciation practice that shows the evidence instead of a score: your pitch contour
       against a target phrase, aligned per character (Whisper, wav2vec2 CTC alignment, F0 tracking).'
-    summary: A different way to practise Mandarin tones. Where pronunciation assessment usually returns
-      a score, this shows the learner's own pitch contour against the target phrase, aligned character
-      by character and drawn in tone colours, so what went wrong is visible. A recording is transcribed,
-      force-aligned and pitch-tracked to produce it.
+    summary: 'A different way to practise Mandarin tones. Other tools assess your pronunciation with a
+      score; this one shows you what you said: your own pitch contour against the target phrase, aligned
+      character by character and drawn in tone colours, so you can see which tone went wrong and how.
+      To draw it, the recording is transcribed, force-aligned to its characters and pitch-tracked.'
     url: https://github.com/anton-dergunov/mandarin-speech-coach
     media:
     - type: image
@@ -110,13 +111,14 @@ groups:
   - title: Spoken Usage Retrieval
     repo: spoken-usage-retrieval
     status: active
-    tagline: Retrieving and ranking authentic word and phrase usage from native speech.
+    tagline: 'Information retrieval over native speech: an index built from the captions of curated YouTube
+      channels, searched for real uses of a word or phrase, ranked, and played at the exact moment each
+      is spoken.'
     summary: 'An information-retrieval system over native speech: it finds real uses of a word or phrase
       and plays the exact moment each is spoken. An indexing pipeline builds the corpus from the captions
-      of curated YouTube channels; retrieval matches words and short phrases by surface form and by lemma,
-      with analysers compared across ten languages; results are ranked and diversified across videos.
-      Experiments on aligning speech to subtitles and on word-level translation alignment are kept in
-      the repo.'
+      of curated YouTube channels. Retrieval matches words and short phrases by surface form and by lemma,
+      and results are ranked and diversified across videos. Design decisions, from the lemmatiser for
+      each language to aligning speech with subtitles, were made by experiments and measurement.'
     url: https://github.com/anton-dergunov/spoken-usage-retrieval
     media:
     - type: image
@@ -140,8 +142,8 @@ groups:
     summary: 'A retrieval test bed: given a task headline from a planner, return the one icon that conveys
       it, or nothing. The matching signal is generated: a vision model describes each of the 4,257 icons
       (what it shows, which tasks it suits, which it does not), and that description, never the icon''s
-      name, is what gets matched. No LLM runs on the query path, and a calibrated gate abstains when no
-      icon is good enough.'
+      name, is what gets matched. Retrieval is built to be fast and to run locally, with small embedding
+      and reranking models instead of an LLM, and a calibrated gate abstains when no icon is good enough.'
     url: https://github.com/anton-dergunov/task-concept-retrieval
     topics:
     - information-retrieval
@@ -155,24 +157,31 @@ groups:
   title: Reading research papers with LLM agents
   kind: research
   subtitle: Designed by measurement
-  blurb: A library of research papers that an LLM agent reads, files and reviews, citing every claim by
-    its page, and two readers that put the paper beside the agent's chat. Each choice of the text format,
-    the prompts and the models was measured on real papers, and the experiments are in the repository.
-    The library works on its own in Claude Code; the readers add the PDF beside the chat, in VS Code at
-    the desk, or on a tablet and a Mac.
+  blurb: A set of tools for keeping your own library of research papers and reading it with the help of
+    a coding agent, which finds new papers, explains them and answers questions across the whole library.
+    Every part was designed by measurement (the text format the agent reads, the prompts, the models),
+    and the experiments are in the repository. The library works on its own in Claude Code. To read a
+    paper with its chat side by side, open it in Carrel on a tablet or a Mac, or in PDF Viewer for VS
+    Code; in either, a citation in the chat opens the paper at the cited page.
+  blurb_html: A set of tools for keeping your own library of research papers and reading it with the help
+    of a coding agent, which finds new papers, explains them and answers questions across the whole library.
+    Every part was designed by measurement (the text format the agent reads, the prompts, the models),
+    and the experiments are in the repository. The library works on its own in Claude Code. To read a
+    paper with its chat side by side, open it in <a href="#project-carrel"><em>Carrel</em></a> on a tablet
+    or a Mac, or in <a href="#project-vscode-pdf-viewer"><em>PDF Viewer for VS Code</em></a>; in either,
+    a citation in the chat opens the paper at the cited page.
   projects:
   - title: Agentic paper library
     repo: agentic-paper-library
     status: active
     tagline: 'Reading and organising a research-paper library with a coding agent: each paper kept as
       its PDF and its text, and skills for adding, reading and reviewing them.'
-    summary: A way to read and organise research papers with a coding agent at the centre. Each paper
-      is kept as its PDF and the PDF's text with a line marking every page, so the agent can read across
-      the whole library, open a page for what the text lacks, and cite by page. Skills look at a paper
-      before it is added, file it in the topic tree, write an overview to read first, and write a literature
-      review for an area; meaning search finds papers by a description. Each choice of format, prompt
-      and model was measured on real papers, and the experiments are in the repository. It works on its
-      own in Claude Code.
+    summary: 'Your own library of research papers, filed in your own topic tree, with a coding agent to
+      help you work with it: find new papers, understand one, and answer a question across the whole library.
+      Each paper is kept twice: the PDF, for you to read, and its text layer with every page marked, which
+      the agent searches across the library and cites by page (a format chosen among alternatives by experiment).
+      Skills add and remove papers and file each in its topic, write an overview to read first and a literature
+      review of an area, and find papers by their text or by their meaning.'
     url: https://github.com/anton-dergunov/agentic-paper-library
     works_with:
     - repo: carrel
@@ -220,18 +229,16 @@ groups:
     status: active
     tagline: 'Read research papers on a tablet or a Mac with Claude Code beside them: the paper, a chat
       whose citations turn its pages, and the whole library around them, searched by text and by meaning.'
-    summary: 'A reader for an agentic paper library, on a tablet or in a Mac app. Tap a paper and its
-      PDF opens with a Claude Code chat beside it; a citation in an answer turns the paper to the cited
-      table or equation and marks it. Around the paper is the whole library: its topics as a map, its
-      literature reviews, search over every paper''s text, and meaning search over embeddings of the papers,
-      with a map of them laid out by meaning and its regions named by a model. The session runs on the
-      laptop, in the library, so a chat carries on through reloads and a sleeping tablet.'
+    summary: 'A reader app for an agentic paper library, on a tablet or a Mac, with the paper and its
+      Claude Code chat in one place. Open a paper and you see the PDF and the chat side by side; when
+      an answer cites a table or an equation, a tap turns the paper to that place and marks it. The whole
+      library is there too: search over the papers'' text and by meaning, their topics, overviews and
+      literature reviews, and a map of the papers laid out by meaning. Chats are kept on the laptop, so
+      a conversation started on the tablet carries on at the laptop, and back.'
     url: https://github.com/anton-dergunov/carrel
     works_with:
     - repo: agentic-paper-library
       title: Agentic paper library
-    - repo: vscode-pdf-viewer
-      title: PDF Viewer for VS Code
     media:
     - type: image
       src: /images/projects/carrel/reading.png
@@ -285,15 +292,13 @@ groups:
     status: stable
     tagline: Minimal PDF viewer for VS Code with highlights and links to a section or page, including
       from the Claude Code chat.
-    summary: 'Built for reading papers with a coding agent: a citation in the chat opens the paper beside
-      it at the cited section, table or page, and highlights are saved into the PDF. It works with any
-      PDF; for papers it is the desk side of the library that carrel reads on a tablet.'
+    summary: 'A plain PDF viewer for VS Code, built for reading papers with a coding agent: a citation
+      in the chat opens the paper beside it at the cited section, table or page, and highlights are saved
+      into the PDF. It works with any PDF, and with an agentic paper library.'
     url: https://github.com/anton-dergunov/vscode-pdf-viewer
     works_with:
     - repo: agentic-paper-library
       title: Agentic paper library
-    - repo: carrel
-      title: Carrel
     media:
     - type: image
       src: /images/projects/vscode-pdf-viewer/demo.webp
@@ -306,10 +311,10 @@ groups:
 - id: agents
   title: Agentic planning and context engineering
   kind: research
-  blurb: 'An LLM agent working inside a plain-text planning system, and the pipeline that prepares what
-    it files: capture from any device, extraction to clean Markdown, related notes retrieved ahead of
-    the agent, and the token cost measured. Each runs on its own; the pipeline''s choices were measured
-    in experiments kept in its repository.'
+  blurb: 'A plain-text planning system with an LLM agent working beside you on the plan, and a capture
+    mechanism that feeds it: a set protocol for saving anything from a phone, a browser or the laptop,
+    prepared so that the agent can use it well. The capture pipeline''s design choices were made by measurement
+    in experiments.'
   projects:
   - title: Agentic Org Planner
     repo: agentic-org-planner
@@ -317,10 +322,10 @@ groups:
     tagline: 'Org-mode planning system for Emacs with an LLM agent working on the plan: it adds, files
       and edits tasks in your own files, every change reviewed as a diff.'
     summary: 'A planning system in plain-text Org files in which an LLM agent is a working participant.
-      The agent runs beside the agenda, knows the file and selection in front of you and, from a generated
-      context file, the conventions of your plan; it adds and edits tasks and files what you captured
-      during the day, showing each change as a diff to accept or reject. Underneath is a complete Emacs
-      configuration: a visual agenda, schedule view, capture and saved searches.'
+      The agent knows the file and selection in front of you and the conventions of your plan; it adds
+      and edits tasks and files what you captured during the day, showing each change as a diff to accept
+      or reject. Underneath is a complete Emacs configuration that renders plans cleanly: an agenda with
+      a timeline, a calendar, views of your tasks, Git sync and other features.'
     url: https://github.com/anton-dergunov/agentic-org-planner
     works_with:
     - repo: agent-context-pipeline
@@ -357,13 +362,15 @@ groups:
   - title: Agent context pipeline
     repo: agent-context-pipeline
     status: active
-    tagline: Capture from any device, extraction to clean Markdown (web pages, PDFs, OCR, speech), and
-      retrieval of related notes, delivered as an inbox a coding agent can file.
-    summary: A self-hosted pipeline between what I come across during the day and the agent that files
-      it. It captures from a phone, a browser or the command line, extracts and cleans the content, resolves
-      links and titles, and looks up related notes ahead of the agent (BM25 recall, a cross-encoder rerank,
-      an abstain gate). The agent's token cost with and without that lookup is measured in the design
-      notes.
+    tagline: Capture from any device, extraction to clean Markdown (web pages, PDFs, OCR, speech) and
+      retrieval of related notes, delivered as an inbox a coding agent sorts into your plan in Agentic
+      Org Planner.
+    summary: 'The capture side of a planning system: a self-hosted pipeline between what you come across
+      during the day and the agent that sorts it into your plan. It captures from a phone, a browser or
+      the command line, extracts and cleans the content, resolves links and titles, and looks up related
+      notes ahead of the agent (BM25 recall, a cross-encoder rerank, an abstain gate). In experiments
+      it opened content the agent could not reach on its own, and the agent sorted the same items with
+      30–40% fewer tokens and no exploratory searches.'
     url: https://github.com/anton-dergunov/agent-context-pipeline
     works_with:
     - repo: agentic-org-planner
@@ -406,11 +413,12 @@ groups:
     tagline: 'Personal dictionary whose content is generated by LLMs and multimodal models and approved
       by the learner: entries, pictures, voices, clips of native speech, audio loops and illustrated stories,
       tuned by experiment.'
-    summary: A self-hosted, offline-first vocabulary store. Paste a word or the sentence you met it in;
-      the entry is written for you and waits in an inbox until you approve it. Around the entry, models
-      generate a picture for each sense and spoken audio, select clips of native speakers using the word
-      on YouTube, and turn a handful of words into audio loops and illustrated stories. Where a model
-      is trusted and where it is checked was decided by experiments kept in the repo.
+    summary: 'A self-hosted, offline-first personal dictionary whose content is generated by LLMs and
+      multimodal models: you collect the words you want to learn, not the ones a dictionary chose. Paste
+      a word or the sentence you met it in, and a language model writes the entry. Image models draw expressive
+      illustrations for it, clips of native speakers using the word are selected from YouTube, and a handful
+      of words become generated audio programmes and illustrated stories. Its design decisions were settled
+      by experiments and measurement, kept in the repository.'
     url: https://github.com/anton-dergunov/acervo-llm-dictionary
     media:
     - type: image
@@ -472,12 +480,13 @@ groups:
   - title: LexiBeat
     repo: lexibeat
     status: active
-    tagline: 'Language-learning audio loops: your words spoken on a beat grid over procedural music, reproducible
-      from a seed.'
-    summary: 'Makes loops: a handful of words, each spoken in the language you are learning and followed
-      by its translation, over a calm music bed. Speech lands on a known beat grid and the music is procedural
-      (numpy and scipy over CC0 samples), so a loop is byte-identical from a seed; the sound library was
-      chosen through blind A/B listening.'
+    tagline: 'Language-learning audio programmes made with LLMs and speech models: a handful of new words,
+      written into a lesson or a story and spoken over calm generated music.'
+    summary: 'Makes audio programmes that help you learn new words. Given a handful of words, a language
+      model writes the programme: a radio-style lesson, a story, or a plain drill of each word and its
+      translation. The programme is then spoken over calm generated music. Its design was settled by experiments:
+      blind A/B listening to build the sound library, how to compose a programme, and which speech models
+      to use.'
     url: https://github.com/anton-dergunov/lexibeat
     media:
     - type: video

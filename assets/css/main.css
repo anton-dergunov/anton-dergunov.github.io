@@ -730,9 +730,6 @@ tbody tr:hover { background: var(--surface); }
 
 /* ---------- projects ---------- */
 
-.projects-lede { color: var(--muted); }
-.body-col > .projects-lede + .project-group { margin-top: 2.75rem; }
-
 .project-group .topic-head { flex-wrap: wrap; row-gap: .35rem; }
 .project-group__subtitle {
   font: italic 400 .92rem/1 var(--display);
