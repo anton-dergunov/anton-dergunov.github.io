@@ -13,8 +13,14 @@ layout: base
   {%- assign body_text = content | strip_html | strip_newlines -%}
 
   <header class="article-head">
+    {%- comment -%}
+      A part of a series (_data/series.yml) shows the series name and the part above the title,
+      in place of the topic; the topic still groups the post on the index.
+    {%- endcomment -%}
+    {%- assign series = site.data.series[page.series] %}
     {%- assign topic = site.data.topics[page.topic] %}
-    {%- if topic %}<span class="eyebrow">{{ topic.name }}</span>{%- endif %}
+    {%- if series and page.part %}<span class="eyebrow">{{ series.name }} · Part {{ page.part }}</span>
+    {%- elsif topic %}<span class="eyebrow">{{ topic.name }}</span>{%- endif %}
     <h1 itemprop="headline">{{ page.title }}</h1>
     {%- if standfirst != '' and page.show_excerpt != false %}
       {%- unless body_text contains probe %}

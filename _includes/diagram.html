@@ -5,6 +5,7 @@
 
   name: the file name in /images/posts/agent-memory/, without ".svg"
   alt:  what the diagram shows, for readers who cannot see it
+  caption (optional): what the figure shows and what to notice, in markdown
 {%- endcomment -%}
 {%- assign base = "/images/posts/agent-memory/" | append: include.name -%}
 {%- assign light = base | append: ".svg" | relative_url -%}
@@ -12,4 +13,7 @@
 <figure class="diagram full-bleed">
   <a class="diagram-light" href="{{ light }}"><img src="{{ light }}" alt="{{ include.alt }}" loading="lazy" decoding="async"></a>
   <a class="diagram-dark" href="{{ dark }}"><img src="{{ dark }}" alt="{{ include.alt }}" loading="lazy" decoding="async"></a>
+  {%- if include.caption %}
+  <figcaption>{{ include.caption | markdownify | remove: "<p>" | remove: "</p>" }}</figcaption>
+  {%- endif %}
 </figure>

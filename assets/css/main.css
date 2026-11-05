@@ -569,6 +569,7 @@ figcaption { color: var(--muted); font-size: .85rem; line-height: 1.5; }
 .body-col > .diagram { max-width: 880px; }
 .diagram a { display: block; }
 .diagram img { width: 100%; border-radius: 0; }
+.diagram figcaption { max-width: var(--measure); }
 .diagram-dark { display: none !important; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .diagram-light { display: none !important; }
