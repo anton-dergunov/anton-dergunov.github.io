@@ -2,7 +2,8 @@
   Navigation for a post that is part of a series (_data/series.yml), driven by front matter:
       series: agent-memory
       part:   3
-  Usage: {% include series-nav.html mode="top" %}     (which part this is, and the list of parts)
+  Usage: {% include series-nav.html mode="top" %}     (the list of parts, collapsed; the post's
+                                                       header already names the series and part)
          {% include series-nav.html mode="bottom" %}  (previous and next part)
   Links come from the posts that carry the same `series`, so a part without a post is shown
   as plain text, and a draft links to the other drafts when the site is built with --drafts.
@@ -14,9 +15,12 @@
 {%- assign current = page.part | plus: 0 -%}
 {%- assign total = series.parts.size -%}
 {%- if include.mode == "top" %}
+{%- assign words = "one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve" | split: "," -%}
+{%- assign last = total | minus: 1 -%}
+{%- assign count = words[last] | default: total -%}
 <nav class="series-nav" aria-label="Series">
   <details>
-    <summary><span class="series-nav__label">Part {{ current }} of {{ total }}</span> in <em>{{ series.name }}</em></summary>
+    <summary><span class="series-nav__label">All {{ count }} parts</span></summary>
     <ol>
       {%- for title in series.parts %}
       {%- assign n = forloop.index %}

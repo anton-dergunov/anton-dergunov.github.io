@@ -84,6 +84,7 @@ The series name is decided (Anton, 2026-11-01). The earlier drafts in `v1/` are 
 
 ## Shared conventions
 
+- **No part opens with the running example.** The opening states the engineering problem in general terms (facts carried across conversations; some change and the newer value must win). The diet stays where the example is shown and traced, never in an opening, title, excerpt, heading or takeaway, with no commentary on it; veganism is never mentioned. Anton, 2026-11-05: diet topics make many readers roll their eyes, and every part would otherwise start the same way. See writing-guide `structure.md`, "Never open with the running example".
 - **The repository and the part's notebook are linked in the opening**, in a short line after the first paragraph or two. They are linked again in "Try it" at the end. Rendered notebooks: `https://anton-dergunov.github.io/agent-memory-eval/notebooks/NN-name.html`.
 - **The two choices are re-introduced in every part, in two or three sentences of its own.** No "the map of part 2", no "compare Mem0 in part 5", no "as part 3 showed". Links to other parts are further reading only ("Part 4 looks at Mem0 in detail").
 - **Navigation:** front matter `series: agent-memory` and `part: N`. The layout shows the list of parts at the top (collapsed) and previous/next at the end, from `_data/series.yml`. No navigation markers in the text.
