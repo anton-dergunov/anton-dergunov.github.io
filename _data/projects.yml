@@ -587,7 +587,7 @@ groups:
     - photography
     - lua
   - title: The Vim Wilds
-    repo: vim-mastery
+    repo: vim-wilds
     status: active
     tagline: A mobile-first, offline-capable course for learning Vim through short exercises, with every
       taught command checked against native Vim.
@@ -598,6 +598,7 @@ groups:
     topics:
     - vim
     - tutorial
+    private: true
   - title: Harmonic
     repo: harmonic
     status: stable
