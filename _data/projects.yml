@@ -589,12 +589,63 @@ groups:
   - title: The Vim Wilds
     repo: vim-wilds
     status: active
-    tagline: A mobile-first, offline-capable course for learning Vim through short exercises, with every
-      taught command checked against native Vim.
-    summary: A course for learning Vim in short exercises, designed for a phone first and usable offline
-      once installed. The editor in each exercise executes real Vim commands, and every command the course
-      teaches is checked against native Vim.
+    tagline: A Vim course in bite-sized lessons for your phone or your desk, from the first Esc to macros
+      and :global, in a real Vim editor.
+    summary: 'A game-like course for learning Vim in short exercises, made for a phone first and just
+      as good at a desk; it installs as an app and works offline. It goes past the basics to the automation
+      that pays off in any editor with Vim keys: registers, the dot command, substitution, macros and
+      :global. Each idea is explained and demonstrated, then practised with the next key shown and again
+      from memory, on realistic files, in a hand-drawn world with a story and guides. Every demo and exercise
+      is checked against Vim itself.'
     homepage: https://vim-wilds.pages.dev/
+    media:
+    - type: image
+      src: /images/projects/vim-wilds/hero.png
+      caption: An exercise on a laptop and another on a phone, both in a real Vim editor.
+    - type: image
+      src: /images/projects/vim-wilds/why.png
+      caption: Short exercises, a real keyboard on the phone, and lessons that go all the way to automation.
+    - type: image
+      src: /images/projects/vim-wilds/course.png
+      caption: The course map, seventeen units in four arcs, and the one question that places you.
+    - type: image
+      src: /images/projects/vim-wilds/lesson.png
+      caption: Each idea comes as an explanation and a demo, then the exercise with the next key shown,
+        then the same from memory.
+    - type: image
+      src: /images/projects/vim-wilds/keyboard.png
+      caption: The on-screen keyboard, with Esc, Ctrl and modifiers that wait for the next key.
+    - type: image
+      src: /images/projects/vim-wilds/arc-foundations.png
+      caption: Foundations, the first arc, covers modes, motions, search, operators and text objects.
+    - type: image
+      src: /images/projects/vim-wilds/arc-fluency.png
+      caption: Fluency covers selections of any shape, registers, marks and the dot command.
+    - type: image
+      src: /images/projects/vim-wilds/arc-automation.png
+      caption: Automation covers ranges, substitution, macros and :global, on files longer than the screen.
+    - type: image
+      src: /images/projects/vim-wilds/arc-capstones.png
+      caption: Capstones on realistic files, done from memory.
+    - type: image
+      src: /images/projects/vim-wilds/worlds.png
+      caption: Four hand-drawn worlds, with a scene and a guide for every unit.
+    - type: image
+      src: /images/projects/vim-wilds/story.png
+      caption: The story that unfolds as you finish units, and the fifteen guides.
+    - type: image
+      src: /images/projects/vim-wilds/help.png
+      caption: Hints that give away a little more each time, up to playing the answer on the keyboard.
+    - type: image
+      src: /images/projects/vim-wilds/practice.png
+      caption: Drills, mixed review, free practice on real files, and a reference with notes for VS Code's
+        Vim mode.
+    - type: image
+      src: /images/projects/vim-wilds/devices.png
+      caption: The same exercise on a laptop, a tablet and a phone.
+    - type: image
+      src: /images/projects/vim-wilds/real-vim.png
+      caption: How every demo and exercise is checked against Vim, and what was fixed to match it.
     topics:
     - vim
     - tutorial
