@@ -2,8 +2,8 @@
 # Fails if a personal email address or phone number is about to be published.
 #
 # Checks every tracked or new (non-ignored) file:
-#   - text sources: any email address (except noreply and example addresses) and any UK mobile number
-#   - PDF, Word and OpenDocument files: Anton's own email and any UK mobile number
+#   - text sources: any email address (except noreply, example and the public alias) and any UK mobile number
+#   - PDF, Word and OpenDocument files: Anton's own email (the public alias excepted) and any UK mobile number
 # Optional exact strings to look for, one per line, can go in local/contact-patterns.txt.
 # That file is gitignored: it holds the real values, which must not be committed.
 #
@@ -13,7 +13,8 @@ set -u
 cd "$(git rev-parse --show-toplevel)"
 
 EMAIL='[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}'
-ALLOWED_EMAIL='@(users\.noreply\.github\.com|example\.(com|org|net))$'
+PUBLIC_ALIAS='anton\.dergunov\.public360@simplelogin\.com'
+ALLOWED_EMAIL="(@(users\.noreply\.github\.com|example\.(com|org|net))|^$PUBLIC_ALIAS)\$"
 OWN_EMAIL='dergunov[A-Za-z0-9._+-]*@'
 PHONE='(\+|00)44[ .-]?\(?0?\)?[ .-]?7[0-9 .-]{8,12}|(^|[^0-9])07[0-9]{3}[ .-]?[0-9]{3}[ .-]?[0-9]{3}([^0-9]|$)'
 LOCAL_PATTERNS=local/contact-patterns.txt
@@ -35,7 +36,7 @@ scan_stream() { # scan_stream <label> <kind: text|document>, content on stdin
   if [ "$kind" = text ]; then
     while read -r n; do [ -n "$n" ] && report "$label:$n" email; done < <(disallowed_email_lines <<<"$content")
   else
-    grep -qE "$OWN_EMAIL" <<<"$content" && report "$label" email
+    sed -E "s/$PUBLIC_ALIAS//g" <<<"$content" | grep -qE "$OWN_EMAIL" && report "$label" email
   fi
   while IFS=: read -r n _; do [ -n "$n" ] && report "$label:$n" phone; done < <(grep -nE "$PHONE" <<<"$content")
   if [ -f "$LOCAL_PATTERNS" ]; then
