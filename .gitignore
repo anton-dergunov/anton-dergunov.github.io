@@ -15,3 +15,7 @@ Icon?
 desktop.ini
 .DS_Store
 *.pyc
+
+# Papers kept locally only (not published)
+publications/mpi_performance.pdf
+publications/expert_methodology.pdf

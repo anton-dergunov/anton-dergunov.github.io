@@ -94,7 +94,7 @@ Publications
 
 - Anton Dergunov. [Proving Termination and Computational Complexity of Computer Programs](https://anton-dergunov.github.io/publications/proving_complexity_v2.pdf). Abstract of poster for "CSEDays. Algorithms and Complexity" summer school.
 - Anton Dergunov. [Generalized algebraic data types in Haskell](https://themonadreader.files.wordpress.com/2013/08/issue221.pdf). The Monad.Reader Issue 22, pp. 5-39. Etc.
-- Anton Dergunov. [Specification and automatic detection of performance problems in message passing (MPI) applications](https://anton-dergunov.github.io/publications/mpi_performance.pdf). Radioelectronic and Computer Systems, 2012, 7(59), pp. 217-222.
-- Anton Dergunov. [Expert methodology for performance analysis of communicating processes in MPI applications](https://anton-dergunov.github.io/publications/expert_methodology.pdf). In proceedings of conference "Parallel Computational Technologies", Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
+- Anton Dergunov. Specification and automatic detection of performance problems in message passing (MPI) applications. Radioelectronic and Computer Systems, 2012, 7(59), pp. 217-222.
+- Anton Dergunov. Expert methodology for performance analysis of communicating processes in MPI applications. In proceedings of conference "Parallel Computational Technologies", Chelyabinsk (Russia), 2012., pp. 134-144 (in Russian).
 - Personal blog on machine learning: [https://anton-dergunov.github.io/blog/](https://anton-dergunov.github.io/blog/).
 

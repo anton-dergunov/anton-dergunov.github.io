@@ -54,6 +54,8 @@ exclude:
   - README.md
   - local                       # gitignored private notes, incl. the contact-detail patterns
   - scripts
+  - publications/mpi_performance.pdf      # local copies, gitignored
+  - publications/expert_methodology.pdf
   - package.json
   - node_modules
   - vendor
