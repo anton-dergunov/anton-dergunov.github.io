@@ -18,6 +18,9 @@ author:
   twitter          : "AntonDergunov"
   stackoverflow    : "1989308/anton-dergunov"
   medium           : "https://medium.com/@adergunov"
+  # Forwarding alias, split so the address never appears as plain text in the page source
+  contact_email_user   : "anton.dergunov.public360"
+  contact_email_domain : "simplelogin.com"
 
 words_per_minute         : 200
 future                   : false
@@ -49,6 +52,8 @@ exclude:
   - Gemfile.lock
   - LICENSE
   - README.md
+  - local                       # gitignored private notes, incl. the contact-detail patterns
+  - scripts
   - package.json
   - node_modules
   - vendor

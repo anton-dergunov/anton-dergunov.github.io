@@ -21,6 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Fail before publishing anything that holds a personal email address or phone number.
+      - run: |
+          sudo apt-get -qq install poppler-utils
+          scripts/check-private-contact.sh
+
       # kramdown-math-katex renders TeX through ExecJS, which needs a JS runtime.
       - uses: actions/setup-node@v7
         with:

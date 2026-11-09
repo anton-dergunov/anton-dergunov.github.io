@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Enable once with: git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/scripts/check-private-contact.sh"

@@ -4,7 +4,7 @@ title: "CV"
 permalink: /cv/
 body_class: cv-body
 rail_toc: h1
-rail_note: "Also available as PDF or Word."
+rail_note: "PDF and Word downloads are listed above when available."
 redirect_from:
   - /resume
 ---

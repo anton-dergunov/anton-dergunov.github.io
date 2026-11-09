@@ -1150,7 +1150,8 @@ body.is-locked { overflow: hidden; }
   gap: .6rem;
   margin-bottom: 2rem;
 }
-.download-links a {
+.download-links a,
+.download-links .is-disabled {
   display: inline-flex;
   align-items: center;
   gap: .45rem;
@@ -1165,6 +1166,7 @@ body.is-locked { overflow: hidden; }
   text-decoration: none;
 }
 .download-links a:hover { border-color: var(--green); color: var(--green); }
+.download-links .is-disabled { opacity: .45; cursor: not-allowed; }
 .download-links svg { width: 14px; height: 14px; fill: currentColor; }
 
 /* ---------- mermaid ---------- */

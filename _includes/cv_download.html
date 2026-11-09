@@ -1,8 +1,20 @@
+{%- comment -%}
+  Each button is a link when the file is published, and a greyed-out label otherwise.
+{%- endcomment -%}
+{%- assign cv_pdf = site.static_files | where: "path", "/cv/Anton_Dergunov.pdf" | first -%}
+{%- assign cv_docx = site.static_files | where: "path", "/cv/Anton_Dergunov.docx" | first -%}
+{%- capture cv_icon -%}
+<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 0H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4.5L9.5 0zm0 1.5L12.5 4.5H9.5V1.5zM4 8h8v1H4V8zm0 2.5h8v1H4v-1zM4 13h5v1H4v-1z"/></svg>
+{%- endcapture -%}
 <div class="download-links">
-  <a href="{{ '/cv/Anton_Dergunov.pdf' | relative_url }}">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 0H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4.5L9.5 0zm0 1.5L12.5 4.5H9.5V1.5zM4 8h8v1H4V8zm0 2.5h8v1H4v-1zM4 13h5v1H4v-1z"/></svg>
-    PDF</a>
-  <a href="{{ '/cv/Anton_Dergunov.docx' | relative_url }}">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 0H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4.5L9.5 0zm0 1.5L12.5 4.5H9.5V1.5zM4 8h8v1H4V8zm0 2.5h8v1H4v-1zM4 13h5v1H4v-1z"/></svg>
-    Word</a>
+  {%- if cv_pdf %}
+  <a href="{{ '/cv/Anton_Dergunov.pdf' | relative_url }}">{{ cv_icon }} PDF</a>
+  {%- else %}
+  <span class="is-disabled" aria-disabled="true" title="Not available yet">{{ cv_icon }} PDF</span>
+  {%- endif %}
+  {%- if cv_docx %}
+  <a href="{{ '/cv/Anton_Dergunov.docx' | relative_url }}">{{ cv_icon }} Word</a>
+  {%- else %}
+  <span class="is-disabled" aria-disabled="true" title="Not available yet">{{ cv_icon }} Word</span>
+  {%- endif %}
 </div>
