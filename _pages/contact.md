@@ -2,6 +2,7 @@
 layout: page
 title: "Contact"
 permalink: /contact/
+published: false
 ---
 
 The quickest way to reach me is [LinkedIn](https://www.linkedin.com/in/{{ site.author.linkedin }}/). I'm also on [GitHub](https://github.com/{{ site.author.github }}).
