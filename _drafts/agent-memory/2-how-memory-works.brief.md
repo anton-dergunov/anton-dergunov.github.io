@@ -96,5 +96,7 @@ Page numbers only where a reader may check a number (Anton's "Keep pages?" note)
 
 ## Open questions for Anton
 
+- From part 3 (2026-11-12): Dynamic Cheatsheet's AIME result (7 problems with a plain prompt, 11 with an empty cheatsheet, 15 with a curated one) shows that the fair baseline for any memory is the same prompt with an empty memory. It is true of every design, so it may belong here rather than in part 3. Move it here?
+
 - Which pictures of latent vs parametric memory you liked, so ours can be drawn after them.
 - Whether "three papers from 2023 contain most of the ideas" is your view (then it stays, as an opinion) or should go.

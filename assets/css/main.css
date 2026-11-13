@@ -171,6 +171,7 @@
   --ochre-wash: #F2E9DA;
   --warn: #9C4B33;
   --warn-wash: #F4E4DE;
+  --sky-wash: #DCE6F3;
   --shadow: 0 1px 2px rgba(34, 36, 31, .05);
   --selection: #DDDCD8;
 
@@ -203,6 +204,7 @@
     --ochre-wash: #2E2718;
     --warn: #E29278;
     --warn-wash: #331F19;
+    --sky-wash: #1D2630;
     --shadow: 0 1px 2px rgba(0, 0, 0, .35);
     --selection: #40413C;
     color-scheme: dark;
@@ -225,6 +227,7 @@
   --ochre-wash: #2E2718;
   --warn: #E29278;
   --warn-wash: #331F19;
+  --sky-wash: #1D2630;
   --shadow: 0 1px 2px rgba(0, 0, 0, .35);
   --selection: #40413C;
   color-scheme: dark;
@@ -1217,6 +1220,14 @@ pre.mermaid svg { max-width: 100%; height: auto; display: block; margin: 0 auto;
 .highlight .gh, .highlight .gu { color: var(--muted); font-weight: 600; }
 .highlight .gs { font-weight: 600; }
 .highlight .ge { font-style: italic; }
+
+/* ---------- highlighted phrases (where each part of a transcript went) ---------- */
+
+mark.hl { color: inherit; padding: 0 .15em; border-radius: 2px; }
+.hl-facts { background: var(--green-wash); }
+.hl-prefs { background: var(--ochre-wash); }
+.hl-plans { background: var(--sky-wash); }
+.hl-changes { background: var(--warn-wash); }
 
 /* ---------- print ---------- */
 

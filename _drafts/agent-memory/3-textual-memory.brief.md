@@ -25,19 +25,17 @@ Before reaching for vector stores and graphs, an engineer should know how far th
 
 ## Outline
 
-| Section | Claim it supports | Evidence or artefact to show | Figure |
-|---|---|---|---|
-| Opening | The simplest design that still deserves the name memory; the two choices in this part's words (a background writer, insert everything); the notebook link | Problem above | `textual` |
-| Where it comes from | MemoryBank's user portrait is the ancestor ("The ancestor of this system is…", plain word order, per Anton's note). The version run here follows PersonaMem-v3's Textual Memory baseline: one profile under four headings, ADD/EDIT/REMOVE/MERGE, a 4,096-token cap. | The PersonaMem-v3 prompt quote. Name the paper when its result is cited ("In the PersonaMem-v3 paper…"), and say what the result measures before giving it. | none |
-| The test | The full short transcript (version B); this design is most tested by the reversal | Series brief | `conversation` |
-| How the rewrite works | Write path: after each session, one call reads the current profile and the session (with its date) and writes the whole profile again. Read path: the whole profile goes into the prompt. | The two rules that do the work, quoted exactly (replace and record the change with dates; absolute dates). Make clear this prompt is ours, written after PersonaMem-v3's description, not the benchmark's (Anton's note). | `textual` (or a small step figure) |
-| The run traced: after session 1 | Everything kept; "eight years" becomes "since 2018", "next week" becomes "the week of March 16"; one hedge ("Currently based in or planning for Berlin") the user never said | The profile, shown exactly, as Anton asked | none |
-| The run traced: after session 2 | One current diet, the old one in a "previously" clause with a date. Four things nobody asked for: added precision ("since 2026-05-01"), a reworded constraint ("can't eat shellfish" → "shellfish allergy"), the hedge kept as history, the March dinner dropped. | The second profile | `profile-diff` |
-| The run traced: reading | Every constraint reached the answer, including the two-hop fact, because the guests sit on one line of a profile that is inserted whole. The "I have booked a table" claim is the answering model, not the memory. | The answer | none |
-| Where it breaks | The "previously" clause invites arithmetic, from the benchmark run in words: "25 postcards (up from 17)" answered as 25 − 17 = 8. A detail mentioned once can be dropped in a rewrite. PersonaMem-v3 measures drift at scale (about 14.4% of lines dropped or rephrased per update). How to notice: diff the profile after each rewrite. Fixes: phrase history as "now 25; reported 17 on …"; keep the raw history beside the profile. | findings/textual.md; v1 "What it does well…" | none, or reuse `profile-diff` |
-| Cost | Two calls to store two sessions, one to answer; each rewrite reads the whole profile (357 → 559 tokens in) | v1 cost table | none |
-| When it is enough | Use it first when the profile fits, facts change and the newest must win, and someone should be able to read it. Do not use it when exact wording matters or rewriting dominates cost. | v1 "When it is enough" | none |
-| How it was run / Try it | About 50 lines of our code; the same prompt as the experiment; the notebook | Links | none |
+<Order follows the system deep-dive skeleton in writing-guide `structure.md` (2026-11-12): mechanism first, the example traced session by session with cost, failures, judgement, history last. "Show in full" lists what the section shows verbatim; prompts are shown whole, with […] for cuts.>
+
+| Section | Claim it supports | Show in full | Figure | Words |
+|---|---|---|---|--:|
+| Opening | A model sees only its prompt, so an LLM agent needs a memory system; textual memory is the simplest (one plain-text profile; no embeddings, graph or database); PersonaMem-v3 names it; close to the memory in consumer LLM chat products; why we start with it; the notebook link | Problem above | none | 230 |
+| How textual memory works | Write path: one call per session, after it ends, reads the profile and the dated session and writes the whole profile again; nothing else runs. Read path: no search; the whole profile goes into the prompt as it is. The two rules that matter (changes with dates; absolute dates). The prompt is mine, after PersonaMem-v3's description [TODO: why it differs]. The price of each choice, as two labelled points. | The rewrite prompt in full; the answer prompt and its system line in full | `textual` | 500 |
+| The example, step by step | What it tests, as a list; three sessions, the third names none of the facts. Session 1: everything kept; dates resolved; one hedge ("Currently based in or planning for Berlin"). Session 2: one current diet, the old one as history with a date; four unrequested changes, numbered. Session 3: every constraint reached the answer; the booking claim is the answering model, not the memory. Cost: tokens in split into instructions, profile and new input; the other systems' call counts as a list, named as later parts. | Each session's transcript in its subsection, phrases coloured by profile heading; profile 1; profile 2 as a diff; the answer; the cost table | `conversation`, `profile-diff` | 1,400 |
+| Where it breaks | **Failure 1:** the history clause invites arithmetic (25 − 17 = 8). **Failure 2:** a detail mentioned once is dropped (the sneakers). Drift at scale: PersonaMem-v3 (§4.5, p. 19), 14.4% of lines per update, 83.1% of facts kept as concepts; Dynamic Cheatsheet's placeholders. How to notice and fix (a subsection). | findings/textual.md (linked here) | none | 640 |
+| When it is enough | Use it when the profile fits, facts change and the newest must win, and someone should read it; not when exact wording matters, rewriting dominates cost, or the profile no longer fits | none | none | 180 |
+| History and related work | **MemoryBank:** the portrait. **PersonaMem-v3:** the baseline, its prompt, and 25.7% vs 51.4% on tracking preference changes, with my reading of why. **Dynamic Cheatsheet:** the same memory for maths strategies; 7 / 11 / 15 and the fair baseline. **Observational Memory:** part 9. | The PersonaMem-v3 prompt, quoted | none | 720 |
+| Run it yourself | A standalone implementation with no extra dependencies; same prompts and outputs as the post; any model, Gemini 3.1 Flash-Lite on the free tier; part 8 for scale; ideas to try | Links | none | 200 |
 
 ## Running example
 
@@ -59,7 +57,7 @@ LongMemEval scores (93%, 7% stale) go to part 8 (Anton: "would read much better 
 
 ## Left out
 
-- Dynamic Cheatsheet: cut (Anton: "I got nothing from it"), or explained in a full paragraph if it earns one. The default is cut.
+- Dynamic Cheatsheet: kept since 2026-11-12, in "History and related work", as one analogy (a memory of solution strategies instead of user facts) with the 7 / 11 / 15 result explained. Its fair-baseline point may move to part 2 (open question there).
 - Mastra Observational Memory: one line, pointing to part 9.
 - The PersonaMem-v3 Mem0 comparison (79.9% vs 56.9%): keep only if the paragraph says first what the task measures. Otherwise cut.
 - DynamicMem's A-Mem result: cut unless it supports the drift point directly.
@@ -68,7 +66,7 @@ LongMemEval scores (93%, 7% stale) go to part 8 (Anton: "would read much better 
 ## Links
 
 - Notebook 01: https://anton-dergunov.github.io/agent-memory-eval/notebooks/01-textual.html
-- Papers: MemoryBank, PersonaMem-v3
+- Papers: MemoryBank, PersonaMem-v3, Dynamic Cheatsheet
 
 ## For search and for employers
 
@@ -80,16 +78,33 @@ LongMemEval scores (93%, 7% stale) go to part 8 (Anton: "would read much better 
 
 | Note | Handled by |
 |---|---|
-| "We need to put the exact example here! … reference the notebook" | Transcript in "The test"; notebook link in the opening |
+| "We need to put the exact example here! … reference the notebook" | Each session's transcript in its own subsection (since 2026-11-12); notebook link in the opening and after session 1 |
 | "Show an example of this" / "Show it! Specific example!" | Profiles shown in the run sections |
-| "The ancestor of this system is…" (word order) | Wording rule; voice.md change |
+| "The ancestor of this system is…" (word order) | Wording rule (writing-guide plain-writing.md) |
 | "Which one?" / "Paragraph of what?" | Name the paper; say what the result measures |
-| "Make it clear that this is what we test" | "How the rewrite works" |
-| "This is a detail…" (model, temperature) | Moved to "How it was run" |
-| "I got nothing from it!" (Dynamic Cheatsheet) | Cut, or a full explanation |
+| "Make it clear that this is what we test" | "How textual memory works", with both prompts in full |
+| "This is a detail…" (model, temperature) | The model and its reason in "Run it yourself"; the temperature cut |
+| "I got nothing from it!" (Dynamic Cheatsheet) | Kept as one analogy, at the end, after Anton's 2026-11-12 read |
 | "Readers are reading one blog after another…" (Compare Mem0) | No back-references |
 | "Would read much better in part 9" (real data) | Scores go to part 8; one failure stays, in words |
 
 ## Open questions for Anton
 
-- Cut Dynamic Cheatsheet entirely? (Recommended.)
+- Why does the rewrite prompt differ from PersonaMem-v3's (whole profile and four headings, instead of ADD/EDIT/REMOVE/MERGE actions)? The post has a TODO there.
+- The fair-baseline point (7 / 11 / 15): keep in part 3, or move to part 2?
+
+## Anton's notes on the 2026-11 draft (STE version), and where each is handled
+
+The full feedback is in writing-guide `experiments/2026-11-ste100/feedback-full-read.txt`. The structural lessons are in writing-guide `lessons.md` (2026-11-12).
+
+| Note | Handled by |
+|---|---|
+| No single section on the mechanism; the prompts hidden | "How textual memory works", with both prompts in full |
+| History interrupts the narrative | "History and related work", last |
+| The test transcript up front, as if it were the point | Each session's transcript in its subsection, highlighted; "what it tests" as a list |
+| Cost belongs with the example | "What it costs" is the last subsection of the example, with tokens split by part |
+| "How it was run" and "Try it" are one section | "Run it yourself" |
+| "Assistant", "consumer assistants", "I call this" | LLM agent, LLM chat products; PersonaMem-v3 named as the source of the name |
+| Page numbers in the middle of sentences | Locations next to the paper's name |
+| Failures without labels | **Failure 1**, **Failure 2**, and a subsection on noticing and fixing them |
+| Mem0 and the other systems named before the reader knows them | "Described later in this series" |
