@@ -35,6 +35,10 @@
   <body>
     <a class="visually-hidden" href="#main">Skip to content</a>
 
+    {%- if page.shared_draft %}
+    <div class="draft-bar" role="note"><b>Draft</b><span>Work in progress, shared for review. Not final.</span></div>
+    {%- endif %}
+
     <header class="masthead">
       <div class="masthead__inner">
         <span class="masthead__title"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></span>

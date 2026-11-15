@@ -13,6 +13,7 @@ layout: base
   {%- assign body_text = content | strip_html | strip_newlines -%}
 
   <header class="article-head">
+    {%- if page.shared_draft %}<div class="draft-ribbon" aria-hidden="true"><span>DRAFT</span></div>{% endif %}
     {%- comment -%}
       A part of a series (_data/series.yml) shows the series name and the part above the title,
       in place of the topic; the topic still groups the post on the index.
