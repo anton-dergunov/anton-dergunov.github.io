@@ -26,17 +26,17 @@ What if no pipeline decides what to remember, and the agent that answers does it
 
 ## Outline
 
-<Order follows the system deep-dive skeleton in writing-guide `structure.md` (2026-11-12): mechanism first, the example traced session by session with cost, failures, judgement, history last. "Show in full" lists what the section shows verbatim; prompts are shown whole, with […] for cuts.>
+<Updated 2026-11-15 after notebook 04 was rerun (option B, `6-letta.notebook-fixes.md`); the runs and replays are in `6-letta.runs.md`. Order as in part 3. Prompts and tool descriptions are quoted from the 0.16.8 server; replies and blocks from the rerun notebook.>
 
-| Section | Claim it supports | Show in full | Figure | Words |
-|---|---|---|---|--:|
-| Opening | The two choices in this part's words (the answering agent writes; the blocks are inserted, the rest is searched); the notebook link | Problem above | `letta` | 250 |
-| How Letta works | The context as memory: system instructions, memory blocks written only through function calls, a queue of recent messages; external stores searched through tools. A turn: read the message, optionally call `memory_insert`, `memory_replace` or `conversation_search`, chain calls, reply. Nothing in the base prompt says when to write. The sleep-time variant moves the writing to a background agent. What it does not do: no separate writer after the session (in the default), no history of edits. | The base prompt in full and the tool descriptions ("Do NOT attempt to replace long strings"); a memory block as stored | `letta`, `letta-context`, `letta-turn` | 1,100 |
-| The example, step by step | What it tests, as a list (does the agent write the reversal, and how). Session 1: wrote nothing on the first message and everything one turn later. Session 2: "vegetarian" replaced in place; no history; "one month ago" and "(8 years)" undated; the whole block re-sent to change one line, against the tool's own advice; "can't eat shellfish" reworded. Reading: no retrieval to miss; it searched anyway and doubled the prompt. Moving the writing out of the turn: a sleep-time agent owns the blocks and writes better ones, with absolute dates, but merges two visits into one; the primary agent, left with only a search tool, looped and gave no reply on three turns, using this small model. Cost: every memory write is an extra call before the reply: 11 calls for six user turns in-line; sleep-time 4 in the background. | Each session's transcript in its subsection; the block after each session, as a diff; both sleep-time blocks; the "human block" search loop | `conversation`, `letta-sleeptime` | 1,500 |
-| Where it breaks | From the benchmark, in words. **Failure 1:** it notices and does not write: "Congratulations on hitting 600 followers!" and no edit. **Failure 2:** the self-hosted search is a literal phrase match; paraphrased searches come back empty. **Failure 3:** it trusts a stale block. Fed a whole session at once, it mostly took no step. How to notice: read the block after each revision; count edits per history. Fix: the three persona lines, quoted exactly, and what they changed (revisions written at message 31 → 57 of 64), with the caveat that they were written after reading the failures. | findings/letta.md (linked here); v1 "On real data" (counts only; accuracy goes to part 8) | none | 600 |
-| When it is the right design | The agent is the product, the facts fit in blocks, and you will write the persona that tells it when and how to write | v1 | none | 200 |
-| History and related work | **MemGPT:** the prompt as main memory and external stores as disk, with one sentence on why an operating system is the analogy; "memory pressure" warnings tell the model to save before eviction; its benchmark is now saturated, in one sentence. **Sleep-time Compute.** **Relatives:** MemoryOS, MemOS, MIRIX, one sentence each, only if explained. | v1, v1 "Relatives" | none | 450 |
-| Run it yourself | Letta's own prompt and tools driven by a local loop; part 8 for scale; ideas to try | Links | none | 200 |
+| Section | Claim it supports | Show in full | Figure |
+|---|---|---|---|
+| Opening | The pipelines write outside the conversation; here the answering agent writes, in its turn; blocks inserted, recall searched | Problem above | none |
+| How Letta works | What the agent sees (MemGPT's main memory and disk); the base prompt says nothing on when or how to write; tools: exact-string replace, insert, both return the block; nothing keeps history; the self-hosted search matches whole phrases, five newest, tool messages dropped after the cut; the sleep-time variant (every 5 turns, its own prompt asks for absolute dates); what it does not do; the price of each choice | `letta_v1` prompt; block layout; `memory_metadata`; the three tool descriptions as sent (Examples, cut); pseudocode of the loop, the two tools and the search; the sleep-time prompt, persona and preface | `letta`, `letta-context`, `letta-turn`, `letta-search`, `letta-sleeptime` |
+| The example, step by step | Session 1: nothing on the first message ("I have noted…"), one paragraph on the second; R2. Session 2: replaced in place, whole block re-sent twice, date vaguer, constraint reworded; R2b (persona lines: earlier value kept and dated). Session 3: five searches shortening to "Kreuzberg", matching only the agent's replies. Sleep-time: the primary claims "I've noted that change!"; the background agent writes "(next week)", a wrong month, merges two facts; the primary's reply promises a search that never runs. Cost | each session's transcript; the block after each session; each tool call; the search queries; the sleep-time blocks; the call table | `conversation`, `letta-block-diff`, `letta-cost` |
+| Where it breaks | Failure 1 noticed and not written; 2 phrase search crowded by echoes; 3 trusts a stale undated block; 4 overwrite deletes the earlier value a question needs; 5 fed a whole session, no step. How to notice; the persona lines and what they changed (31 → 57 of 64), with the caveat | findings/letta.md quotes and counts; the persona text | `letta-chain` |
+| When it is the right design | Use when / do not use when; against parts 3–5 | | none |
+| History and related work | MemGPT (OS analogy, memory pressure, heartbeats, DMR saturated); what Letta dropped since (heartbeats, the warning); Sleep-time Compute; Mem-α; MemoryAgentBench; control-plane placement; ACE's context collapse; MIRIX, MemoryOS; memory security | papers in ~/papers with pages | none |
+| Run it yourself | Re-implementation around Letta's text, behaving like a self-hosted server; what is simpler and why; ideas | links | none |
 
 ## Running example
 
@@ -44,17 +44,22 @@ Version B. Tested most by the reversal: whether and how the agent writes it.
 
 ## Numbers
 
-| Number | Out of what | From where | Compared with | So what |
-|---|---|---|---|---|
-| 31 → 57 of 64 | revisions written at the message carrying them, in the benchmark | findings/letta.md | before and after the persona lines | The sharpest evidence that the instruction is the policy; not a held-out score |
-| 97 of 146 | searches at answer time that returned nothing | findings/letta.md | all searches | Phrase-match search cannot find paraphrases |
-| ~1,500 → ~3,500 tokens | the prompt in the reading turn | notebook 04 | without the search | The search was unneeded and costly |
+| Number | Out of what | From where | So what |
+|---|---|---|---|
+| 17 calls, 47,677 tokens | in-line agent, 7 user turns | notebook 04 (rerun) | every edit and search is a call before the reply, with the whole prompt re-read |
+| ~1,600 of 2,294 tokens | first call of a session | `count_tokens` on the prompt's parts | the tool descriptions, with their examples, are the largest part of every call |
+| 16 + 4 calls | sleep-time set-up, user-facing + background | notebook 04 | the background agent is cheap; here the primary searched instead of editing |
+| 2/10, 3/10 vs 0/10 | replays writing on the first message, shipped vs persona lines | R2 | the persona lines do not ask to save a first statement |
+| 6/10 kept, 0/10 dated vs 10/10, 9/10 | replays at the revision message | R2b | the persona lines change what is written at a revision |
+| 31 → 57 of 64 | revisions written at the message carrying them | findings/letta.md | the instruction is the policy; not a held-out score |
+| 97 of 146 | answer-time searches that returned nothing | findings, recounted (R4) | phrase match cannot find paraphrases |
+| median 3 calls, ~3× the first call | Letta's answer turn in the experiment | ledger (R3b) | the cost of searching is mostly re-sending the prompt |
 
 Accuracies (58%, 69%, 90%) go to part 8.
 
 ## Figures to make
 
-`letta-context`, `letta-turn`, `letta-sleeptime` (new). `letta` exists.
+`letta` (exists; updated for the rerun). New, drawn 2026-11-15: `letta-context`, `letta-turn`, `letta-search`, `letta-sleeptime`, `letta-block-diff` (which also shows what each replace sent), `letta-cost`, `letta-chain`.
 
 ## Left out
 
