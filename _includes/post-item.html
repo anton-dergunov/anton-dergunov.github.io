@@ -3,7 +3,7 @@
   <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
   {%- assign latest_update = nil %}
   {%- if post.updates %}{% assign latest_update = post.updates | sort: "date" | last %}{% endif %}
-  <span class="date">{{ post.date | date: "%b %Y" }}{% if latest_update %} · upd. {{ latest_update.date | date: "%b %Y" }}{% endif %}</span>
+  <span class="date">{% if post.shared_draft %}Draft{% else %}{{ post.date | date: "%b %Y" }}{% endif %}{% if latest_update %} · upd. {{ latest_update.date | date: "%b %Y" }}{% endif %}</span>
   {%- if post.excerpt %}
   <div class="excerpt">{{ post.excerpt | markdownify | strip_html | strip_newlines | strip | truncate: 180 }}</div>
   {%- endif %}

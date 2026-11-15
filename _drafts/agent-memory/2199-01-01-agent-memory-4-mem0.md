@@ -4,6 +4,7 @@ excerpt:   "What Mem0 does between add() and search(): extraction, the update st
 topic:     llms-and-agents
 date:      2199-01-01
 permalink: /posts/2199/01/agent-memory-4-mem0/
+share:     true
 series:    agent-memory
 part:      4
 tags:

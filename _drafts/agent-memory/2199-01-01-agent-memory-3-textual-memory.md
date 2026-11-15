@@ -4,6 +4,7 @@ excerpt:   "The simplest LLM memory design: one profile rewritten after each con
 topic:     llms-and-agents
 date:      2199-01-01
 permalink: /posts/2199/01/agent-memory-3-textual-memory/
+share:     true
 series:    agent-memory
 part:      3
 tags:

@@ -4,6 +4,7 @@ excerpt:   "How a temporal knowledge graph stores, dates and closes facts, and w
 topic:     llms-and-agents
 date:      2199-01-01
 permalink: /posts/2199/01/agent-memory-5-graphiti/
+share:     true
 series:    agent-memory
 part:      5
 tags:

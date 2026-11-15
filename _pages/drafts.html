@@ -1,0 +1,12 @@
+---
+layout: list
+permalink: /drafts/
+title: "Drafts"
+sitemap: false
+rail_note: "Work in progress, shared for review. Not for circulation."
+---
+
+{%- assign shared = site.posts | where: "shared_draft", true | sort: "part" %}
+<div class="post-list">
+  {%- for post in shared %}{% include post-item.html post=post %}{% endfor %}
+</div>

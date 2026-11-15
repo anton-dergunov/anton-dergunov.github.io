@@ -15,7 +15,7 @@ redirect_from:
 {%- for entry in site.data.topics -%}
   {%- assign key = entry[0] -%}
   {%- assign meta = entry[1] -%}
-  {%- assign posts = site.posts | where: "topic", key -%}
+  {%- assign posts = site.posts | where: "topic", key | where_exp: "p", "p.shared_draft != true" -%}
   {%- if posts.size > 0 %}
 <section class="topic-group">
   <div class="topic-head">
@@ -31,7 +31,7 @@ redirect_from:
 
 {%- assign orphans = "" | split: "" -%}
 {%- for post in site.posts -%}
-  {%- unless site.data.topics[post.topic] -%}{%- assign orphans = orphans | push: post -%}{%- endunless -%}
+  {%- unless site.data.topics[post.topic] or post.shared_draft -%}{%- assign orphans = orphans | push: post -%}{%- endunless -%}
 {%- endfor -%}
 {%- if orphans.size > 0 %}
 <section class="topic-group">

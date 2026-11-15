@@ -32,7 +32,8 @@ layout: base
   <div class="band">
     <div class="rail">
       <span class="rail-mark">
-        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
+        {%- if page.shared_draft %}Draft
+        {%- else %}<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>{% endif %}
       </span>
       {%- assign latest_update = nil %}
       {%- if page.updates %}{% assign latest_update = page.updates | sort: "date" | last %}{% endif %}

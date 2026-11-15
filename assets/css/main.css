@@ -153,6 +153,18 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Playfair's zero is an oval that reads as "o" (Mem0 -> Memo), so headings take
+   just the digit 0 from Plex Mono, whose zero is dotted. */
+@font-face {
+  font-family: 'Display Zero';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  size-adjust: 115%;
+  src: url(/assets/fonts/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0030;
+}
+
 /* ---------- tokens ---------- */
 
 :root {
@@ -176,7 +188,7 @@
   --selection: #DDDCD8;
 
   --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --display: "Playfair Display", Georgia, serif;
+  --display: "Display Zero", "Playfair Display", Georgia, serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --step: clamp(1rem, .82rem + .8vw, 1.0625rem);
