@@ -45,7 +45,7 @@ The point for the post: the mechanisms held in all three runs (default types sto
 
 ## Checks
 
-Scripts and outputs in `replays/`.
+Scripts and outputs in `agent-memory-eval/scripts/replays/` (moved there from the blog on 2026-11-15).
 
 - **A** (`graphiti_replay.py`): the committed run's comparison for the reversal, sent with the stricter 0.31.1 prompt: `contradicted_facts: [0]` in 3 of 3.
 - **B** (same script): step 3 for s1.1 with the three default entities: 2 facts, no new entity, in 3 of 3. The adopted run's new cell shows the same.

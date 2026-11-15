@@ -1,11 +1,11 @@
 # Part 6 (Letta): runs, replays and checks
 
-Written 2026-11-15. Scripts and outputs are in `replays/letta_*`. All Gemini calls use `gemini-3.1-flash-lite`; 147 chat calls in all.
+Written 2026-11-15. Scripts and outputs are in `agent-memory-eval/scripts/replays/letta_*`. All Gemini calls use `gemini-3.1-flash-lite`; 147 chat calls in all.
 
 ## The notebook
 
 - **Notebook 04 was rerun on 2026-11-15** with four fixes that make the re-implementation behave as a self-hosted Letta 0.16.8 server does (option B in `6-letta.notebook-fixes.md`, chosen by Anton): the tool descriptions as the server builds them (with the docstrings' Examples), the server's search rule (whole query as one substring, five newest), an edit returning the whole block, and the server's `memory_metadata` wording. Kept simpler: temperature 0, sleep-time once per session, block limit 20,000, the primary with only the search tool.
-- The rerun made 37 new chat calls; they are in `.cache/gemini/`, so `MEMORY_NOTEBOOKS_CACHE=1` replays it. `replays/letta_dump_run.py` rebuilds the run from the cache with live calls blocked and dumps every request, reply, block and recall message; the post quotes from that dump. The committed notebook equals the trial run call for call.
+- The rerun made 37 new chat calls; they are in `.cache/gemini/`, so `MEMORY_NOTEBOOKS_CACHE=1` replays it. `agent-memory-eval/scripts/replays/letta_dump_run.py` rebuilds the run from the cache with live calls blocked and dumps every request, reply, block and recall message; the post quotes from that dump. The committed notebook equals the trial run call for call.
 - New numbers: in-line agent 17 calls and 47,677 tokens read for seven user turns (was 13 and 25,655); sleep-time set-up 16 calls the user waits for plus 4 in the background (was 36 + 4). The first call of a session reads 2,294–2,390 tokens, of which about 1,600 are the three tool descriptions (`count_tokens` on the prompt's parts; the remainder is constant across calls).
 
 ## Replays and offline checks
