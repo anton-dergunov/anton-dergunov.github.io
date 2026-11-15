@@ -304,7 +304,7 @@ The instructions account for approximately 240 tokens in each rewrite. The growi
 Textual memory used two calls to store two sessions and one call to answer the question. It requires no embeddings or database, only the model. For comparison, here is the number of calls made by the systems described in later parts of this series when processing the same two sessions:
 
 - **Mem0** ([part 4][part-4]) also makes two model calls to store them.
-- **Zep/Graphiti** ([part 5][part-5]) made 36 calls.
+- **Zep/Graphiti** ([part 5][part-5]) made 38 calls.
 - **Honcho** ([part 7][part-7], a re-implementation) made 6 calls.
 - **Letta** ([part 6][part-6]): its agent makes additional calls inside its own replies while writing, so the user has to wait.
 

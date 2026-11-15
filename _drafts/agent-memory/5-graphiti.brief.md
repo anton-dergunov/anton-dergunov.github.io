@@ -1,7 +1,7 @@
 ---
 post: _drafts/agent-memory/2199-01-01-agent-memory-5-graphiti.md
 type: system deep-dive
-status: draft
+status: structure draft written 2026-11-15
 ---
 
 # Brief: Zep and Graphiti: facts with dates, in a graph (part 5)
@@ -75,3 +75,13 @@ The 18%/82% result belongs to part 8. Here it appears in words only (fed whole s
 ## Open questions for Anton
 
 - None beyond the series questions.
+
+## As written (2026-11-15)
+
+The draft follows the outline above, with these differences:
+
+- **The notebook was rerun on graphiti-core 0.31.1** (Anton's decision), with its control flow brought in line with the library. The run, the earlier run on 0.30 and a trial are compared in `5-graphiti.runs.md`. The numbers in the outline changed: 38 model calls and 25 embedding calls, 60,374 tokens; fourteen facts; the old value closed on 20 July, not 20 June (the model dated the new value by the message); the new value scored 0.592; the peanut allergy passed the floor and came eleventh, so the default answer left it out.
+- **Length is not capped** (Anton: the most complicated design in the series; completeness first). About 7,900 words, of which about 2,200 are the four prompts and the mechanism.
+- **Figures:** `graphiti`, `graphiti-steps`, `graphiti-dates`, `graphiti-matching`, `graphiti-graph` (the graph after each session, as in the notebook's drawings), `graphiti-floor`, `graphiti-walk`, `graphiti-cost`, plus `conversation`.
+- **Failures:** seven, not five: the entity prompt; the fixed floor; closed facts taking places; duplicate nodes; feeding; changes in passing; dating that closes the newer fact.
+- **History:** the Zep paper; how the library differs from it (context of ten messages, matching by name only, no walk in the default search, the stricter contradiction rule of 0.31.0); the Mem0 paper's measurement; A-TMA; the agent-native comparison; HippoRAG and A-MEM as the other reasons for a graph. AgentMemBench from v1 is left out: its graph strategy is spaCy triples in NetworkX, not a design like Graphiti's.

@@ -527,7 +527,7 @@ Reading is cheap: one embedding call per question, no model call, and the answer
 For comparison, here is what the other systems in this series read in order to store the same two sessions, from their notebooks:
 
 - **Textual memory** ([part 3][part-3]), which rewrites one profile after each session, also made two model calls. They read 916 tokens.
-- **Zep/Graphiti** ([part 5][part-5]) made 36 model calls, which read about 51,000 tokens.
+- **Zep/Graphiti** ([part 5][part-5]) made 38 model calls, which read about 60,000 tokens.
 - **Honcho** ([part 7][part-7], a re-implementation) read 4,543 tokens in seven model calls, including its answer.
 - **Letta** ([part 6][part-6]) writes inside the agent's own replies, so its write cost cannot be separated from the conversation.
 

@@ -75,7 +75,7 @@ Use in general terms only, each explained where it appears:
 - The linked table of parts, replaced by the narrative reading guide.
 - "A cheap bill" (Anton: remove).
 - Model names and temperatures in the body.
-- Graphiti's 0.608 vs 0.599 detail, which belongs to part 5.
+- Graphiti's 0.608 vs 0.592 detail, which belongs to part 5.
 
 ## Links
 
