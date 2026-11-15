@@ -306,7 +306,7 @@ Textual memory used two calls to store two sessions and one call to answer the q
 
 - **Mem0** ([part 4][part-4]) also makes two model calls to store them.
 - **Zep/Graphiti** ([part 5][part-5]) made 38 calls.
-- **Honcho** ([part 7][part-7], a re-implementation) made 6 calls.
+- **Honcho** ([part 7][part-7], a run of its server) made 18 calls, 16 of them in two background "dreams".
 - **Letta** ([part 6][part-6]): its agent makes additional calls inside its own replies while writing, so the user has to wait.
 
 ## Where it breaks

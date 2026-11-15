@@ -648,7 +648,7 @@ For comparison, here is what the other systems in this series read in order to s
 - **Textual memory** ([part 3][part-3]): 2 model calls, 916 tokens.
 - **Mem0** ([part 4][part-4]): 2 model calls and 4 embedding calls, 16,857 tokens.
 - **Zep/Graphiti** ([part 5][part-5]): 38 model calls and 25 embedding calls, 60,374 tokens.
-- **Honcho** ([part 7][part-7], a re-implementation): 4,543 tokens in seven model calls, including its answer.
+- **Honcho** ([part 7][part-7], from a run of its server): 18 model calls and 9 embedding calls, 44,987 tokens, 16 of the calls in two background "dreams".
 
 The sleep-time agent is the one part of Letta that does the same job as those pipelines, and it sits between textual memory and Mem0.
 

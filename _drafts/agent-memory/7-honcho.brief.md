@@ -6,7 +6,7 @@ status: draft
 
 # Brief: Honcho: a reasoner that works in the background (part 7)
 
-Shared material is in `series.brief.md`. Source: `v1/2199-01-01-agent-memory-8-honcho.md`, notebook `05-honcho`, `agent-memory-eval/docs/findings/honcho.md`.
+Revised 2026-11-15, after reading Honcho v3.3.0's source, three runs of the real server on the example, and the rerun of notebook 05 (`7-honcho.runs.md`). Shared material is in `series.brief.md`. Sources: Honcho v3.3.0 (commit 608aec8); `replays/honcho_server_runs/run{1,2,3}.json`; notebook `05-honcho` (realigned with the server and rerun); `agent-memory-eval/docs/findings/honcho.md`; `results/main/honcho-*`; `v1/2199-01-01-agent-memory-8-honcho.md` for facts only.
 
 ## Reader
 
@@ -14,61 +14,62 @@ The series reader, interested in memory that infers things about a person and no
 
 ## The problem
 
-The other designs store what the user said. Honcho also stores what follows from it: every item is a conclusion at a stated level of certainty, linked to the conclusions it was drawn from, and a background process reasons over the store between conversations. That makes some things possible that a list of facts cannot do, such as withdrawing everything that rested on a fact that stopped being true. It also means the system writes sentences about a person that nobody said.
+The other designs store what the user said. Honcho also stores what follows from it, in levels, and a derived conclusion records the conclusions it was drawn from. Two background jobs write: a deriver per batch of messages, and a "dream" in which two agents with tools add conclusions and delete outdated ones. The links make a question answerable that a list of facts cannot answer, namely what rested on a fact that stopped being true, but Honcho's dream does not ask it. And the system writes sentences about a person that nobody said.
 
 ## What the reader should leave with
 
-1. Typing each conclusion by certainty (explicit, deductive, inductive) and linking it to its premises makes an update traceable: when a fact is replaced, what rested on it can be found and withdrawn.
-2. A rule like "a premise must rank below its conclusion" can be enforced by code, not just requested in a prompt.
-3. The higher the level, the more plausible and less checkable the conclusion. A hypothesis that says how to test it is a cheap safeguard.
-4. Reasoning passes read the whole store, so their cost grows with the profile. That is why the reasoning runs in the background.
-5. How memory is read back matters: dated lines kept answers that a written summary lost.
+1. Levels and links make an update traceable: what rested on a deleted fact can be computed by code. In Honcho v3.3.0 only removing a session from a scope uses the links; the dream's deletes leave the derived conclusions in place, and they reach the answer.
+2. The model enforces most of the rules, and code enforces few: code checks that cited ids exist; the confidence rule, the minimum number of sources, the contradiction level and the order of levels are requests in prompts, or not there at all.
+3. Derived levels are where a memory starts writing things nobody said. "Deductive" conclusions in the benchmark are often plausible guesses ("user is currently pregnant", from a question about pregnancy symptoms).
+4. The cost of a dream is set by its agent rounds, not by the size of the store: each agent sees ten or twenty conclusions per tool call. That and the trigger (50 new conclusions, 8 hours, an idle hour) are why it runs in the background.
+5. The read path decides what the stored conclusions do: dated lines given to the answering model kept answers that the dialectic agent's written answer lost, because its prompt says both "ask the user which statement is correct" and "the more recent statement supersedes".
 
 ## Outline
 
-<Order follows the system deep-dive skeleton in writing-guide `structure.md` (2026-11-12): mechanism first, the example traced session by session with cost, failures, judgement, history last. "Show in full" lists what the section shows verbatim; prompts are shown whole, with […] for cuts.>
-
 | Section | Claim it supports | Show in full | Figure | Words |
 |---|---|---|---|--:|
-| Opening | The two choices in this part's words (a background reasoner writes; a search or an agent reads); the notebook link | Problem above | `honcho` | 250 |
-| How Honcho works | The levels (explicit, deductive, inductive, abductive), each with an example from the conversation. Write path: the deriver extracts explicit conclusions when messages arrive; later, the dreamer reasons over the store and adds deductive and inductive conclusions, replacing outdated ones. Read path: the dialectic agent answers in prose, or the representation endpoint returns the conclusions. | The deriver and dreamer prompts in full; the level rule as pseudocode (eleven lines in the notebook); the REJECTED line; one stored conclusion as stored | `honcho`, `honcho-levels` | 1,100 |
-| The example, step by step | What it tests, as a list (the reversal, and what rested on it). Explicit and deductive: facts like Mem0's, tagged and linked; deductions range from useful to useless ("Lena is a person"). Revising: both diets briefly stored, then deduction replaced the vegetarian fact and "does not consume meat or fish", which rested on it. Induction and abduction: confidence labels from the model ignore the prompt's own rule; the one hypothesis says the user started eating fish *in order to* make the dinner easier, which nobody said; the "check:" line is the safeguard. Reading: the replaced row was not in the prompt, regardless of wording; all 23 live lines fitted, which will not hold for a real profile. Cost: seven calls vs two for the simplest extractor; reasoning input grows with the store (the second deduction read almost twice the first). | Each session's transcript in its subsection; store excerpts before and after; the hypothesis quoted | `conversation`, `honcho-retire` | 1,500 |
-| Where it breaks | **Failure 1:** invention at the higher levels. **Failure 2:** from the benchmark, in words: the dialectic agent wrote two dated values up as a conflict and declined to answer, where the dated lines from the same store let the answer pick the newer one. **Failure 3:** it did not close old conclusions at scale. How to notice: read the store by level; compare the two read paths. Fixes: hypotheses that name their test; confidence computed from premise counts; reading dated lines. | findings/honcho.md (linked here); v1 | none | 600 |
-| When a background reasoner earns its cost | When answers depend on what the user implies more than states, and when retracting a fact must retract what was built on it. The benchmark cannot test the pattern levels (each fact appears once). | v1 | none | 200 |
-| History and related work | Generative Agents' reflections, made typed and traceable; Plastic Labs' "violation of expectation" (start from what most surprised the model). There is no paper, so this is read from the repository: the levels on main, the dreamer's specialists, abduction announced but not implemented. | v1 "Where it comes from", with the date checked | none | 350 |
-| Run it yourself | The least faithful re-implementation: our prompts, written from Honcho's definitions; one call per specialist instead of an agent with tools; abduction implemented to see what it produces; part 8 for scale; ideas to try | Links | none | 200 |
+| Opening | The problem; the two choices (a pipeline in the background writes; the read path is a selection or an agent); links | — | — | 350 |
+| How Honcho works | Peers, collections, levels, the deriver (prompt, save rules), the dream (trigger, two agents, prompts, tools, grounding, soft delete), the peer card, the two read paths (dialectic prompt, prefetch; representation blend), what it does not do, the price | deriver prompt; deduction and induction prompts (peer-card section cut); tool list; dialectic prompt (enumeration/summarisation cut); one stored row as JSON; pseudocode for saving, the dream, grounding, the representation | `honcho`, `honcho-levels`, `honcho-deriver`, `honcho-dream`, `honcho-read` | 4,500 |
+| The example, step by step | Server run 1 traced: session 1, dream 1, session 2, dream 2, session 3 (both read paths); the three runs compared; the notebook's link walk and checks; cost | session transcripts; deriver output; tool rounds; the store; representation; the dialectic reply | `conversation`, `honcho-retire`, `honcho-cost` | 3,500 |
+| Where it breaks | **Failure 1** stale conclusions survive the update, and the dream rarely writes one at scale (0 of 158 deductions); **Failure 2** the dialectic asks the user (5 of the chat path's 9 wrong answers; v3.5.0 changed it); **Failure 3** guesses filed as deductions; **Failure 4** extraction keeps the value and drops the context; how to notice and fix | findings/honcho.md examples | `honcho-conflict`, `honcho-bench-levels` | 1,600 |
+| When it is the right design | Use when the answers depend on what follows from what was said, and when what rests on a changed fact must be found; not for "remember the newest value" | — | — | 300 |
+| History and related work | Generative Agents' reflections; violation of expectation; belief revision (Belief Memory, model editing); Honcho's own changelog | papers' page numbers | — | 700 |
+| Run it yourself | The notebook drives Honcho's text with local functions; the server runs; ideas | — | — | 350 |
 
 ## Running example
 
-Version B. Tested most by the reversal and its consequences (the deduction that rested on the old diet).
+Version B. Tested most by the fact that changes and by what was concluded from the old value; then by the read path.
 
 ## Numbers
 
 | Number | Out of what | From where | Compared with | So what |
 |---|---|---|---|---|
-| 7 calls | writing and answering the example | notebook 05 | 2 for the simplest extractor (named) | The cost of reasoning |
-| 461 → 888 input tokens | the two deduction passes | notebook 05 | each other | The reasoning cost grows with the store |
-| 5 of 9 | the dialectic path's wrong answers that were refusals over two dated values | findings/honcho.md | the representation path | A summary lost answers that the raw lines kept; part 8 has the accuracies |
+| 18–20 calls, 46–50k tokens in | storing two sessions, two dreams, one dialectic call | server runs 1–3 | notebook: 20 calls (+2 answers), 56k; other parts' costs | The dream is the cost |
+| 3 of 3 runs wrote an update; 2 of 3 deleted a still-true fact; 3 of 3 kept conclusions resting on the old fact | the server runs | run files | the notebook | The update is a model decision; the links are not used |
+| 7,434 / 158 / 146 / 0 | conclusions by level across 67 stores | results/main/honcho-repr | — | The dream writes little, and no contradictions |
+| 0 of 158 | benchmark deductions that record an update | same, read by hand | probe: old value current in 64% | Failure 1 at scale |
+| 5 of 9 | the chat path's wrong answers that were refusals over two values | findings/honcho.md | the representation path | Failure 2 |
+| median 1 call | dialectic calls per benchmark question | ledger | up to 5 rounds allowed | It answered from its prefetch |
 
 ## Figures to make
 
-`honcho-levels`, `honcho-retire` (new). `honcho` exists.
+`honcho` (redrawn), `honcho-levels`, `honcho-deriver`, `honcho-dream`, `honcho-retire`, `honcho-read`, `honcho-conflict`, `honcho-bench-levels`, `honcho-cost`.
 
 ## Left out
 
-- Belief Memory and the security survey: one sentence each, or cut.
-- Accuracies and token counts for the two read paths (part 8).
+- Accuracies and intervals for the two read paths (part 8).
+- Session summaries and the session-context endpoint (sessions here are too short to be summarised); scopes beyond the one rule they illustrate; workspace chat; surprisal beyond one sentence (off by default).
 
 ## Links
 
 - Notebook 05: https://anton-dergunov.github.io/agent-memory-eval/notebooks/05-honcho.html
-- Honcho repository; Generative Agents; violation of expectation (Plastic Labs)
+- Honcho repository at v3.3.0; Generative Agents; violation of expectation (Plastic Labs)
 
 ## For search and for employers
 
 - Title: "Honcho: a reasoner that works in the background"
-- Excerpt: "Memory that stores conclusions, not just statements: levels of certainty, premises, retracting what rested on a changed fact, and the risk of invention."
+- Excerpt: "Memory that stores conclusions, not just statements: levels, premises, agents that reason over the store in the background, and what happens to a conclusion when the fact under it changes."
 
 ## Open questions for Anton
 
-- None beyond the series questions.
+- Whether to keep "Beyond Honcho: abduction" in the notebook and the one paragraph about it in the post.

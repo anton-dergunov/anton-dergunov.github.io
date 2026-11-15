@@ -529,7 +529,7 @@ For comparison, here is what the other systems in this series read in order to s
 
 - **Textual memory** ([part 3][part-3]), which rewrites one profile after each session, also made two model calls. They read 916 tokens.
 - **Zep/Graphiti** ([part 5][part-5]) made 38 model calls, which read about 60,000 tokens.
-- **Honcho** ([part 7][part-7], a re-implementation) read 4,543 tokens in seven model calls, including its answer.
+- **Honcho** ([part 7][part-7], from a run of its server) made 18 model calls, 16 of them in two background "dreams", which read 44,987 tokens.
 - **Letta** ([part 6][part-6]) writes inside the agent's own replies, so its write cost cannot be separated from the conversation.
 
 ## Where it breaks
