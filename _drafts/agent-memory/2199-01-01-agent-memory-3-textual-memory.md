@@ -12,35 +12,35 @@ tags:
   - memory
 ---
 
-A language model sees only the text in its current prompt. When a new session starts, the model knows nothing about earlier sessions with the same user. To use what the user said before, an LLM agent needs a memory system: something that stores information from earlier sessions and puts it back into a later prompt. Some of these facts do not change. Others change, and then the new value must replace the old value.
+A language model sees only the text in its current prompt. When a new session starts, the model knows nothing about previous sessions with the same user. To use information from earlier conversations, an LLM agent needs a memory system: something that stores information from previous sessions and adds it to a later prompt. Some of these facts stay the same. Others change, in which case the new value must replace the old one.
 
-This part describes the simplest memory design. It keeps what it knows about the user as one piece of plain text, a profile. There are no embeddings, no graph and no database. The [PersonaMem-v3][personamem-v3] benchmark uses this design as a baseline and calls it *Textual Memory*. It is also close to the memory in some consumer LLM chat products. Every other design in this series adds more parts to it. This is why we start with it.
+This part introduces the simplest memory design. It stores everything it knows about the user as a single piece of plain text: a profile. There are no embeddings, graphs or databases. The [PersonaMem-v3][personamem-v3] benchmark uses this design as a baseline and calls it *Textual Memory*. It is also similar to the memory used by some consumer LLM chat products. Every other design in this series adds more components to it. That is why we start here.
 
-The post first explains how textual memory works: its write path, its read path, and the two prompts. Then it follows one short test conversation through the design, one model call at a time. After that, it shows how the design fails on longer histories, and when the design is enough. Every prompt and reply below comes from [the notebook for this part][notebook], which you can open and run. The code is in the [agent-memory-eval repository][repo].
+This post first explains how textual memory works: its write path, its read path and the two prompts. It then follows one short test conversation through the design, one model call at a time. Finally, it examines how the design fails with longer histories and when the design is sufficient. Every prompt and reply below comes from [the notebook for this part][notebook], which you can open and run. The code is in the [agent-memory-eval repository][repo].
 
 ## How textual memory works
 
 {% include diagram.html name="textual" alt="Textual memory's architecture, with the running example. Writing: after each session, one LLM call reads the current profile and the new session and writes the whole profile again. Memory: one text profile under four headings, 153 words after two sessions; the diet line now says pescatarian and keeps the old diet as 'previously'. Reading: no search; the whole profile goes into the prompt, and the answer covers every constraint." caption="Textual memory, with the conversation used in this post. After each session one LLM call rewrites the whole profile. At question time there is no search: the whole profile goes into the prompt." %}
 
-Like most memory systems, textual memory has two parts:
+Like most memory systems, textual memory has two components:
 
 - a **write path**, which stores information after a session;
-- a **read path**, which puts the stored information into the prompt of a later session.
+- a **read path**, which puts the stored information to the prompt of a later session.
 
-[Part 2][part-2] explains these two paths for all the designs in this series. Textual memory makes the simplest design choice for both paths.
+[Part 2][part-2] explains these two paths across all the designs in this series. Textual memory takes the simplest possible approach to both paths.
 
 ### The write path: one call rewrites the whole profile
 
-The write path runs once for each session, after the session ends. Thus, the user never waits for it.
+The write path runs once per session, after the session ends. The user therefore never has to wait for it.
 
-The write path is one model call. The call gets two inputs:
+The write path is a single model call with two inputs:
 
 1. the current profile, which is empty before the first session;
 2. the new session, with its date on the first line.
 
-The output of the call is the whole profile, written again. Nothing else runs. Unlike the systems later in this series, there is no extraction step, no search for related facts, and no code that compares an old fact with a new fact.
+The output of the call is the entire profile, rewritten from scratch. It does not do anything else. Unlike the systems covered later in this series, there is no extraction step, no search for related facts and no code to compare old facts with new ones.
 
-This is the whole prompt of the call (`REWRITE` in the notebook; line breaks added for reading). The notebook puts the current profile, or "(empty)", in place of `{profile}`. It puts the session in place of `{session}`, as lines such as `user: …` and `assistant: …` under a first line such as `[Session date: 2026-03-14]`.
+Here is the complete prompt for this call (`REWRITE` in the notebook; line breaks added for readability). The notebook substitutes the current profile, or "(empty)", for `{profile}`. It also substitutes the session for `{session}`, formatted as lines such as `user: …` and `assistant: …`, preceded by a line such as `[Session date: 2026-03-14]`.
 
 ```text
 You maintain a memory profile of a user for an assistant that will talk to
@@ -71,23 +71,25 @@ New conversation:
 {session}
 ```
 
-So the profile is plain text under four headings, and its length is at most 3,000 words. That is about 4,000 tokens, close to the cap of 4,096 tokens in PersonaMem-v3.
+The resulting profile is plain text organised under four headings, with a maximum length of 3,000 words. That is approximately 4,000 tokens, close to the 4,096-token limit in PersonaMem-v3.
 
-Two rules are especially important:
+Two rules are particularly important:
 
-- **The second rule, for changes** ("replace it with the new information and record that it changed, with dates"), is the whole policy for a fact that changes. The rewrite replaces the fact, and keeps the old value as history, with dates.
-- **The third rule, for dates** ("Write dates as absolute dates…"), is the reason why the session's date is in the prompt. "Next week" and "eight years" mean nothing in a profile that a model reads months later. Thus, the rewrite changes them into dates while it still knows when the user said them.
+- **The second rule, for changes** ("replace it with the new information and record that it changed, with dates"), defines the entire policy for changing facts. The rewrite replaces the current fact while preserving the previous value as dated history.
+- **The third rule, for dates** ("Write dates as absolute dates…"), explains why the session date is included in the prompt. Expressions such as "Next week" and "eight years" become meaningless in a profile that a model might read months later. The rewrite therefore converts them into absolute dates while it still knows when the user said them.
 
-I wrote this prompt for the larger experiment in this series, on LongMemEval, a public benchmark of long chat histories (see "Where it breaks"). Its design follows the *Textual Memory* baseline of PersonaMem-v3, as [the benchmark's code][personamem-v3-code] implements it: one call writes the whole profile again, under fixed headings and a size cap. The rules are mine, and they suit LongMemEval's histories, which are dated chats between a user and an assistant:
+I wrote this prompt for the larger experiment in this series, which uses LongMemEval, a public benchmark of long chat histories (see "Where it breaks"). Its design follows the *Textual Memory* baseline of PersonaMem-v3, as implemented in [the benchmark's code][personamem-v3-code]: one call rewrites the entire profile under fixed headings and a size limit. The rules themselves are mine, tailored to LongMemEval's dated conversations between users and assistants:
 
-- The questions ask about facts that the user changed later, and every session has a date. The second and third rules, for changes and for dates, are for these questions.
-- The assistant wrote about 86% of the words in these chats, mostly general information. The fourth rule ("Ignore general information the assistant provided unless the user adopted it") keeps that information out of the profile.
+- The questions ask about facts that users subsequently changed, and every session has a date. The second and third rules, covering changes and dates, address these questions.
+- The assistant wrote about 86% of the words in these conversations, mostly general information. The fourth rule ("Ignore general information the assistant provided unless the user adopted it") prevents that information from entering the profile.
 
-PersonaMem-v3's own prompt, quoted in "History and related work", is shorter and more general. It reads the user's activity in several apps, and asks for the useful parts of the user's persona and preferences.
+PersonaMem-v3's own prompt, quoted in "History and related work", is shorter and more general. It processes the user's activity across several apps and asks the model to extract useful information about the user's persona and preferences.
 
 ### The read path: the whole profile goes into the prompt
 
-The read path is very simple. It does not search and does not use any retrieval method, as the systems later in this series do. When a new session starts, the whole text of the profile goes into the prompt, as it is. This is the prompt of the answering call (`answer` in the notebook), with this system instruction:
+The read path is straightforward. It does not search or use any retrieval method, unlike the systems described later in this series. When a new session starts, the entire profile is inserted into the prompt as plain text.
+
+Here is the prompt for the answering call (`answer` in the notebook), together with its system instruction:
 
 ```text
 You are a booking assistant. Be brief and concrete.
@@ -102,35 +104,35 @@ What you remember about this user:
 Their request: {question}
 ```
 
-The system instruction suits the test conversation in this post, in which the user asks for a dinner booking.
+The system instruction is designed for the test conversation in this post, where the user asks the assistant to book a dinner.
 
 ### The price of each choice
 
-Both choices are simple, but each choice has a price:
+Both design choices are simple, but each choice comes with a cost:
 
-- **The write path rewrites everything.** The model writes every line of the profile again after every session, also the lines that did not change. Every line is in the model's own words, and every rewrite can change it.
-- **The read path inserts everything.** Because nothing selects what goes into the prompt, the whole profile must fit in the prompt.
+- **The write path rewrites everything.** After every session, the model rewrites every line of the profile, including those lines that did not changed. It uses its own wording for every line, and that wording can change with each rewrite.
+- **The read path inserts everything.** Since nothing selects which information goes into the prompt, the entire profile must fit in the prompt.
 
-A memory can also be changed by edits, in which the model changes only the lines that need to change. PersonaMem-v3's prompt names such edits: ADD, EDIT, REMOVE and MERGE (combine two related lines into one). But its code still asks the model for the whole memory, written again. Letta, which [part 6][part-6] describes, really edits: its agent calls tools that insert a line or replace a piece of text. An edit protects only the lines that it leaves alone, though. In the notebook for that part, the agent replaced its whole memory in one edit, and reworded Lena's shellfish in the same way as the rewrite here.
+A memory can also be updated through edits, where the model changes only the lines that need updating. PersonaMem-v3's prompt explicitly describes such operations: ADD, EDIT, REMOVE and MERGE (combining two related lines into one). However, its code still asks the model to output the entire memory again. Letta, covered in [part 6][part-6], performs actual edits: its agent calls tools to insert a line or replace a piece of text. But an edit only protects the lines it leaves untouched. In the notebook for that part, the agent replaced its entire memory in a single edit and reworded a person's shellfish restriction in the same way as the rewrite shown in the example below.
 
 ## The example, step by step
 
-To show how the design works, this post follows one short test conversation through it, one call at a time. The same conversation runs through every system in this series. It is small on purpose, so that the notebook can print every model call and you can read each one.
+To demonstrate how the design works, this post follows one short test conversation through the system, one model call at a time. The same conversation is used across every system in this series. It is deliberately small so that the notebook can print every model call and you can inspect them individually.
 
-The conversation has three sessions. Sessions 1 and 2 give the facts. Session 3 is a new session with no transcript of the earlier ones, and it asks one question. The question names none of the facts that a correct answer needs:
+The conversation consists of three sessions. Sessions 1 and 2 establish the facts. Session 3 starts without transcripts of the earlier sessions and asks a single question. That question does not mention any of the facts needed to answer it correctly:
 
-- **A fact that changes:** the diet changes from vegetarian to pescatarian.
+- **A fact that changes:** the user's diet changes from vegetarian to pescatarian.
 - **A hard constraint:** a severe peanut allergy.
 - **Facts about people that the question does not name:** Lena cannot eat shellfish, and Jonas is coeliac (no gluten).
-- **Other facts:** the user likes Indian food, and lives in Kreuzberg.
+- **Other facts:** the user likes Indian food and lives in Kreuzberg.
 
-Without a memory system, these facts do not exist in session 3. The only text in session 3 is the question. The memory system must carry the facts from sessions 1 and 2.
+Without a memory system, none of these facts is available in session 3. Its only input is the question. The memory system must carry the relevant information forward from sessions 1 and 2.
 
 {% include diagram.html name="conversation" alt="The running example. On 14 March the user says they have been strictly vegetarian for eight years, have a severe peanut allergy, and like Indian food. Four months later, on 20 July, they say they are pescatarian now, have moved to Kreuzberg, and that their sister Lena (who can't eat shellfish) is coming with her partner Jonas (coeliac). Six weeks after that, in a new conversation, they ask for dinner for 'my sister and her partner'. A correct answer needs six things: the new diet and not the old one (a fact that changes), no peanuts (a hard constraint), no shellfish and no gluten (people the question does not name, reached through two links), Indian food and somewhere near Kreuzberg." caption="The conversation, and the six things a correct answer needs, grouped by what they test. Jonas's coeliac disease is two links away from the question: from \"my sister and her partner\" to Jonas, and from Jonas to coeliac." %}
 
-The fact that changes tests this design most. The rewrite is a generative model, so it can fail in several ways. It can replace the vegetarian line, as it should, or it can keep both diets, or lose one of them. Also, because the rewrite writes every line again on every pass, the peanut allergy must survive two rewrites, and the rewrites must not make it weaker.
+The changing fact provides the strongest test of this design. Since the rewrite is performed by a generative model, several things can go wrong. It might replace the vegetarian entry, as intended, but it could also retain both diets or lose one of them. Furthermore, because every line is rewritten on every pass, the peanut allergy must survive two rewrites without becoming less precise.
 
-In the sessions below, the colours show the heading under which the rewrite stored each phrase: <mark class="hl hl-facts">Personal facts</mark>, <mark class="hl hl-prefs">Preferences and habits</mark>, <mark class="hl hl-plans">Ongoing situations and plans</mark> and <mark class="hl hl-changes">Changes over time</mark>.
+In the sessions below, colours indicate the heading under which the rewrite stored each phrase: <mark class="hl hl-facts">Personal facts</mark>, <mark class="hl hl-prefs">Preferences and habits</mark>, <mark class="hl hl-plans">Ongoing situations and plans</mark> and <mark class="hl hl-changes">Changes over time</mark>.
 
 ### Session 1: everything kept, and one guess
 
@@ -142,7 +144,7 @@ In the sessions below, the colours show the heading under which the rewrite stor
 >
 > **User:** <mark class="hl hl-prefs">Indian, usually. Paneer dishes especially.</mark> And I'd <mark class="hl hl-prefs">rather not spend more than about 40 euros a head</mark>.
 
-The profile starts empty. One call reads the rewrite prompt, the empty profile and session 1, and writes this profile of 91 words:
+The profile is initially empty. One model call processes the rewrite prompt, the empty profile and session 1, producing the following 91-word profile:
 
 ```text
 ### Personal facts
@@ -163,14 +165,14 @@ The profile starts empty. One call reads the rewrite prompt, the empty profile a
 *   None.
 ```
 
-Everything from session 1 is in the profile, and the rewrite resolved the dates:
+The profile captures everything from session 1 and resolves the relative dates:
 
-- The user said "eight years" in March 2026, and the profile says "since 2018".
-- "Next week" became "the week of March 16, 2026".
+- The user said "eight years" in March 2026. The profile converts this to "since 2018".
+- "Next week" becomes "the week of March 16, 2026".
 
-One line is a guess. The user never said "Currently based in or planning for Berlin". The user said that their sister would visit Berlin. The rewrite hedged, and the hedge is now part of the profile, where nothing marks it as a guess.
+However, one line is based on a guess. The user never said "Currently based in or planning for Berlin". They only mentioned that their sister would visit Berlin. The rewrite added a hedge, which then became part of the profile without any indication that it was an assumption.
 
-If you want to follow these steps yourself, the [notebook][notebook] runs this call and prints the whole prompt and reply.
+To follow these steps yourself, the [notebook][notebook] runs this call and prints the complete prompt and reply.
 
 ### Session 2: the changed fact replaced, and four changes nobody asked for
 
@@ -190,7 +192,7 @@ If you want to follow these steps yourself, the [notebook][notebook] runs this c
 >
 > **User:** <mark class="hl hl-prefs">Lena can't eat shellfish, and Jonas is coeliac.</mark>
 
-The second call gets the profile from the end of session 1 (the 91 words above) and session 2. The output is a new profile of 153 words. Here it is as a diff against the profile from session 1: red lines were removed, and green lines were added.
+The second call receives the profile produced at the end of session 1 (the 91 words shown above) and session 2. It outputs a new profile containing 153 words. The following diff compares it with the previous profile: red lines were removed, and green lines were added.
 
 ```diff
  ### Personal facts
@@ -226,23 +228,23 @@ The second call gets the profile from the end of session 1 (the 91 words above) 
 +    based in or planning for Berlin generally).
 ```
 
-The vegetarian line is gone, but its history is still there:
+The vegetarian entry has disappeared, but its history remains:
 
-- The diet line now reads "Pescatarian (since June 2026; previously strictly vegetarian since 2018)".
-- The profile records the change again under "Changes over time", with a full date. The user said "about a month ago" on 20 July, and the rewrite counted back to 2026-06-20.
+- The diet entry now reads "Pescatarian (since June 2026; previously strictly vegetarian since 2018)".
+- The change is also recorded under "Changes over time", this time with an absolute date. The user said "about a month ago" on 20 July, and the rewrite calculated the date as 2026-06-20.
 
-Thus, the profile has one current diet, not two lines that contradict each other. In the other systems in this series, the same step needs a search for the old fact and a separate decision about it. Here, one rule in the prompt is enough, because the call that writes the new diet has the old diet in front of it.
+The profile therefore contains one current diet rather than two contradictory entries. In the other systems in this series, handling the same change requires searching for the previous fact and making a separate decision about what to do with it. Here, a single prompt rule is sufficient because the call writing the new diet can already see the old one.
 
 {% include diagram.html name="profile-diff" alt="The textual-memory profile after session 1 (91 words) and after session 2 (153 words), under the same four headings. The diet line was replaced, as the prompt asks: pescatarian since June 2026, previously strictly vegetarian since 2018, and the change is recorded again under 'Changes over time' as 2026-06-20. The allergy, cuisine and budget lines survived word for word. Lena, Jonas and their needs, Kreuzberg and the walking distance were added. Four changes nobody asked for are marked: 1, 'moved in May' became 'since 2026-05-01'; 2, 'can't eat shellfish' became 'has a shellfish allergy'; 3, the guess from session 1, 'based in or planning for Berlin', is kept as what the user said before; 4, the March dinner was dropped." caption="The two profiles side by side. The diet line changed as the prompt's rule asks. The numbered marks are changes the rewriter made on its own." %}
 
-The rewrite also changed four things that nobody asked it to change, and the figure marks them 1 to 4:
+The rewrite also modified four things that nobody asked it to change. The figure marks these changes from 1 to 4:
 
-1. **Added precision.** "I moved to Kreuzberg in May" became "since 2026-05-01". The first of May is a guess, written down as a date.
-2. **A reworded constraint.** "Lena can't eat shellfish" became "has a shellfish allergy". "Can't eat shellfish" could mean an allergy, an intolerance or a dislike. If you asked the assistant why Lena avoids shellfish, it would answer with a fact that the user never gave.
-3. **The guess kept as history.** "Previously based in or planning for Berlin generally" records the hedge from session 1 as if the user had said it.
-4. **The March dinner dropped.** The autumn visit replaced it. Here that is right, because the March dinner is over. But a rewrite can lose a line in the same way when the line still matters.
+1. **Added precision.** "I moved to Kreuzberg in May" became "since 2026-05-01". The first of May is an assumption, now recorded as an exact date.
+2. **A reworded constraint.** "Lena can't eat shellfish" became "has a shellfish allergy". But "Can't eat shellfish" could mean an allergy, an intolerance or simply a dislike. If you ask the assistant why Lena avoids shellfish, it would give an explanation that the user never provided.
+3. **The guess kept as history.** "Previously based in or planning for Berlin generally" preserves the hedge from session 1 as though the user had explicitly stated it.
+4. **The March dinner dropped.** The autumn visit replaced the earlier event. In this case, dropping it is correct because the March dinner is over. However, the same rewriting process can remove information that is still relevant.
 
-The lines that did not change in the conversation (the allergy, the cuisine and the budget) survived word for word this time. But nothing in the design guarantees that result. Every line of the profile is in the model's own words, and the model writes every line again on every pass.
+The entries that did not change during the conversation (the allergy, cuisine and budget) survived word for word in this example. But the design provides no guarantee that this will happen. Every line of the profile is expressed in the model's own words, and every line is rewritten on every pass.
 
 ### Session 3: reading the whole profile
 
@@ -250,7 +252,7 @@ The lines that did not change in the conversation (the allergy, the cuisine and 
 
 > **User:** My sister and her partner are in town tonight. Book the three of us somewhere for dinner — you know what we can and can't eat.
 
-The read path puts today's date, the whole profile from session 2 and this question into the answer prompt above. This is the answer:
+The read path inserts today's date, the entire profile from session 2 and the new question into the answering prompt shown earlier. Here is the resulting answer:
 
 ```text
 I have booked a table for three at **Chutnify (Kreuzberg)** for tonight,
@@ -266,17 +268,26 @@ September 1st, at 19:30.
 Please confirm if this time works for you.
 ```
 
-The peanut allergy, Lena's shellfish, Jonas's coeliac disease, the Indian food, Kreuzberg and the budget all reached the answer. The two-step link from "my sister and her partner" to "Jonas is coeliac" needed no work at all. Both names and both needs are on one line of the profile, and the whole profile is in the prompt. A design that searches its memory must find that line from a question that shares no words with the line.
+The answer successfully receives all six relevant facts:
 
-The answer does not mention the diet, and it does not use the old diet either. The answer also says that the model booked a table, at a restaurant that it chose itself. The model cannot book a table. This problem comes from the model that answers, not from the memory. The memory only decides what the model knows about the user.
+- the peanut allergy;
+- Lena's shellfish restriction;
+- Jonas's coeliac disease;
+- the preference for Indian food;
+- the location in Kreuzberg;
+- the budget.
+
+The two-step connection between "my sister and her partner" and "Jonas is coeliac" requires no additional processing. Both names and their dietary requirements appear on the same line of the profile, and the entire profile is already in the prompt. A design that searches its memory must retrieve that line even though the question shares no words with it.
+
+The answer does not mention the user's diet, nor does it rely on the previous diet. However, it also claims that the model booked a table at a restaurant it selected itself. The model cannot actually book a table. This issue belongs to the answering model, not the memory system. The memory only determines what information about the user is available to that model.
 
 ### What it costs
 
-These are all the calls that the notebook made. The tokens that each call read come from three parts of its prompt, and the first three columns add up to the tokens in:
+The notebook made the following calls. The tokens read by each call come from three parts of its prompt. The first three columns add up to the total input tokens:
 
-- **Instructions:** the rules, labels and date lines of the prompt.
+- **Instructions:** the prompt's rules, labels and date lines.
 - **Profile:** the current profile.
-- **New input:** the session, or the question.
+- **New input:** the session or question.
 
 | Call | Instructions | + Profile | + New input | = Tokens in | Tokens out |
 |---|--:|--:|--:|--:|--:|
@@ -284,110 +295,121 @@ These are all the calls that the notebook made. The tokens that each call read c
 | Rewrite after session 2 | 235 | 159 | 165 | 559 | 295 |
 | Answer | 38 | 296 | 31 | 365 | 142 |
 
-The tokens out of a rewrite are the new profile, and the tokens out of the answer are the answer. The profile that a call reads is the text that the previous call wrote. But the same text can split into tokens a little differently when it is counted again, so the profile can be one token longer than the tokens out of the call that wrote it (159 against 158). The first rewrite has a few more instruction tokens, mostly because "(empty)" stands in for the profile.
+The output tokens of a rewrite are the tokens in the new profile. The output tokens of the answering call are the tokens in its answer.
 
-The instructions cost about the same in each rewrite, about 240 tokens. The part that grows is the profile. The first rewrite read no profile, and the second rewrite read the 159 tokens that the first rewrite wrote. On a long history, the profile grows towards its cap. Then every new session pays twice for the whole profile: once to read it, and once to write all of it again. The read path stays cheap: one call, in which the profile is most of the prompt (296 of 365 tokens).
+The profile read by each call is the same text produced by the previous call. However, tokenisation can differ slightly when the text is counted again. As a result, the profile can contain one more token than the output of the call that produced it (159 compared with 158). The first rewrite also has slightly more instruction tokens, mostly because "(empty)" is used in place of the profile.
 
-Textual memory needed two calls to store two sessions, and one call to answer. It needs no embeddings and no database, only the model. For comparison, these are the systems that later parts of this series describe, on the same two sessions:
+The instructions account for approximately 240 tokens in each rewrite. The growing component is the profile itself. The first rewrite reads no profile, while the second reads the 159 tokens produced by the first. With a long history, the profile gradually approaches its size limit. At that point, every new session pays twice for the entire profile: once to read it and once to rewrite it. The read path remains inexpensive: a single call in which the profile accounts for most of the prompt (296 of 365 tokens).
+
+Textual memory used two calls to store two sessions and one call to answer the question. It requires no embeddings or database, only the model. For comparison, here is the number of calls made by the systems described in later parts of this series when processing the same two sessions:
 
 - **Mem0** ([part 4][part-4]) also makes two model calls to store them.
 - **Zep/Graphiti** ([part 5][part-5]) made 36 calls.
 - **Honcho** ([part 7][part-7], a re-implementation) made 6 calls.
-- **Letta** ([part 6][part-6]): its agent writes with extra calls inside its own replies, while the user waits.
+- **Letta** ([part 6][part-6]): its agent makes additional calls inside its own replies while writing, so the user has to wait.
 
 ## Where it breaks
 
-Every failure of this design comes from the rewrite, because the rewrite is the only part that runs. The example above showed small failures of this kind. Longer histories show larger failures.
+Every failure in this design originates in the rewrite, because that is the only operation it performs. The example above demonstrated some relatively small failures. Longer histories reveal more significant ones.
 
-I ran the same rewrite prompt in that larger experiment, on LongMemEval. In its histories, the user states a fact and later changes it in passing. [Part 8][part-8] reports the experiment in full. Two of its wrong answers show the two typical ways in which this design fails.
+I used the same rewrite prompt in the larger LongMemEval experiment. In those histories, users state facts and later change them in passing. [Part 8][part-8] describes the experiment in detail. Two incorrect answers illustrate the two typical failure modes of this design.
 
-**Failure 1: the history invites arithmetic.** This failure comes from the rule for changes, the same rule that handled the diet. In August, a user said that they added 17 postcards to their collection "since I started collecting again". In November, the user said that they added 25. Both numbers count from the same restart. Thus, the answer to "How many new postcards have I added to my collection since I started collecting again?" is 25.
+**Failure 1: the history invites arithmetic.** This failure concerns the rule for changes, the same rule that correctly handled the diet. In August, a user said they had added 17 postcards to their collection "since I started collecting again". In November, they reported adding 25. Both numbers refer to the same restart date. Therefore, the answer to "How many new postcards have I added to my collection since I started collecting again?" is 25.
 
-The rewrite recorded the two numbers as a collection that grew:
+The rewrite recorded these two numbers as a growing collection:
 
 > The user has 25 postcards in their collection as of 2023-11-30 (up from 17 items reported on 2023-08-11).
 
-The answering model took the history as a cue to subtract, and it replied "25 - 17 = 8". A count of videos watched "in the past few weeks" failed in the same way.
+The answering model interpreted the history as a signal to calculate the difference and replied "25 - 17 = 8". A similar failure occurred with a count of videos watched "in the past few weeks".
 
-**Failure 2: a detail mentioned once is dropped.** A user said that they kept their old sneakers under the bed. The first rewrite recorded the plan to take the sneakers to a cobbler, but it omitted where the user kept them. Later, a question asked where the sneakers were at first, and the profile had no answer. A rewrite chooses what to keep every time it runs. Thus, a detail that looked minor when the user said it can disappear without trace.
+**Failure 2: a detail mentioned once is dropped.** A user mentioned keeping their old sneakers under the bed. The first rewrite recorded their plan to take the sneakers to a cobbler but omitted their location. Later, the user asked where the sneakers had originally been kept, and the profile contained no answer. The rewrite makes a fresh decision about what to retain every time it runs. Consequently, a detail that seemed unimportant when first mentioned can disappear permanently.
 
-The account of every wrong answer in the experiment is in [docs/findings/textual.md][findings].
+The complete account of every incorrect answer in the experiment is available in [docs/findings/textual.md][findings].
 
-**The same drift at a larger scale.** PersonaMem-v3 (§4.5, p. 19) measured this drift on its long histories. Its textual memory "drops or rephrases about 14.4% of its lines at each update". The exact wording survives poorly, especially for content from early in the history or from the middle of it. But much of this change is rewording, not loss. At the cap of 4,096 tokens, 83.1% of the facts were still present as concepts at the end.
+**The same drift at a larger scale.** PersonaMem-v3 (§4.5, p. 19) measured this drift across its long histories. Its textual memory "drops or rephrases about 14.4% of its lines at each update". Exact wording is particularly unlikely to survive, especially for information from early or middle parts of the history. However, much of this change is rephrasing rather than actual information loss. Even at the 4,096-token limit, 83.1% of the facts remained present as concepts at the end.
 
-Dynamic Cheatsheet, a similar memory for a model that solves maths problems (see "History and related work"), shows the same pressure. Its curator prompt (Fig. 14, p. 21 of the paper) must warn the model that "once the cheatsheet is updated, any previous content not directly included will be lost and cannot be retrieved". But the authors still saw the curator abbreviate the memory with placeholders such as "Previous content [...] preserved", instead of writing the content in full. Over time, these placeholders made the stored memory worse (the same paper, p. 9).
+Dynamic Cheatsheet, a similar memory system for a model that solves maths problems (see "History and related work"), exhibits the same problem. Its curator prompt (Fig. 14, p. 21 of the paper) explicitly warns that "once the cheatsheet is updated, any previous content not directly included will be lost and cannot be retrieved". Despite this warning, the authors observed the curator shortening the memory with placeholders such as "Previous content [...] preserved", rather than reproducing the full content. Over time, these placeholders degraded the stored memory (the same paper, p. 9).
 
 ### How to notice and fix these failures
 
-You notice these failures when you read the profile, not the answers. A diff of the profile before and after each rewrite shows every line that the rewrite dropped, reworded or made more precise. The diff for session 2 above is a diff of this kind. A diff is easy to make, because the profile is plain text.
+These failures become visible when inspecting the profile, rather than the answers. Comparing the profile before and after each rewrite with a diff reveals every line that was dropped, reworded or made more precise. The diff for session 2 above is an example. Since the profile is plain text, generating such a diff is straightforward.
 
-Two small changes would address the two failures:
+Two relatively small changes would address the two failure modes:
 
-- **For failure 1, write the history so that it does not suggest a difference:** "now 25; reported 17 on 2023-08-11", not "up from 17". This wording should remove the cue to subtract, but I did not run the experiment again with it.
-- **For failure 2, keep the raw conversations next to the profile**, and search them when the profile has no answer. This search would recover details that a rewrite dropped. But it adds a search step, which this design otherwise does not need. Letta, which [part 6][part-6] describes, keeps such a log: it stores every message, and its agent can search them with a tool.
+- **For failure 1, record the history without suggesting a difference:** "now 25; reported 17 on 2023-08-11", rather than "up from 17". This wording should remove the cue to subtract, although I did not rerun the experiment to verify it.
+- **For failure 2, retain the raw conversations alongside the profile** and search them whenever the profile does not contain an answer. Such a search would recover details lost during rewriting. However, it introduces an additional search step that this design otherwise avoids. Letta, described in [part 6][part-6], retains this kind of log: it stores every message, and its agent can search the messages using a tool.
 
 ## When it is enough
 
-Textual memory resolves a changed fact when it writes, and it cannot miss anything when it reads. Both strengths come from rewriting the whole profile, and the rewrite also has two costs. Every line is in the model's own words, written again on every pass. And every pass costs more as the profile grows.
+Textual memory handles changing facts during the write operation and cannot miss information during reading. Both strengths come from rewriting the entire profile. But this approach also has two costs:
 
-I would start with textual memory when three things are true:
+- Every line is expressed in the model's own words and rewritten on every pass.
+- Each rewrite becomes more expensive as the profile grows.
 
-- The profile of a user fits easily in the prompt.
-- Facts change, and the newest value must win.
-- Someone should be able to read and correct what the system believes.
+I would start with textual memory when three conditions hold:
 
-A plain-text profile is the easiest memory in this series to read. But textual memory is a poor fit in three cases:
+- The user's profile fits comfortably in the prompt.
+- Facts change, and the newest value must take precedence.
+- Someone needs to be able to read and correct what the system believes.
 
-- The exact wording matters. Every line is the model's paraphrase.
-- The history is so long that rewriting the whole profile after every session is most of the cost.
+A plain-text profile is the easiest memory in this series to inspect. However, textual memory is a poor fit for three situations:
+
+- The exact wording matters. Every line is a paraphrase produced by the model.
+- The history is so long that rewriting the entire profile after every session accounts for most of the cost.
 - The profile no longer fits in the prompt.
 
-In the last case, something must select what goes into the prompt. Adding that selection turns textual memory into one of the other designs in this series.
+In the last situation, the system needs a mechanism to select which information goes into the prompt. Adding that selection mechanism turns textual memory into one of the other designs in this series.
 
 ## History and related work
 
-**MemoryBank.** The earliest version of this idea that I found is the user portrait in [MemoryBank][memorybank] (2023, pp. 3–5). MemoryBank kept three layers of memory: the raw conversation turns, a summary of the events of each day, and a portrait of the user. A model made the portrait: it combined the daily observations into one description. At answer time, the whole portrait went into the prompt, next to the turns that a search found. Textual memory keeps only the portrait.
+**MemoryBank.** The earliest implementation of this idea that I found is the user portrait in [MemoryBank][memorybank] (2023, pp. 3–5). MemoryBank maintained three layers of memory:
 
-**PersonaMem-v3.** The version in this post follows the *Textual Memory* baseline of [PersonaMem-v3][personamem-v3] (2026). PersonaMem-v3 is a benchmark for personal assistants, in which the users' preferences change over time. It was seeded from more than a million anonymised real engagement histories, from social media, chatbots, calendars and companion apps.
+- the raw conversation turns;
+- a daily summary of events;
+- a portrait of the user.
 
-The baseline's memory is one piece of text about the user (PersonaMem-v3, §4.8, p. 22). It has sections such as who the user is, interests and preferences, people and places, and what is happening now. A model rewrites the text while it reads the history in chronological chunks, and a cap of 4,096 tokens limits its length. The model writes the whole text again at each step: [the benchmark's code][personamem-v3-code] adds "output the FULL updated memory each call (whole-document rewrite, not a diff)" to the prompt below. The authors kept the prompt deliberately simple (§4.4, p. 18):
+A model generated the portrait by combining observations from the daily summaries into a single description. When answering a question, the entire portrait was added to the prompt alongside conversation turns retrieved through search. Textual memory retains only the portrait.
+
+**PersonaMem-v3.** The implementation in this post follows the *Textual Memory* baseline from [PersonaMem-v3][personamem-v3] (2026). PersonaMem-v3 is a benchmark for personal assistants whose users' preferences change over time. It was seeded from more than a million anonymised real engagement histories from social media, chatbots, calendars and companion apps.
+
+The baseline stores information about the user as a single piece of text (PersonaMem-v3, §4.8, p. 22). It contains sections covering the user's identity, interests and preferences, people and places, and current activities. A model rewrites this text while processing the history in chronological chunks, with a 4,096-token limit on its length. At every step, the model outputs the entire text again. Indeed, [the benchmark's code][personamem-v3-code] adds the instruction "output the FULL updated memory each call (whole-document rewrite, not a diff)" to the following prompt. The authors deliberately kept the prompt simple (§4.4, p. 18):
 
 > You maintain a running memory of one user, updated as you read their activity in chronological chunks. Remember the useful parts of the user's persona and preferences from their activities across these apps; maintain the memory with ADD, EDIT, REMOVE, and MERGE actions; and the memory should contain only the resulting persona profile rather than a raw log of activity.
 
-In the PersonaMem-v3 paper (§4.3, p. 18), this simple baseline handled changed preferences better than a more complex design. One part of the benchmark, *tracking preference changes*, asks a question after one of the user's preferences has changed. Then a judge checks whether the answer still used the old preference:
+In the PersonaMem-v3 paper (§4.3, p. 18), this simple baseline handled changing preferences better than a more complex design. One part of the benchmark, *tracking preference changes*, asks a question after one of the user's preferences has changed. A judge then checks whether the answer still reflects the old preference:
 
-- With textual memory, 25.7% of the answers used the old preference.
-- With Mem0, 51.4% of the answers did, about twice as many. Mem0, which [part 4][part-4] describes, extracts short facts into a vector store, and retrieves the facts that are most similar to the question.
+- With textual memory, 25.7% of answers used the old preference.
+- With Mem0, 51.4% of answers did so, approximately twice as many. Mem0, described in [part 4][part-4], extracts short facts into a vector store and retrieves those most similar to the question.
 
-The paper says that "a topically relevant retrieved fact can remain too sticky after expiry." My reading of the mechanism is this: the rewrite sees the whole profile, so when a preference changes, it rewrites the old line. But Mem0, as it ran in this series, only adds facts. It keeps the old preference next to the new one, and a similarity search finds both, because both are about the same topic. This may explain why the simpler design did better here.
+The paper observes that "a topically relevant retrieved fact can remain too sticky after expiry." My interpretation of the underlying mechanism is as follows. The rewrite sees the entire profile, so when a preference changes, it can rewrite the old entry. But Mem0, as implemented in this series, only adds facts. The old preference remains alongside the new one, and a similarity search retrieves both because they concern the same topic. This could explain why the simpler design performed better in this particular test.
 
-**Dynamic Cheatsheet.** [Dynamic Cheatsheet][dynamic-cheatsheet] (2025, §2.1, p. 3) is the same kind of memory for a different problem. A model solves a stream of problems, such as questions from maths competitions. Instead of facts about a user, the memory holds the strategies, code snippets and insights that the model collected while it solved earlier problems. The memory is one text document, the cheatsheet.
+**Dynamic Cheatsheet.** [Dynamic Cheatsheet][dynamic-cheatsheet] (2025, §2.1, p. 3) applies the same general memory approach to a different problem. A model solves a sequence of problems, such as questions from mathematics competitions. Instead of storing facts about a user, its memory contains strategies, code snippets and insights gathered while solving previous problems. This memory takes the form of a single text document called the cheatsheet.
 
-After each problem, a second call to the same model, the curator, reads the current cheatsheet, the problem and the model's answer. Then the curator writes the cheatsheet again. It keeps what looks useful and general, corrects or removes entries that proved wrong, and condenses the rest. The curator never sees the correct answers, so it must judge the model's work itself. In the variant that is closest to textual memory, the whole cheatsheet goes into the prompt for the next problem, with no retrieval.
+After each problem, a second call to the same model, called the curator, receives the current cheatsheet, the problem and the model's answer. The curator then rewrites the cheatsheet. It retains information that appears useful and general, corrects or removes entries that turned out to be wrong, and condenses the remaining content. The curator does not see the correct answers, so it must evaluate the model's work itself. In the variant closest to textual memory, the entire cheatsheet is included in the prompt for the next problem, without using any retrieval mechanism.
 
-Its results also show which baseline a memory must beat. AIME 2024 is an American mathematics competition with 30 problems. On these problems, Claude 3.5 Sonnet solved (Dynamic Cheatsheet, Table 1, p. 6):
+The results also illustrate the baseline that a memory system needs to outperform. AIME 2024 is an American mathematics competition consisting of 30 problems. On these problems, Claude 3.5 Sonnet solved the following numbers of problems (Dynamic Cheatsheet, Table 1, p. 6):
 
 - 7 problems with a plain prompt;
-- 11 problems with the same prompt and an empty cheatsheet, that is, the instructions for using a memory but no memory;
+- 11 problems with the same prompt and an empty cheatsheet, meaning that the memory instructions were present but the memory itself was empty;
 - 15 problems with a curated cheatsheet.
 
-Thus, about half of the gain came from the instructions around the memory, not from the memory itself. The fair baseline for a memory is the same prompt with an empty memory.
+Thus, approximately half of the improvement came from the instructions surrounding the memory, rather than from the memory itself. The appropriate baseline for evaluating a memory system is the same prompt with an empty memory.
 
-**Observational Memory.** [Part 9][part-9] describes a more developed open version of the same idea: Observational Memory, from Mastra. In Observational Memory, two background agents compress the history into a dated log, and then they rewrite the log.
+**Observational Memory.** [Part 9][part-9] covers a more developed, open implementation of the same general idea: Observational Memory from Mastra. It uses two background agents to compress the conversation history into a dated log, which they subsequently rewrite.
 
 ## Run it yourself
 
-The [notebook][notebook] that accompanies this post is a complete, standalone implementation of textual memory. It has no extra dependencies, so you can read its code from top to bottom and follow each step of the design. It uses the same prompts as this post, and every prompt and reply above comes from it.
+The [notebook][notebook] accompanying this post is a complete, standalone implementation of textual memory. It has no additional dependencies, so you can read its code from beginning to end and follow each stage of the design. It uses the same prompts as this post, and every prompt and reply shown above comes directly from it.
 
-You can run the notebook with any model. I used `gemini-3.1-flash-lite`, which is on the free tier of the Gemini API. The free tier is enough, because the notebook makes only a few calls. Every call in this series uses the same model, so differences between the systems come from their design, not from the model.
+You can run the notebook with any model. I used `gemini-3.1-flash-lite`, which is available on the free tier of the Gemini API. The free tier is sufficient because the notebook makes only a handful of calls. All systems in this series use the same model, ensuring that differences in their results come from their designs rather than from the models themselves.
 
-The notebook runs one short conversation. To see how the design behaves on long, realistic histories, read [part 8][part-8]. Its experiment is in the same [repository][repo], and you can run it too.
+The notebook runs one short conversation. To see how the design performs on longer, realistic histories, read [part 8][part-8]. Its experiment is available in the same [repository][repo], and you can run it yourself.
 
-To understand the design better, change the notebook's code and see what happens. Some experiments to try:
+You can also experiment by modifying the notebook's code and observing the results. Here are a few experiments worth trying:
 
-- State the change of diet less directly ("grabbed some salmon last night, been doing that a lot lately"). Then see whether the rewrite still replaces the vegetarian line.
-- Delete the rule for changes. Then see what the profile does with two diets.
-- Lower the cap to 60 words. Then see what the rewrite drops first.
+- Describe the diet change less explicitly ("grabbed some salmon last night, been doing that a lot lately"). Then check whether the rewrite still replaces the vegetarian entry.
+- Remove the rule for changes. Then see how the profile handles two different diets.
+- Reduce the size limit to 60 words. Then observe which information the rewrite drops first.
 
 ## References
 
