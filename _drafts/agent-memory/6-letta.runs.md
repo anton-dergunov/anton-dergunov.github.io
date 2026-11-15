@@ -4,9 +4,22 @@ Written 2026-11-15. Scripts and outputs are in `agent-memory-eval/scripts/replay
 
 ## The notebook
 
-- **Notebook 04 was rerun on 2026-11-15** with four fixes that make the re-implementation behave as a self-hosted Letta 0.16.8 server does (option B in `6-letta.notebook-fixes.md`, chosen by Anton): the tool descriptions as the server builds them (with the docstrings' Examples), the server's search rule (whole query as one substring, five newest), an edit returning the whole block, and the server's `memory_metadata` wording. Kept simpler: temperature 0, sleep-time once per session, block limit 20,000, the primary with only the search tool.
+- **Notebook 04 was rerun on 2026-11-15** with four fixes that make the re-implementation behave as a self-hosted Letta 0.16.8 server does (option B of the two options below, chosen by Anton): the tool descriptions as the server builds them (with the docstrings' Examples), the server's search rule (whole query as one substring, five newest), an edit returning the whole block, and the server's `memory_metadata` wording. Kept simpler: temperature 0, sleep-time once per session, block limit 20,000, the primary with only the search tool.
 - The rerun made 37 new chat calls; they are in `.cache/gemini/`, so `MEMORY_NOTEBOOKS_CACHE=1` replays it. `agent-memory-eval/scripts/replays/letta_dump_run.py` rebuilds the run from the cache with live calls blocked and dumps every request, reply, block and recall message; the post quotes from that dump. The committed notebook equals the trial run call for call.
 - New numbers: in-line agent 17 calls and 47,677 tokens read for seven user turns (was 13 and 25,655); sleep-time set-up 16 calls the user waits for plus 4 in the background (was 36 + 4). The first call of a session reads 2,294–2,390 tokens, of which about 1,600 are the three tool descriptions (`count_tokens` on the prompt's parts; the remainder is constant across calls).
+
+## Notebook 04 against the server
+
+Before the rerun, the notebook was read next to the Letta 0.16.8 server (`vendor/letta/src`) and a request the server sent in the experiment (`.cache/calls/calls-33743.jsonl`). It differed in six places. Fixes 1–4 were applied in the rerun; 5 and 6 were kept as simplifications that the post states. The two options were A, markdown only, and B, apply fixes 1–4 and rerun; B was chosen (Anton, 2026-11-15). This section was moved here from `6-letta.notebook-fixes.md`, which was removed once its fixes were in the notebook and the post.
+
+| # | Notebook | Server 0.16.8 | Verdict |
+|---|---|---|---|
+| 1 | Tool descriptions: the docstring's summary only (`letta_source.tool_declaration` cuts at "Args:") | Summary, rest of the description, then the docstring from "Examples:" to its end (`schema_generator.generate_schema`, `extract_examples_section`) | Fidelity. Replay R1 (`replays/letta_replay_output.txt`): the whole-block replace happens with either description, 20 of 20. Replay R2: on the first message the agent wrote in 0 of 10 with the notebook's descriptions, 2 of 10 with the server's |
+| 2 | `conversation_search` counts shared words, returns the 10 best | Self-hosted: the whole query as one substring (`ILIKE`), the 5 newest, tool messages dropped after the cut; dates ignored. The "hybrid search" of the description needs Turbopuffer | **Substantial.** Under the server's rule, 33 of the notebook's 34 searches return nothing (`replays/letta_server_search_output.txt`), including the in-line agent's search before its answer, so the notebook's "the search doubled the prompt" does not happen on the server. The notebook's line "Letta mixes text and embedding search" is wrong for a self-hosted server |
+| 3 | A memory edit returns "The memory block has been edited." | It returns the whole new block | Fidelity; it is also the "echo" mechanism of failure 2 in the experiment |
+| 4 | `memory_metadata`: "The current system date is: <session date>" | Agent id, conversation id, "System prompt last recompiled: <time>", the recall count | Fidelity |
+| 5 | Sleep-time agent once after each session | Every 5 turns by default, on the messages since its last run | Kept (Anton, 2026-11-15); the post states the server's default |
+| 6 | Temperature 0; block limit 20,000 | 1.0; 100,000 | Kept; stated in "Run it yourself" |
 
 ## Replays and offline checks
 

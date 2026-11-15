@@ -646,7 +646,7 @@ Writing the memory therefore cost the in-line agent five extra calls in two sess
 For comparison, here is what the other systems in this series read in order to store the same two sessions, from their notebooks. Their pipelines run after the conversation, and none of them answers the user:
 
 - **Textual memory** ([part 3][part-3]): 2 model calls, 916 tokens.
-- **Mem0** ([part 4][part-4]): 2 model calls and 4 embedding calls, 16,857 tokens.
+- **Mem0** ([part 4][part-4]): 2 model calls and 4 embedding calls, 16,862 tokens.
 - **Zep/Graphiti** ([part 5][part-5]): 38 model calls and 25 embedding calls, 60,374 tokens.
 - **Honcho** ([part 7][part-7], from a run of its server): 18 model calls and 9 embedding calls, 44,987 tokens, 16 of the calls in two background "dreams".
 
@@ -772,9 +772,11 @@ MemGPT's benchmark for conversations, Deep Memory Retrieval (DMR), asked a quest
 
 The [notebook][notebook] for this post re-implements Letta's agent loop in a few dozen lines of Python. Everything the model sees is Letta's own text, fetched from Letta's repository at a fixed commit: the base prompts of the default agent and the sleep-time agent, the personas, the layout of the blocks, and the tool descriptions, built from the docstrings of Letta's tool functions the way the server builds them. The tools behave as on a self-hosted 0.16.8 server: an edit returns the whole block, and the search matches the whole query and returns the five newest matches.
 
-I re-implemented the loop rather than running the server so that every call could be printed and read. Three things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives the same replies (the server sends 1.0); the sleep-time agent runs once after each session (the server runs it every five turns); and the primary agent of the sleep-time set-up has only the search tool. The replays in this post are separate runs, at the server's temperature, and they are marked as replays.
+I re-implemented the loop rather than running the server so that every call could be printed and read. Three things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives similar replies (the server sends 1.0); the sleep-time agent runs once after each session (the server runs it every five turns); and the primary agent of the sleep-time set-up has only the search tool. The replays in this post are separate runs, at the server's temperature, and they are marked as replays.
 
 I used `gemini-3.1-flash-lite` for every agent. It is available on the free tier of the Gemini API, which is enough for the few dozen calls that the notebook makes. All systems in this series use the same model, so that differences in their results come from their designs. In this design that matters most: the memory policy is the model's judgement.
+
+Even at temperature 0, model replies vary between runs and between versions of a model. A rerun of the notebook can differ in details from what is shown above, such as when the agent writes and how it words a block, and a different model can change more. The mechanism stays the same.
 
 The larger experiment ran the real Letta server, with three set-ups: whole sessions in one request, one step per user message, and the same with the three persona lines. [Part 8][part-8] describes it, and the code is in the same [repository][repo].
 

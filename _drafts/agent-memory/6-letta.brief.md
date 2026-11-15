@@ -26,7 +26,7 @@ What if no pipeline decides what to remember, and the agent that answers does it
 
 ## Outline
 
-<Updated 2026-11-15 after notebook 04 was rerun (option B, `6-letta.notebook-fixes.md`); the runs and replays are in `6-letta.runs.md`. Order as in part 3. Prompts and tool descriptions are quoted from the 0.16.8 server; replies and blocks from the rerun notebook.>
+<Updated 2026-11-15 after notebook 04 was rerun (option B; the differences from the server are in `6-letta.runs.md`); the runs and replays are in `6-letta.runs.md`. Order as in part 3. Prompts and tool descriptions are quoted from the 0.16.8 server; replies and blocks from the rerun notebook.>
 
 | Section | Claim it supports | Show in full | Figure |
 |---|---|---|---|

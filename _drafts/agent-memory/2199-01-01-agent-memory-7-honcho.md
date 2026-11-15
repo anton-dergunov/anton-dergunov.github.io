@@ -974,7 +974,7 @@ The deriver is cheap: about a thousand tokens per session, most of them the prom
 For the same two sessions, the systems in the other parts of this series used:
 
 - textual memory: 2 model calls, 916 tokens read;
-- Mem0: 2 model calls and 4 embedding calls, 16,857 tokens read;
+- Mem0: 2 model calls and 4 embedding calls, 16,862 tokens read;
 - Zep/Graphiti: 38 model calls and 25 embedding calls, 60,374 tokens read;
 - Letta: the in-line agent, which writes inside its replies, 17 model calls and 47,677 tokens for seven user turns; its sleep-time agent, which does the pipelines' job, 4 calls and 12,775 tokens.
 
@@ -1092,9 +1092,11 @@ Plastic Labs' hosted service uses its own models; its documentation names one, N
 
 The [notebook][notebook] for this post drives Honcho's own prompts and tool descriptions from short local functions. Everything the model is told is Honcho's text, fetched from Honcho's repository at the commit of 3.3.0, and checked against the requests the real server sent for this conversation: with the same inputs, every prompt and tool description is identical. The rules are written out as plain Python: what is saved and merged, what each tool returns, the grounding check, and how the two read paths choose conclusions. Then it adds what Honcho does not: the walk over the links, the checks that are only requested in prompts, and a level for explanations.
 
-I re-implemented the loop rather than only running the server so that every step could be printed and changed. Four things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives the same replies (the server leaves the temperature to the provider); the store is a dictionary; the dreams are started by hand; and "richer text" counts words where Honcho counts tokens. The three server runs in this post are separate, at the server's settings.
+I re-implemented the loop rather than only running the server so that every step could be printed and changed. Four things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives similar replies (the server leaves the temperature to the provider); the store is a dictionary; the dreams are started by hand; and "richer text" counts words where Honcho counts tokens. The three server runs in this post are separate, at the server's settings.
 
 I used `gemini-3.1-flash-lite` for every role. It is available on the free tier of the Gemini API, which is enough for the few dozen calls that the notebook makes. All systems in this series use the same model, so that differences in their results come from their designs.
+
+Even at temperature 0, model replies vary between runs and between versions of a model. A rerun of the notebook can differ in details from what is shown above, such as the wording of a conclusion or what a dream changes, and a different model can change more. The mechanism stays the same.
 
 The larger experiment ran the real Honcho server, with one store per question and both read paths. [Part 8][part-8] describes it, and the code is in the same [repository][repo].
 

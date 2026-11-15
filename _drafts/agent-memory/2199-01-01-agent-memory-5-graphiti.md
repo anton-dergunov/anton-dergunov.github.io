@@ -970,12 +970,12 @@ Three things drive the count:
 - **Step 4 is one call per new fact**, so the count grows with how much a message says, not with how many messages there are.
 - **The assistant's messages are not free.** Four of the ten messages are the assistant's. They took 11 of the 38 calls and produced one fact, the note that fish was now included.
 
-{% include diagram.html name="graphiti-cost" alt="Tokens read to store the example's two sessions. Textual memory: 916 tokens in 2 LLM calls. Mem0: 16,857 tokens in 2 LLM calls and 4 embedding calls. Zep / Graphiti: 60,374 tokens in 38 LLM calls and 25 embedding calls, split by step: finding entities 24,118 in 10 calls, matching 7,194 in 7, extracting facts 19,166 in 10, comparing 9,896 in 11. Below, Graphiti's LLM calls per message: 2, 3 and 6 in session 1; 5, 4, 4, 2, 5, 2 and 5 in session 2; the assistant's four messages took 11 of the 38." caption="What storing the same ten messages cost three designs in this series, and where Graphiti's calls went, message by message." %}
+{% include diagram.html name="graphiti-cost" alt="Tokens read to store the example's two sessions. Textual memory: 916 tokens in 2 LLM calls. Mem0: 16,862 tokens in 2 LLM calls and 4 embedding calls. Zep / Graphiti: 60,374 tokens in 38 LLM calls and 25 embedding calls, split by step: finding entities 24,118 in 10 calls, matching 7,194 in 7, extracting facts 19,166 in 10, comparing 9,896 in 11. Below, Graphiti's LLM calls per message: 2, 3 and 6 in session 1; 5, 4, 4, 2, 5, 2 and 5 in session 2; the assistant's four messages took 11 of the 38." caption="What storing the same ten messages cost three designs in this series, and where Graphiti's calls went, message by message." %}
 
 For comparison, here is what other systems in this series read to store the same two sessions, from their notebooks:
 
 - **Textual memory** ([part 3][part-3]), which rewrites one profile after each session, made two model calls that read 916 tokens.
-- **Mem0** ([part 4][part-4]), which extracts facts into a vector store, made two model calls that read 16,857 tokens, most of it one long system prompt read twice.
+- **Mem0** ([part 4][part-4]), which extracts facts into a vector store, made two model calls that read 16,862 tokens, most of it one long system prompt read twice.
 - **Zep/Graphiti** made 38 model calls that read 60,374 tokens: about 66 times textual memory, and about 3.6 times Mem0.
 
 The difference grows with the length of a history. The cost of Graphiti's write path is paid per message and per fact, and the assistant's long answers in real conversations hold many facts. Reading is cheap: one embedding call and a search, with no model call.
@@ -1102,6 +1102,8 @@ It leaves out the parts that do not change which facts are stored or closed in t
 The real library on a graph database is what the experiment runs, through the wrapper in the repository.
 
 I used `gemini-3.1-flash-lite` for every model call and `gemini-embedding-001` for the embeddings. Both are available on the free tier of the Gemini API, which is enough for the 42 model calls that the notebook makes. All systems in this series use the same models, so that differences in their results come from their designs.
+
+Model replies vary from run to run, even with the same prompt. A rerun of the notebook can word the extracted facts differently and change which ones are matched or closed, and a different model can change more. The mechanism stays the same.
 
 The notebook runs one short conversation. To see how the design behaves on long histories, read [part 8][part-8]. Its experiment is in the same [repository][repo].
 

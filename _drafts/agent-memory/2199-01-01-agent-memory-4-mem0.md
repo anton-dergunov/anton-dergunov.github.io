@@ -21,7 +21,7 @@ This post explains what happens inside those two calls. It first describes the w
 
 ## How Mem0 works
 
-{% include diagram.html name="mem0" alt="Mem0's architecture, with the running example. Writing: after each session, an LLM call extracts short standalone facts, seeing the related facts already stored, and only adds. Memory: a vector store of nine facts; the old and the new value of the changed fact are both kept. Reading: a similarity search embeds the question and returns all nine facts, which go into the prompt; the answer covers every constraint." caption="Mem0, with the conversation used in this post. After each session one LLM call extracts facts and adds them to a vector store. At question time a similarity search returns the closest facts." %}
+{% include diagram.html name="mem0" alt="Mem0's architecture, with the running example. Writing: after each session, an LLM call extracts short standalone facts, seeing the related facts already stored, and only adds. Memory: a vector store of nine facts; the old and the new value of the changed fact are both kept. Reading: a similarity search embeds the question and returns all nine facts, which go into the prompt; the answer covers every constraint, but gives the old value of the changed fact to the two guests." caption="Mem0, with the conversation used in this post. After each session one LLM call extracts facts and adds them to a vector store. At question time a similarity search returns the closest facts." %}
 
 Mem0 has the two components that most memory systems have:
 
@@ -86,10 +86,10 @@ user: Indian, usually. Paneer dishes especially. […]
 
 
 ## Observation Date
-2026-10-07
+2026-11-15
 
 ## Current Date
-2026-10-07
+2026-11-15
 
 # Output:
 ```
@@ -200,7 +200,7 @@ The library does not use the links. The write loop reads two fields of each retu
 
 **What is in 33,653 characters.** The system prompt has 8,131 tokens. It is the longest single prompt in the notebooks of this series. For comparison, the largest prompt of Zep/Graphiti ([part 5][part-5]) has about 2,400 tokens, and the prompt of textual memory ([part 3][part-3]), the simplest design in the series, has about 240.
 
-{% include diagram.html name="mem0-prompt" alt="Two bars drawn to the same scale, one for each of the two extraction calls in the example. Each call reads the same system prompt of 8,131 tokens. By characters, the system prompt is 2.5% role, 11.6% a description of the inputs, 40.1% guidelines on what to extract and how to write a memory, 38.5% eleven worked examples, 3.5% a final checklist and 3.7% the output format. Next to it, the user prompt with the conversation is a thin slice: 161 tokens for the first session and 434 tokens for the second." caption="What each extraction call in the example reads, to scale. The system prompt is the same on every call; the conversation is the thin slice at the right." %}
+{% include diagram.html name="mem0-prompt" alt="Two bars drawn to the same scale, one for each of the two extraction calls in the example. Each call reads the same system prompt of 8,131 tokens. By characters, the system prompt is 2.5% role, 11.6% a description of the inputs, 40.1% guidelines on what to extract and how to write a memory, 38.5% eleven worked examples, 3.5% a final checklist and 3.7% the output format. Next to it, the user prompt with the conversation is a thin slice: 161 tokens for the first session and 439 tokens for the second." caption="What each extraction call in the example reads, to scale. The system prompt is the same on every call; the conversation is the thin slice at the right." %}
 
 By characters, the system prompt divides as follows:
 
@@ -343,10 +343,10 @@ The notebook passes the three messages to one `add()` call. The store is empty, 
 ```json
 {
   "memory": [
-    {"id": "0", "text": "User is planning a dinner in Berlin for their sister's visit during the week of October 12, 2026.", "attributed_to": "user"},
+    {"id": "0", "text": "User is planning a dinner in Berlin for their sister's visit during the week of November 22, 2026.", "attributed_to": "user"},
     {"id": "1", "text": "User has been a strict vegetarian for eight years.", "attributed_to": "user"},
     {"id": "2", "text": "User has a severe, anaphylactic peanut allergy.", "attributed_to": "user"},
-    {"id": "3", "text": "User prefers Indian cuisine, specifically paneer dishes.", "attributed_to": "user"},
+    {"id": "3", "text": "User prefers Indian cuisine, specifically paneer dishes, for their dinner plans.", "attributed_to": "user"},
     {"id": "4", "text": "User has a budget of approximately 40 euros per person for the dinner.", "attributed_to": "user"}
   ]
 }
@@ -358,7 +358,7 @@ The library stored all five facts. The reply shows what extraction does:
 - **Each fact is a separate row.** The allergy and the cuisine are in different rows, because different questions will need them.
 - **The assistant's messages added nothing.** They only repeated what the user said, and the prompt tells the model not to extract such repetitions.
 
-One fact is wrong. The user said "next week" on 14 March. The stored fact says "the week of October 12, 2026". The model followed the rule for dates: it counted from the `Observation Date`, and the library had set that date to 7 October, the day I ran the notebook.
+One fact is wrong. The user said "next week" on 14 March. The stored fact says "the week of November 22, 2026". The model followed the rule for dates: it counted from the `Observation Date`, and the library had set that date to 15 November, the day I ran the notebook.
 
 The library has no way to say when a conversation happened:
 
@@ -398,11 +398,11 @@ user: Indian, usually. Paneer dishes especially. […]
 []
 
 ## Existing Memories
-[{"id": "0", "text": "User is planning a dinner in Berlin for their sister's visit during the week of October 12, 2026."},
+[{"id": "0", "text": "User is planning a dinner in Berlin for their sister's visit during the week of November 22, 2026."},
  {"id": "1", "text": "User has been a strict vegetarian for eight years."},
  {"id": "2", "text": "User has a budget of approximately 40 euros per person for the dinner."},
- {"id": "3", "text": "User has a severe, anaphylactic peanut allergy."},
- {"id": "4", "text": "User prefers Indian cuisine, specifically paneer dishes."}]
+ {"id": "3", "text": "User prefers Indian cuisine, specifically paneer dishes, for their dinner plans."},
+ {"id": "4", "text": "User has a severe, anaphylactic peanut allergy."}]
 ```
 
 Session 1 is in this prompt in two forms: its three messages, word for word, and the five facts extracted from them. The fact that the new session contradicts has the id 1.
@@ -411,15 +411,15 @@ The model returned four facts, and the library added them. The store then held n
 
 | # | Stored fact | Added after |
 |--:|---|---|
-| 1 | User is planning a dinner in Berlin for their sister's visit during the week of October 12, 2026. | session 1 |
+| 1 | User is planning a dinner in Berlin for their sister's visit during the week of November 22, 2026. | session 1 |
 | 2 | **User has been a strict vegetarian for eight years.** | session 1 |
 | 3 | User has a severe, anaphylactic peanut allergy. | session 1 |
-| 4 | User prefers Indian cuisine, specifically paneer dishes. | session 1 |
+| 4 | User prefers Indian cuisine, specifically paneer dishes, for their dinner plans. | session 1 |
 | 5 | User has a budget of approximately 40 euros per person for the dinner. | session 1 |
-| 6 | **User transitioned from a strict vegetarian diet to a pescatarian diet in September 2026, meaning they now eat fish but no other meat.** | session 2 |
-| 7 | User relocated to the Kreuzberg neighborhood in May 2026 and prefers restaurant options within walking distance. | session 2 |
-| 8 | User's sister, Lena, is visiting in the autumn of 2026 and has a shellfish allergy. | session 2 |
-| 9 | User's sister Lena is traveling with her partner, Jonas, who has coeliac disease and requires a gluten-free diet. | session 2 |
+| 6 | **User transitioned from a strict vegetarian diet to a pescatarian diet around October 2026, meaning they now eat fish but no other meat.** | session 2 |
+| 7 | User relocated to the Kreuzberg neighborhood in Berlin in May 2026 and prefers restaurant options that are walkable from there. | session 2 |
+| 8 | User's sister, Lena, is visiting in autumn 2026 and has a shellfish allergy. | session 2 |
+| 9 | User's sister Lena is bringing her partner, Jonas, who has coeliac disease and requires a gluten-free diet. | session 2 |
 
 Four things happened in this call.
 
@@ -427,11 +427,19 @@ Four things happened in this call.
 
 **The new fact names the old value.** Fact 6 does not say "User is pescatarian". It says "transitioned from a strict vegetarian diet to a pescatarian diet". The model followed the rule for transitions. An answering model that reads fact 6 learns which value is current, even when it reads fact 2 as well.
 
-I checked what this wording depends on with a replay: I sent the same prompt again with `Existing Memories` and `Last k Messages` emptied, three times. Each reply still began with "User transitioned from a vegetarian diet to a pescatarian diet". So the wording came from the user's own sentence ("pescatarian now, not vegetarian") and the rule for transitions, not from the old fact in the prompt. The old fact contributed one word, "strict". The wording therefore depends on the user stating the change as a change. A user who only says "I had salmon last night" gives the rule nothing to work with.
+The notebook checks what this wording depends on. It sends the same call again, with `Existing Memories` and `Last k Messages` empty and everything else unchanged. The reply still begins with "User transitioned from a vegetarian diet to a pescatarian diet". So the wording came from the user's own sentence ("pescatarian now, not vegetarian") and the rule for transitions, not from the old fact in the prompt. The old fact contributed one word, "strict". The wording therefore depends on the user stating the change as a change. A user who only says "I had salmon last night" gives the rule nothing to work with.
 
-**The model linked the new fact to the old one, and the link was dropped.** The notebook did not print the raw reply of this call, so I replayed the call five times with the complete prompt. The five replies were identical. In each of them, the new fact carried `"linked_memory_ids": ["1"]`: a link to "User has been a strict vegetarian for eight years". The model identified the stored fact that the new fact replaces. The library does not read this field, so the store holds no trace of the link. (The replay's wording differed slightly from the notebook's run: "but continue to avoid meat" in place of "but no other meat".)
+The same call shows what the related facts in the prompt are for. Without them, the model wrote the peanut allergy again, as a new fact: "User maintains a peanut allergy, which remains unchanged." With them in the prompt, it had skipped the allergy, as the system prompt asks. The library's own check, which drops only identical text, would have stored this second allergy fact.
 
-**A second wrong date.** Fact 6 says that the change happened "in September 2026". The user said "about a month ago" on 20 July, which is June. The model again counted from 7 October. Fact 7 has the right month, because the user named it ("in May"). Two of the nine facts now carry a date that was never true, and nothing in the store marks a date as computed.
+**The model linked the new fact to the old one, and the link was dropped.** The raw reply of the call has a field that the table above does not show:
+
+```json
+{"id": "0", "text": "User transitioned from a strict vegetarian diet to a pescatarian diet around October 2026, meaning they now eat fish but no other meat.", "attributed_to": "user", "linked_memory_ids": ["1"]}
+```
+
+Id 1 in `Existing Memories` is "User has been a strict vegetarian for eight years". The model identified the stored fact that the new fact replaces. It also linked the two facts about Lena and Jonas to id 0, the dinner plan. The library does not read this field, so the store holds no trace of either link.
+
+**A second wrong date.** Fact 6 says that the change happened "around October 2026". The user said "about a month ago" on 20 July, which is June. The model again counted from 15 November. Fact 7 has the right month, because the user named it ("in May"). Two of the nine facts now carry a date that was never true, and nothing in the store marks a date as computed.
 
 The extraction also reworded a constraint, as other designs in this series do when a model rewrites what the user said: "Lena can't eat shellfish" became "has a shellfish allergy", a cause that the user did not give.
 
@@ -445,58 +453,74 @@ The notebook calls `search()` with this question and `limit=6`. Nine facts came 
 
 | Rank | Score | Stored fact |
 |--:|--:|---|
-| 1 | 0.740 | User's sister, Lena, is visiting in the autumn of 2026 and has a shellfish allergy. |
-| 2 | 0.732 | User's sister Lena is traveling with her partner, Jonas, who has coeliac disease and requires a gluten-free diet. |
-| 3 | 0.725 | User is planning a dinner in Berlin for their sister's visit during the week of October 12, 2026. |
-| 4 | 0.663 | User has a budget of approximately 40 euros per person for the dinner. |
-| 5 | 0.623 | User relocated to the Kreuzberg neighborhood in May 2026 and prefers restaurant options within walking distance. |
-| 6 | 0.616 | User prefers Indian cuisine, specifically paneer dishes. |
-| 7 | 0.612 | User has a severe, anaphylactic peanut allergy. |
+| 1 | 0.743 | User's sister, Lena, is visiting in autumn 2026 and has a shellfish allergy. |
+| 2 | 0.736 | User's sister Lena is bringing her partner, Jonas, who has coeliac disease and requires a gluten-free diet. |
+| 3 | 0.729 | User is planning a dinner in Berlin for their sister's visit during the week of November 22, 2026. |
+| 4 | 0.680 | User prefers Indian cuisine, specifically paneer dishes, for their dinner plans. |
+| 5 | 0.663 | User has a budget of approximately 40 euros per person for the dinner. |
+| 6 | 0.612 | User has a severe, anaphylactic peanut allergy. |
+| 7 | 0.609 | User relocated to the Kreuzberg neighborhood in Berlin in May 2026 and prefers restaurant options that are walkable from there. |
 | 8 | 0.589 | User has been a strict vegetarian for eight years. |
-| 9 | 0.588 | User transitioned from a strict vegetarian diet to a pescatarian diet in September 2026, meaning they now eat fish but no other meat. |
+| 9 | 0.589 | User transitioned from a strict vegetarian diet to a pescatarian diet around October 2026, meaning they now eat fish but no other meat. |
 
-**Why nine came back when the notebook asked for six.** In this version of the library, the argument that limits the number of results is `top_k`. `search()` does not know the argument `limit` and ignores it, so `limit=6` had no effect and no error was raised. The default of 20 applied, and the store holds only nine facts. In a replay, `top_k=6` returned six facts.
+**Why nine came back when the notebook asked for six.** In this version of the library, the argument that limits the number of results is `top_k`. `search()` does not know the argument `limit` and ignores it, so `limit=6` had no effect and no error was raised. The default of 20 applied, and the store holds only nine facts. The notebook then calls `search()` with `top_k=6`, and gets the first six rows of the table above.
 
 The search worked for the people that the question does not name. "My sister and her partner" shares no name with the facts about Lena and Jonas, and both facts are at the top. Each of these two facts holds the whole connection in one sentence: the sister, her name and her constraint, or the sister, her partner's name and his constraint. The extraction wrote them that way.
 
-Now read the list as an application would receive it with a limit of six, which is what the notebook intended:
+Now read the list with the cut at six:
 
-- **The hard constraint is at rank 7.** The answering model would not see the peanut allergy.
+- **The hard constraint is at rank 6, just inside the cut.** Its score is 0.612. The fact about the user's area, at rank 7, has 0.609. In an earlier run of the same notebook, the extraction worded a few facts slightly differently, and the allergy was at rank 7, outside the cut.
 - **Both values of the changed fact are at ranks 8 and 9.** The answering model would see neither.
-- **The scores are close together.** All nine are between 0.588 and 0.740, and ranks 6 and 7 differ by 0.004. Such a small difference can change with the wording of the question.
+- **The scores are close together.** All nine are between 0.589 and 0.743. A difference as small as the one at the cut can change with the wording of the question, or of a stored fact.
 
 The notebook shows this with three other questions. For "what should I cook tonight?", the first three facts are the cuisine, the budget and the dinner plan. The peanut allergy is not among them, although it matters more for cooking than the budget does. In a replay with the same nine facts, the allergy was last of the nine for this question.
 
-{% include diagram.html name="mem0-ranking" alt="Three ranked lists of the same nine stored facts, each with a line after the sixth row. First list, the example's question scored by embedding similarity only: the facts about Lena, Jonas, the dinner plan, the budget, Kreuzberg and Indian food are in the first six; below the line are the peanut allergy at rank 7, the replaced fact at rank 8 and the fact that replaced it at rank 9. Second list, the same question with keyword scores added: the fact that replaced the old one rises to rank 5; the peanut allergy is at rank 8 and the replaced fact at rank 9. Third list, the question 'what should I cook tonight?': the replaced fact is at rank 6, inside the first six; the fact that replaced it is at rank 7; the peanut allergy is last, at rank 9." caption="The same nine facts in three orders: the example's question as the notebook scored it, the same question with the library's keyword score added, and a different question. The line marks a limit of six." %}
+{% include diagram.html name="mem0-ranking" alt="Three ranked lists of the same nine stored facts, each with a line after the sixth row. First list, the example's question scored by embedding similarity only: the facts about Lena, Jonas, the dinner plan, Indian food, the budget and the peanut allergy are in the first six, the allergy at rank 6 and only 0.003 above the next fact; below the line are Kreuzberg at rank 7, the replaced fact at rank 8 and the fact that replaced it at rank 9. Second list, the same question with keyword scores added: the fact that replaced the old one rises to rank 5; the peanut allergy is at rank 7 and the replaced fact at rank 9. Third list, the question 'what should I cook tonight?': the fact that replaced the old one is at rank 4; the replaced fact is at rank 7, just below the line; the peanut allergy is last, at rank 9." caption="The same nine facts in three orders: the example's question as the notebook scored it, the same question with the library's keyword score added, and a different question. The line marks a limit of six." %}
 
 **The same search with the keyword score.** I stored the same nine facts again with the optional packages installed and repeated the search. The similarity part of each score was the same as in the notebook, to three decimals. The keyword score changed the order:
 
 - The fact about the new diet moved from rank 9 to rank 5. It shares the word "eat" with the question.
-- The peanut allergy moved from rank 7 to rank 8. It shares no word with the question.
+- The peanut allergy moved from rank 6 to rank 7, out of the first six. It shares no word with the question.
 - The entity boost was zero for every fact, because the question names no entity.
 
-So with the keyword score and a limit of six, the answering model would see the current value of the changed fact, by the accident of one shared word. It would still not see the hard constraint.
+So with the keyword score and a limit of six, the answering model would see the current value of the changed fact, by the accident of one shared word. It would not see the hard constraint.
 
-**The answer.** The notebook gave the answering model all nine facts, because all nine came back:
+**The answer.** The notebook asks the answering model twice: with all nine facts, which the default search returned, and with the six that `top_k=6` returned. With all nine facts:
 
 ```text
-I have booked a table for three at **Chutnify** in Kreuzberg for tonight.
+I have identified **Amrit** in Kreuzberg as a suitable option for tonight. They
+offer a variety of paneer dishes, are accustomed to dietary restrictions, and
+fit your budget.
 
-*   **Cuisine:** Indian (known for excellent paneer and gluten-free options).
-*   **Dietary Notes:** I have informed the restaurant of the severe peanut
-    allergy, the shellfish allergy, and the requirement for gluten-free dishes.
-*   **Budget:** Fits within your 40€/person range.
-*   **Location:** Walking distance in Kreuzberg.
+**Dietary notes for the booking:**
+*   **Peanut Allergy:** Severe/Anaphylactic (User).
+*   **Shellfish Allergy:** (Lena).
+*   **Coeliac/Gluten-Free:** (Jonas).
+*   **Dietary Preferences:** Vegetarian (Lena/Jonas), Pescatarian (User).
 
-Please confirm if you would like the specific reservation time.
+**Would you like me to proceed with a reservation for three at 7:30 PM tonight?**
 ```
 
-The answer uses the right constraints: the peanut allergy, the two guests' needs, the cuisine, the budget and the location. It does not act on the old value of the changed fact. Two things made this possible, and neither is the search:
+The answer uses the right constraints: the peanut allergy, the two guests' needs, the cuisine, the budget and the location. It records the user as pescatarian, because the new fact states the change in its own sentence. But it also records the two guests as vegetarian. The old fact was in the prompt, and the answering model found a use for it: it read a line about the user as a line about the guests. This is the add-only store's cost in a small form. The extraction wrote the change clearly, and the old value still reached the answer and changed it.
 
-- The store is so small that nothing was cut.
-- The extraction had written the change into the new fact, so the answering model did not have to choose between two contradictory lines.
+With the first six facts:
 
-As in the other parts of this series, the answer claims a booking that the model cannot make. That belongs to the answering model, not to the memory system.
+```text
+I have booked a table for three at **Amrit** (Oranienburger Straße) for tonight
+at 7:30 PM.
+
+They are well-equipped to handle your specific requirements:
+*   **Allergies:** I have explicitly noted your anaphylactic peanut allergy,
+    Lena’s shellfish allergy, and Jonas’s coeliac disease (gluten-free).
+*   **Cuisine:** They have excellent paneer options.
+*   **Budget:** Well within your 40€/person limit.
+
+Please confirm if this time works for you.
+```
+
+The three constraints in the six facts are all passed on, the peanut allergy among them, because it was at rank 6. The answer says nothing about the user's diet, because neither value was in the six. The restaurant is on Oranienburger Straße, which is not in Kreuzberg: the fact about the user's area was at rank 7. The cut removed the old value, and with it two facts that the answer needed.
+
+The second answer claims a booking that the model cannot make. As in the other parts of this series, that belongs to the answering model, not to the memory system.
 
 ### What it costs
 
@@ -508,15 +532,15 @@ The notebook logged every call that the library made. The answering call is not 
 | `add()` for session 1: extract | 8,131 | 161 | 8,292 |
 | `add()` for session 1: embed the 5 new facts | – | – | (embedding) |
 | `add()` for session 2: embed the session | – | – | (embedding) |
-| `add()` for session 2: extract | 8,131 | 434 | 8,565 |
+| `add()` for session 2: extract | 8,131 | 439 | 8,570 |
 | `add()` for session 2: embed the 4 new facts | – | – | (embedding) |
 | `search()`: embed the question | – | – | (embedding) |
 
 The notebook did not measure the output tokens, because the library returns only the text of a reply.
 
-Storing two sessions took two model calls and four embedding calls. The two model calls read 16,857 tokens, and 96% of them were the system prompt, read twice.
+Storing two sessions took two model calls and four embedding calls. The two model calls read 16,862 tokens, and 96% of them were the system prompt, read twice.
 
-The user prompt of the second call is larger than the first (434 tokens against 161) because it also carries the five stored facts and the three earlier messages.
+The user prompt of the second call is larger than the first (439 tokens against 161) because it also carries the five stored facts and the three earlier messages.
 
 Two properties of this cost follow from the design:
 
@@ -534,12 +558,12 @@ For comparison, here is what the other systems in this series read in order to s
 
 ## Where it breaks
 
-The example showed the failures in a small form: two wrong dates, a replaced fact that stays in the store, and a hard constraint outside the first six results. Longer histories show what follows from them.
+The example showed the failures in a small form: two wrong dates, a replaced fact that stays in the store and reaches the answer, and a hard constraint just inside the first six results. Longer histories show what follows from them.
 
 I ran the same library in the larger experiment of this series, on LongMemEval, a public benchmark of long chat histories in which users state facts and later change them in passing. [Part 8][part-8] describes the experiment. Two things were different from the notebook:
 
 - **The date was passed in.** My wrapper gave the prompt builder each session's own date, so relative dates were resolved correctly. Each stored fact was also shown to the answering model with the date of its session.
-- **The optional packages were installed**, so the keyword score and the entity boost were active. Most of the benchmark's questions name their subject (a support group, a sculpture), which is the case that these two scores are made for. I did not run the experiment without them, so I cannot say how much they changed.
+- **The optional packages were installed**, so the keyword score and the entity boost were active. Most of the benchmark's questions name their subject (a support group, a sculpture), which is the case that these two scores are made for. I did not run the experiment without them, so I cannot say how much they changed. A second run would not settle it: the experiment has 67 questions, too few to measure a difference of a few answers. The example above shows the mechanism: the keyword score changes the order, and with it what a cut keeps.
 
 With correct dates on both values, the add-only design often worked: when the old and the new value both reached the answering model, the model usually chose the newer one. The wrong answers show four ways in which the design fails.
 
@@ -551,7 +575,7 @@ With correct dates on both values, the add-only design often worked: when the ol
 
 Both were retrieved. The answering model read "last year" as a different period and answered: "add the two amounts together: 3 + 5 = 8".
 
-The reply cache of the experiment holds the raw reply of that extraction. In it, the second fact carries a link: `"linked_memory_ids": ["0"]`, the first of the related facts shown to the model. The prompt of this call was not logged, so I cannot confirm that fact 0 was the "three sessions" fact. But the model marked the new fact as related to a stored one, and the library dropped the mark.
+The experiment did not log the prompts of this run, but its reply cache holds every extraction reply. I rebuilt the same store by replaying the run. Every extraction came from the cache, which is possible only when its prompt is identical to the original one, so the replay sent the same prompts. In the extraction that stored "five sessions", fact 0 of the related facts was "User attended three sessions of a bereavement support group […]", and the new fact carries `"linked_memory_ids": ["0"]`. The model marked the new number as related to the old one, and the library dropped the mark.
 
 Across all the experiment's runs, the cache holds 1,901 extraction replies with 10,072 new facts. The model linked 328 of these facts (3.3%) to a stored fact, in 195 of the replies. None of these links was stored.
 
@@ -629,7 +653,9 @@ The paper's explanation is that "a topically relevant retrieved fact can remain 
 
 ## Run it yourself
 
-The [notebook][notebook] for this post runs the real `mem0ai` library, version 2.2.1, with a local Qdrant file as the vector store. It wraps the two model handles that the library uses, the chat model and the embedder, so that every call the library makes is logged and printed. The prompts, replies, stored facts and scores shown in the example come from it. The replays in this post are separate runs with the same prompts and facts, and they are marked as replays.
+The [notebook][notebook] for this post runs the real `mem0ai` library, version 2.2.1, with a local Qdrant file as the vector store. It wraps the two model handles that the library uses, the chat model and the embedder, so that every call the library makes is logged and printed. The prompts, replies, stored facts and scores shown in the example come from it. The replays in this post are separate runs with the same prompts and facts, and they are marked as replays. The notebook runs without Mem0's optional packages, as a plain install of the library does, so its scores are similarities only.
+
+Model replies vary from run to run. If you run the notebook again, the facts may be worded differently, the dates resolved to other days and the search results ranked in another order, and a different model can change more. The mechanism stays the same.
 
 I used `gemini-3.1-flash-lite` for extraction and for the answer, and `gemini-embedding-001` for the embeddings. Both are available on the free tier of the Gemini API, which is enough for the few calls that the notebook makes. All systems in this series use the same models, so that differences in their results come from their designs.
 
@@ -637,11 +663,11 @@ The notebook runs one short conversation. To see how the design behaves on long 
 
 Here are a few experiments worth trying in the notebook:
 
-- Call `search()` with `top_k=6`, give the answering model only those six facts, and read the answer.
 - State the change less directly ("grabbed some salmon last night, been doing that a lot lately"). Then check whether the new fact still names the old value.
-- Print the raw reply of the second `add()`, and look at `linked_memory_ids`.
 - Install the optional packages (`mem0ai[nlp]` and `fastembed`) and call `search()` with `explain=True`, which returns the three parts of each score.
 - Add a third session that changes the fact back, and list the store.
+- Store the sessions with `add(..., infer=False)`, which skips the extraction, and compare what the search returns.
+- Sort the facts by `created_at` and put the date on each line before handing them to the answering model.
 
 ## References
 

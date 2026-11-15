@@ -404,6 +404,8 @@ The [notebook][notebook] accompanying this post is a complete, standalone implem
 
 You can run the notebook with any model. I used `gemini-3.1-flash-lite`, which is available on the free tier of the Gemini API. The free tier is sufficient because the notebook makes only a handful of calls. All systems in this series use the same model, ensuring that differences in their results come from their designs rather than from the models themselves.
 
+Model replies vary from run to run, even with the same prompt. A rerun of the notebook can word the profile differently from what is shown above, and a different model can change more. The mechanism stays the same.
+
 The notebook runs one short conversation. To see how the design performs on longer, realistic histories, read [part 8][part-8]. Its experiment is available in the same [repository][repo], and you can run it yourself.
 
 You can also experiment by modifying the notebook's code and observing the results. Here are a few experiments worth trying:

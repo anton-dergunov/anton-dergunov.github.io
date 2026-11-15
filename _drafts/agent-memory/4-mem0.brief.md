@@ -45,7 +45,7 @@ Version B. Tested most by the reversal (both values kept) and by the cut at read
 
 | Number | Out of what | From where | Compared with | So what |
 |---|---|---|---|---|
-| 9 facts, scores 0.589–0.740 | the example's store | notebook 02 | each other | The ranking is fragile; a cut at six drops the allergy |
+| 9 facts, scores 0.589–0.743 | the example's store | notebook 02 | each other | The ranking is fragile; the allergy is sixth by 0.003 (seventh in the October run, and with keyword scores) |
 | 2 model calls + 4 embedding calls | two sessions | notebook 02 | the other systems (without part numbers) | The cheapest write that extracts |
 | 51.4% vs 25.7% outdated stance | PersonaMem-v3, changed preferences | §4.3, p. 17 | textual memory | Mention only with what the task measures, or cut |
 
@@ -71,9 +71,9 @@ Version B. Tested most by the reversal (both values kept) and by the cut at read
 
 ## Changes made while writing (2026-11-15)
 
-The post departs from the outline above in these points, all from reading `mem0ai` 2.2.1 and from replays (details in `HANDOFF.md` and `4-mem0.notebook-fixes.md`):
+The post departs from the outline above in these points, all from reading `mem0ai` 2.2.1 and from replays (details in `HANDOFF.md`):
 
-- **`limit` is not "a pool size".** `search()` takes `top_k`; `limit=6` is an unknown keyword and is ignored. The post says so; the notebook's explanation needs the fix in `4-mem0.notebook-fixes.md`.
+- **`limit` is not "a pool size".** `search()` takes `top_k`; `limit=6` is an unknown keyword and is ignored. The post says so. Notebook 02 was fixed and rerun on 2026-11-15 (see the next section).
 - **The new fact names the old value because of the prompt's rule for transitions and the user's wording**, not because the old row was in the prompt (replay with the old facts removed: same wording).
 - **Links are asked for and dropped.** `linked_memory_ids` is never read. In a replay of the example's second call the model linked the new fact to the old one, 5 times of 5. In the experiment's reply cache, 328 of 10,072 new facts carry a link.
 - **Hybrid scoring** (keyword score, entity boost) was off in the notebook and on in the experiment. A replay with it on changes the example's order.
@@ -81,6 +81,10 @@ The post departs from the outline above in these points, all from reading `mem0a
 - **Three new figures** in place of one: `mem0-update`, `mem0-prompt`, `mem0-ranking`.
 - **Relatives:** SeCom, xMemory and SAGE are cut; the "agent-native" numbers are cut; HaluMem, O-Mem, Memory-R1 and PersonaMem-v3 stay.
 - **History** has a new item, "From the paper to the release" (version 2.0.0, 16 April 2026).
+
+## Notebook 02 rerun (2026-11-15)
+
+The notebook was corrected and rerun, in an environment without Mem0's optional packages (a plain `uv sync`), so its scores are similarity only. It now shows the `limit=6` trap and a `top_k=6` search, the raw reply of the second `add()` with its links, the same call with `Existing Memories` and `Last k Messages` empty, and an answer from the first six facts. The post quotes these as notebook outputs. What changed in the run: the dates (run on 15 November), the allergy at rank 6 by 0.003 (was 7), the nine-fact answer listing the guests as vegetarian, and 16,862 tokens to write (was 16,857). The keyword-score replay was rerun on the new facts (`scripts/replays/mem0_replay.py`). Failure 1's "fact 0" was confirmed by rebuilding the store with every extraction from the cache (`scripts/replays/mem0_fact0_from_cache.py`).
 
 ## Open questions for Anton
 
