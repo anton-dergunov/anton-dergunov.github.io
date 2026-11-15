@@ -1,7 +1,7 @@
 ---
 post: _drafts/agent-memory/2199-01-01-agent-memory-4-mem0.md
 type: system deep-dive
-status: draft
+status: written (structure draft, 2026-11-15)
 ---
 
 # Brief: Mem0: facts in a vector store (part 4)
@@ -68,6 +68,19 @@ Version B. Tested most by the reversal (both values kept) and by the cut at read
 
 - Title: "Mem0: facts in a vector store"
 - Excerpt: "What Mem0 does between add() and search(): extraction, the update step the release dropped, and what a similarity cut leaves out."
+
+## Changes made while writing (2026-11-15)
+
+The post departs from the outline above in these points, all from reading `mem0ai` 2.2.1 and from replays (details in `HANDOFF.md` and `4-mem0.notebook-fixes.md`):
+
+- **`limit` is not "a pool size".** `search()` takes `top_k`; `limit=6` is an unknown keyword and is ignored. The post says so; the notebook's explanation needs the fix in `4-mem0.notebook-fixes.md`.
+- **The new fact names the old value because of the prompt's rule for transitions and the user's wording**, not because the old row was in the prompt (replay with the old facts removed: same wording).
+- **Links are asked for and dropped.** `linked_memory_ids` is never read. In a replay of the example's second call the model linked the new fact to the old one, 5 times of 5. In the experiment's reply cache, 328 of 10,072 new facts carry a link.
+- **Hybrid scoring** (keyword score, entity boost) was off in the notebook and on in the experiment. A replay with it on changes the example's order.
+- **The system prompt's size** (8,131 tokens, 33,653 characters, split by section) is part of the mechanism section and of the cost section.
+- **Three new figures** in place of one: `mem0-update`, `mem0-prompt`, `mem0-ranking`.
+- **Relatives:** SeCom, xMemory and SAGE are cut; the "agent-native" numbers are cut; HaluMem, O-Mem, Memory-R1 and PersonaMem-v3 stay.
+- **History** has a new item, "From the paper to the release" (version 2.0.0, 16 April 2026).
 
 ## Open questions for Anton
 
