@@ -69,9 +69,19 @@ A second reconstruction, from May 2025, found a different block: a summary of th
 
 The post names three goals for memory: carry useful context forward, follow preferences and constraints, and "Stay current over time". Its example of the third is a trip: memory should revise "You're going to Singapore in July" to "You went to Singapore in July 2026" when the trip ends. That is the problem this series calls a knowledge update: a fact that was true, then changed. The post's example of the second is checked when "a vegetarian user asks for meal prep suggestions", the same kind of test as the conversation that the earlier parts of this series follow. It measures each goal on OpenAI's own evaluations, for "2024 : Saved memories", "2025 : Saved memories + Dreaming V0" and "2026 : Dreaming V3", and shows the results as charts with no public test set. And it says that serving dreaming to free users became practical after "Recent improvements reduced the compute required to serve dreaming to Free users by approximately 5x" [V].
 
-**What the user sees.** "The memories synthesized by dreaming are reviewable through a summary of them made visible in the memory summary page." There the user can type a correction, highlight text to correct it, or select "Don't mention this again", which "reduces future references to the information. It does not delete the original source." The FAQ is candid about what the page is: "The memory summary is a high-level view of information that ChatGPT may use to personalize responses. It does not necessarily include every detail or source that Memory can reference." And it describes the two experiences side by side: "Improved Memory continually updates a broader summary of relevant context. Legacy saved memories use a more explicit list of individual memory items." [V]
+**What the user sees.** "The memories synthesized by dreaming are reviewable through a summary of them made visible in the memory summary page." In a user's account the summary is prose under headings, written about the user in the second person [R]. There the user can type a correction, highlight text to correct it, or select "Don't mention this again", which "reduces future references to the information. It does not delete the original source." The FAQ is candid about what the page is: "The memory summary is a high-level view of information that ChatGPT may use to personalize responses. It does not necessarily include every detail or source that Memory can reference." And it describes the two experiences side by side: "Improved Memory continually updates a broader summary of relevant context. Legacy saved memories use a more explicit list of individual memory items." [V]
 
-<!-- TODO screenshot: ChatGPT's memory summary page (Settings > Personalization > Memory), personal lines blurred. Caption with credit: "ChatGPT's memory summary page, screenshot by the author, <date>. ChatGPT is a product of OpenAI." -->
+{% include figure.html
+   src="/images/posts/agent-memory/screenshot-chatgpt-memory-summary.png"
+   alt="ChatGPT's Memory summary window, updated 8 minutes ago. The summary is prose under headings such as Work and ML, and ML Projects and Learning, written about the user in the second person. One sentence about a repository has been highlighted, and the correction box at the bottom says that the user now works on a different repository instead."
+   caption="ChatGPT's memory summary, written by the background process: prose under headings, which the user can correct by highlighting a sentence and saying what changed. Screenshot by the author, 16 November 2026. ChatGPT is a product of OpenAI."
+%}
+
+{% include figure.html
+   src="/images/posts/agent-memory/screenshot-chatgpt-sources.png"
+   alt="ChatGPT's Sources panel for one answer: three past chats, each with a title, a date in November 2026 and the start of the user's message, followed by saved memories, each a short sentence about what the user owns."
+   caption="The sources under one ChatGPT answer (the top of the list): past chats that a search found, then saved memories. Screenshot by the author, 16 November 2026. ChatGPT is a product of OpenAI."
+%}
 
 ### Codex
 
@@ -279,7 +289,19 @@ On 10 July 2026 that changed: "Memory on Claude now works as a set of individual
 
 **How it reads.** Not documented. The help article says that Claude updates memory as you chat, and the release note says that Claude "reads and updates" the entries. Neither says whether every topic goes into every conversation, or only the relevant ones are read. Reverse engineering exists only for the earlier version. In December 2025 [Manthan Gupta][gupta-claude] [R] found a `<userMemories>` block of short facts in the prompt, after the system prompt and before the conversation, updated in the background ("Changes are not immediate"), and a `memory_user_edits` tool for explicit edits. I found no reverse engineering of the topic version.
 
-<!-- TODO screenshot: Claude's Memory settings with the topic list and one topic open, from an account with neutral topics. Caption with credit. -->
+Seen from a user's account, the topics are dated [R]. The Memory page lists them in three groups, "You", "Topics" and "Areas", each entry with a one-line description and "Updated" and its date, and offers an import from other AI providers. An open entry has a "Last updated" date, a one-line "Summary" and a list of "Details":
+
+{% include figure.html
+   src="/images/posts/agent-memory/screenshot-claude-memory.png"
+   alt="Claude's Settings, Your Claude, Memory. At the top, Import memory from other AI providers with a Start import button. Below, three groups: You (Preferences, Profile), Topics (Communication, Photography, Recent Work, Tools And Hardware) and Areas (Acervo, AI Tool Config Archiving and more). Each row has a short description and an Updated date. At the bottom, a box to tell Claude something to remember."
+   caption="The Claude app's memory: one entry per topic, each with the date it was last updated. Screenshot by the author, 16 November 2026. Claude is a product of Anthropic."
+%}
+
+{% include figure.html
+   src="/images/posts/agent-memory/screenshot-claude-topic.png"
+   alt="One Claude memory entry, Preferences, opened: Last updated Aug 23, 2026; Summary: How Anton wants Claude to respond; Details: six bullet points such as write in plain international English, keep full technical depth, prefer concise direct technical communication, and prefer diffs over full rewrites. A Delete button at the top right."
+   caption="One entry opened: a date, a one-line summary and short details, which the user can delete. Screenshot by the author, 16 November 2026. Claude is a product of Anthropic."
+%}
 
 ### Search over past chats
 
@@ -362,7 +384,7 @@ On the two questions: the model writes, during its turn, and the model selects w
 
 **How it reads.** Not documented. The [help page][gemini-help] says that "Gemini can learn from your chats to understand more about you and your world", and to find out what it used, the user is told to ask it: "Did you use any info from past chats?" Whether Gemini keeps a summary or searches past chats when needed is not stated, and I found no reverse engineering by a primary author.
 
-**Saved info.** A separate list holds facts and preferences that the user writes directly ("Ask Gemini to remember your interests and preferences", on the [personalisation page][gemini-personalization] [V]). That is the user writing, and the list inserted.
+**Saved info.** A separate list holds facts and preferences that the user writes directly ("Ask Gemini to remember your interests and preferences", on the [personalisation page][gemini-personalization] [V]); the settings now call it "Your instructions for Gemini". That is the user writing, and the list inserted.
 
 ### Personal Intelligence
 
@@ -372,7 +394,11 @@ It is not memory written from conversations, but it is the clearest description 
 
 On the two questions: nobody writes anything for it; the data is already there, and a search selects. That is the answer to how it relates to memory: with Personal Intelligence on, the past chats become one more source that the model searches.
 
-<!-- TODO screenshot: Gemini's Personal context page with the Memory switch. Caption with credit. -->
+{% include figure.html
+   src="/images/posts/agent-memory/screenshot-gemini-personal-context.png"
+   alt="Gemini's Personal context settings. Memory, switched on: Gemini learns from your past chats to understand more about you. Your instructions for Gemini, switched on, with two entries written by the user: I work as a ML engineer / data scientist in industry, and I prefer concise, but technically detailed answers."
+   caption="Gemini's two kinds of memory in its settings: memory of past chats, which the user can only switch on or off, and instructions that the user writes (saved info). Screenshot by the author, 16 November 2026. Gemini is a product of Google."
+%}
 
 ### Gemini CLI
 
@@ -423,7 +449,7 @@ The memory is the past conversations themselves, and a turn shows which chats it
 
 **Perplexity.** Memory arrived in November 2025: Perplexity "retrieves relevant context from your memory store", which holds "structured preferences, like favorite brands, dietary needs, or keywords you often ask about", for every model it offers, and is off in incognito mode ([announcement][perplexity-memory] [V]). It does not say who writes the store or when.
 
-**Meta AI.** Meta's help centre says that Meta AI saves details about the user on its own or when asked, shows "Memory updated" after a message when it saves one, and lists the saved details in the app [V]. [TODO: fetch the help page itself; the tools could not render it, and the quote comes from a search excerpt.]
+**Meta AI.** Memory reached Meta AI in Facebook, Messenger and WhatsApp in the US and Canada in January 2025, remembering "certain details that you share with it in 1:1 chats" ([PCMag][meta-pcmag] [T]). Meta's own [help page][meta-help] [V] says that Meta AI "may remember details from your conversations", including "things that you ask it to remember and relevant things that you mention", and that it "does not save everything that you say". Two of its details concern changed facts. The user corrects a fact by telling Meta AI what has changed ("Actually, I sold my Honda Civic"), and "Meta AI then uses the edited detail instead of the earlier one", in the background, so "there may be no confirmation that the detail changed". And memory fades by default: "Meta AI uses most details for a limited time. Meta AI may remember other details, such as lasting preferences, for longer." It does not say how the details are read.
 
 DeepSeek's own pages document no memory feature, so it is not included.
 
@@ -558,9 +584,9 @@ In the whole-history run of [part 8][part-8], reading the whole history and Mem0
 | Perplexity | not documented | not documented | retrieved from a memory store | on/off; incognito | V |
 | Mastra Observational Memory | two background agents | at token thresholds | the whole log inserted | the log | C |
 
-{% include diagram.html name="products-map" alt="A grid. Rows say who writes the memory: the user; the model, during its turn; a process after or between conversations; nobody; not documented. Columns say how it is read: all of it put into the prompt, a search that selects, or not documented. The user writes: CLAUDE.md files in Claude Code and saved info in Gemini are inserted. The model during its turn: ChatGPT's saved memories, Claude Code's MEMORY.md index and Gemini CLI's memory files are inserted; Claude Code's topic files, Gemini CLI's detail files and the API memory tool are read on demand, and Le Chat recalls its Memories when relevant; the Claude app's topics and Meta AI are not documented. A process writes: ChatGPT's dreaming summary, Codex's memory summary, Mastra's Observational Memory and the Claude app's earlier daily summary are inserted; Codex's rollout summaries are read on demand. Nobody writes: ChatGPT's and Claude's searches over past chats, Grok's referenced chats and Gemini's Personal Intelligence search what is already there. Not documented who writes: Perplexity searches its memory store; Gemini's memory of past chats is not documented either way." caption="The products on the two questions. Several products sit in two cells, because they insert a short index and read the detail on demand." %}
+{% include diagram.html name="products-map" alt="A grid. Rows say who writes the memory: the user; the model, during its turn; a process after or between conversations; nobody; not documented. Columns say how it is read: all of it put into the prompt, a search that selects, or not documented. The user writes: CLAUDE.md files in Claude Code and saved info in Gemini are inserted. The model during its turn: ChatGPT's saved memories, Claude Code's MEMORY.md index and Gemini CLI's memory files are inserted; Claude Code's topic files, Gemini CLI's detail files and the API memory tool are read on demand, and Le Chat recalls its Memories when relevant; the Claude app's topics are not documented. A process writes: ChatGPT's dreaming summary, Codex's memory summary, Mastra's Observational Memory and the Claude app's earlier daily summary are inserted; Codex's rollout summaries are read on demand. Nobody writes: ChatGPT's and Claude's searches over past chats, Grok's referenced chats and Gemini's Personal Intelligence search what is already there. Not documented who writes: Perplexity searches its memory store; Gemini's memory of past chats and Meta AI's remembered details are not documented either way." caption="The products on the two questions. Several products sit in two cells, because they insert a short index and read the detail on demand." %}
 
-{% include diagram.html name="assistants-timeline" alt="A timeline from 2024 to 2026 with one row per product, grouped by vendor. ChatGPT: saved memories in April 2024, references to past chats in April 2025, a search over past chats in January 2026, dreaming in June 2026. Codex: a memory pipeline in its code from February 2026, version 2 in September 2026. Claude app: search over past chats in August 2025, a memory summary in September 2025, free users in March 2026, topics written as you chat in July 2026. Claude Code: auto memory in February 2026. Claude API: the memory tool in September 2025. Gemini app: recalls past chats in February 2025, on by default in August 2025, Personal Intelligence in January 2026, renamed memory with an import in March 2026. Gemini CLI: a save_memory tool in June 2025, plain files in four tiers and Auto Memory in April 2026. Grok: April 2025. Le Chat: September 2025. Perplexity: November 2025. A marker shows November 2026, the date of this description." caption="When memory arrived in each product. Most of it is less than eighteen months old, and most products have already changed design once." %}
+{% include diagram.html name="assistants-timeline" alt="A timeline from 2024 to 2026 with one row per product, grouped by vendor. ChatGPT: saved memories in April 2024, references to past chats in April 2025, a search over past chats in January 2026, dreaming in June 2026. Codex: a memory pipeline in its code from February 2026, version 2 in September 2026. Claude app: search over past chats in August 2025, a memory summary in September 2025, free users in March 2026, topics written as you chat in July 2026. Claude Code: auto memory in February 2026. Claude API: the memory tool in September 2025. Gemini app: recalls past chats in February 2025, on by default in August 2025, Personal Intelligence in January 2026, renamed memory with an import in March 2026. Gemini CLI: a save_memory tool in June 2025, plain files in four tiers and Auto Memory in April 2026. Meta AI: January 2025. Grok: April 2025. Le Chat: September 2025. Perplexity: November 2025. A marker shows November 2026, the date of this description." caption="When memory arrived in each product. Most of it is less than eighteen months old, and most products have already changed design once." %}
 
 ## Three observations
 
@@ -571,7 +597,7 @@ In the whole-history run of [part 8][part-8], reading the whole history and Mem0
 **The problem they name is staleness.** OpenAI's Singapore trip, Anthropic's project deadline that "moved to September", Codex's "Memory is not proof of current behavior", Claude Code's instruction that recalled memories "reflect what was true when written", Mastra's "the newer observation supersedes the older one": each describes a fact that was true, then changed. The answers so far are of three kinds:
 
 - **a background rewrite** that keeps the memory current (ChatGPT's dreaming, Codex's consolidation, Mastra's Reflector);
-- **a date on every entry**, written by code rather than left to the model (Claude Code's `modified` stamp, Mastra's dated observations);
+- **a date on every entry**: Claude Code's `modified` stamp, written by code rather than left to the model; the Claude app's topics, each shown with the date it was last updated; Mastra's dated observations;
 - **controls for the user**: a page to read and correct the memory, and "don't mention this again".
 
 A fourth observation follows from the coding agents. **Claude Code and Gemini CLI arrived at the same file layout**: an index loaded into every session, and topic files read only when the index points to them. Codex does the same with a summary and per-session files, and ChatGPT reached a similar split in 2026: a summary in every prompt, and a search over past chats when it seems worth it. This is both answers to the second question in one design, and it keeps the always-inserted part small however much is stored.
@@ -589,6 +615,17 @@ This part closes the series *How LLM agents remember*. Its ideas, in short:
 
 To go further: the decision guide at the end of [part 8][part-8] says which design to start from in which situation; parts [3][part-3] to [7][part-7] take one open system apart each, with a notebook that runs every call; and the [repository][repo] has the notebooks, the experiment and the Observational Memory run from this part.
 
+## Run it yourself
+
+This part has no notebook: the chat products cannot be run as libraries. What can be run or read:
+
+- **The open code** quoted above, at the pinned commits linked in the references: Codex's memory pipeline and prompts, Gemini CLI's memory instructions and Auto Memory, Mastra's Observational Memory, and Grok's published system prompt.
+- **The Observational Memory run**, in [scripts/mastra][mastra-run] of the series' repository: the script, every prompt and reply of both runs, and a summary of the numbers quoted here. It needs Node.js and a Gemini API key; the free tier is enough for its ten or so calls. It uses `gemini-3.1-flash-lite`, the model used everywhere in this series, so that differences come from the designs and not from the models.
+
+Model replies vary from run to run, even with the same prompt. A rerun of the Observational Memory script can write different observations and give a different answer, and another model can change more. The mechanism stays the same.
+
+The products themselves change faster than any description of them. The dates and sources above are as of November 2026; for a later state, start from the vendors' release notes and help pages listed below.
+
 ## References
 
 <!-- REFS -->
@@ -603,6 +640,7 @@ Vendor pages and code, by vendor:
 - xAI: [Grok system prompts][grok-prompts] [C]
 - Mistral: [Le Chat: connectors and Memories][mistral-memories] (September 2025), [Memories documentation][mistral-docs] [V]
 - Perplexity: [Introducing AI assistants with memory][perplexity-memory] (November 2025) [V]
+- Meta: [How to edit or delete what Meta AI remembers][meta-help] [V]; PCMag, [Meta AI can now 'remember' what you tell it across apps][meta-pcmag] (January 2025) [T]
 - Mastra: [Observational Memory documentation][mastra-docs] [V], [research post][mastra-om] (February 2026) [V]; source at `@mastra/memory@1.41.1`: [constants][mastra-constants], [Observer][mastra-observer], [Reflector][mastra-reflector], [LongMemEval runner][mastra-runner] [C]
 
 Reverse engineering [R]:
@@ -648,6 +686,8 @@ Reverse engineering [R]:
 [mistral-memories]: https://mistral.ai/news/le-chat-mcp-connectors-memories
 [mistral-docs]: https://docs.mistral.ai/le-chat/knowledge-integrations/memories
 [perplexity-memory]: https://www.perplexity.ai/hub/blog/introducing-ai-assistants-with-memory
+[meta-help]: https://www.meta.com/help/ai-glasses/1781384439575979/
+[meta-pcmag]: https://uk.pcmag.com/ai/156465/meta-ai-can-now-remember-what-you-tell-it-across-apps
 [mastra]: https://github.com/mastra-ai/mastra
 [mastra-docs]: https://mastra.ai/docs/memory/observational-memory
 [mastra-om]: https://mastra.ai/research/observational-memory

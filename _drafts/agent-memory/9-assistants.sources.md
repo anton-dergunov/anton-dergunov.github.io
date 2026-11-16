@@ -87,7 +87,9 @@ Checked 2026-11-16 against copies saved by Anton (HTML and PDF; quotes from the 
 | Mistral docs now: Memories is "a legacy Chat feature"; replaced by Knowledge; "recalled automatically when they're relevant"; Le Chat is now Vibe (May 2026) | V | docs.mistral.ai, fetched; help.mistral.ai "Le Chat is now Vibe" (search result) |
 | Perplexity memory 2025-11-26: "Structured preferences…"; "retrieves relevant context from your memory store"; all models; off in incognito | V | perplexity.ai hub blog, fetched |
 | Perplexity "Brain" (2026-06-18) remembers the agent's own work, Max | T | press; not used unless a Perplexity page is found |
-| Meta AI: "Memory updated" notice after a saved detail; saves on its own or on request; delete in the app or by asking | V (via search excerpt) | meta.com help 1152856459900216 returns 400 to curl; the page Anton saved is about Meta's *business* assistant, a different product; still pending |
+| Meta AI: "may remember details from your conversations"; "things that you ask it to remember and relevant things that you mention"; "does not save everything that you say"; correct by saying what changed, "Meta AI then uses the edited detail instead of the earlier one", "there may be no confirmation that the detail changed"; "Meta AI uses most details for a limited time. Meta AI may remember other details, such as lasting preferences, for longer." The "Memory updated" notice from the earlier search excerpt is not on this page and was dropped; so was the placement under "the model, during its turn" | V | Meta help, "How to edit or delete what Meta AI remembers on AI glasses" (covers the Meta AI app too), saved by Anton 2026-11-16 |
+| Meta AI memory in Facebook, Messenger, WhatsApp, US and Canada, January 2025; "certain details that you share with it in 1:1 chats" | T | PCMag, 2025-01-28, saved by Anton |
+| The other Meta pages Anton saved (Vibes, managing information, removing posts) say nothing about memory | — | — |
 | DeepSeek: no memory feature found in DeepSeek's own pages; only vendor-selling third parties say so | — | left out of the post |
 | Microsoft Copilot | — | left out (Anton) |
 
@@ -131,3 +133,17 @@ To check against `docs/experiment-results.md` and part 8 before the post keeps e
 - Google PDF page numbers checked per page with `pdftotext`: "tool calls…", "dense retrieval", "context packing" definition on p. 7; "agentically and securely executes searches…" on p. 8.
 - Claude Code auto memory: changelog entry under 2.1.59 ("Claude automatically saves useful context to auto-memory"), released 2026-02-25 (npm).
 - Site build with drafts: the page renders, the raw blocks keep the double-brace placeholders, all six figures and all part links resolve.
+
+## Screenshots (Anton's accounts, 16 November 2026; Anton approved publishing them as they are)
+
+| File in `images/posts/agent-memory/` | From | What it shows, used in the text as [R] |
+|---|---|---|
+| `screenshot-chatgpt-memory-summary.png` | `~/tmp5/chatgpt-memory-summary-best-use-this.png` (original size) | the memory summary is prose under headings, in the second person; "Updated 8 minutes ago"; highlight-and-correct box with a correction |
+| `screenshot-chatgpt-sources.png` | `chatgpt-sources-middle.png` | Sources under one answer: three past chats (title, date, snippet) and four saved memories |
+| `screenshot-claude-memory.png` | `claude-memory-topics.png`, resized to 1200 px | groups You / Topics / Areas, each row with "Updated <date>"; import from other AI providers; a box to add a memory |
+| `screenshot-claude-topic.png` | `claude-topic-open.png`, resized | an entry: "Last updated", "Summary", "Details", Delete |
+| `screenshot-gemini-personal-context.png` | `gemini-memory-filled.png`, resized | Memory switch ("Gemini learns from your past chats to understand more about you"); "Your instructions for Gemini" with two user-written entries |
+
+The four window screenshots are cropped to the window's edge (the grey or white background around it removed); the Sources panel is also cut below the second saved memory; the Claude ones are resized to 1200 px wide. The Gemini one is a page, not a window, and is only resized.
+
+Not used: the other ChatGPT summary variants (one shows "Don't mention this again" typed into the correction box, not the menu option the FAQ names), the two other Sources variants, and the empty Gemini page.
