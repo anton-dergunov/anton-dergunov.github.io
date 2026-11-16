@@ -8,18 +8,17 @@ Liquid: the Codex templates contain double-brace placeholders. They are not copi
 
 ## OpenAI: ChatGPT
 
-**Pending.** openai.com and help.openai.com return 403 to WebFetch and curl. Anton saves copies to the scratchpad's `part9-inbox/openai/`; every ChatGPT quote is checked against those copies before the post keeps it. Until then the rows below come from v1 and from search excerpts.
+Checked 2026-11-16 against copies saved by Anton (HTML and PDF; quotes from the HTML), kept in `agent-memory-eval/private/part9-sources/web/openai/`.
 
-| Claim | Mark | Source | Status |
-|---|---|---|---|
-| Memory first launched April 2024 ("saved memories"); the 2024 → 2025 → 2026 history; the "few notes" paragraph; "stay current over time"; Singapore example; vegetarian example; fivefold compute cut | V | OpenAI, "Dreaming: Better memory for a more helpful ChatGPT" (June 2026) | pending copy |
-| Memory summary page; "Don't mention this again" | V | same post; search excerpt (Neowin) says "a memory summary page where users can review and edit" | pending copy (Anton's note "Check it") |
-| "Improved Memory continually updates a broader summary…"; sources (past chats, saved memories, custom instructions, Library files, connected apps) | V | Memory FAQ | pending copy |
-| First test of memory announced Feb 2024 | V | "Memory and new controls for ChatGPT" | pending copy |
-| 10 April 2025: chat history referencing, paid tiers first | T (TechCrunch, 2025-04-10) | search excerpt | to be replaced by OpenAI release notes |
-| 3 June 2025: a lighter version for free users; EEA etc. must turn it on | T (iPhone in Canada, The Decoder) | search excerpt | to be replaced by OpenAI release notes |
-| Context layout [0]–[6]; 33 facts; ~15 recent-chat entries; only the user's messages; "No vector databases. No RAG over conversation history."; his caveats | R | Manthan Gupta, 2025-12-09, fetched | checked |
-| Four headings of the injected "chat history" summary (Assistant Response Preferences; Notable Past Conversation Topic Highlights; Helpful User Insights; User Interaction Metadata); obtained by a prompt from Wyatt Walls; paid plan with "Reference chat history" on; summary injected at the start of each new chat (Johann Rehberger) | R | Simon Willison, 2025-05-21, fetched | checked |
+| Claim | Mark | Source |
+|---|---|---|
+| Post dated 4 June 2026; history: "Memory first launched in April 2024 (also known as saved memories)…"; the "few notes" paragraph; April 2025 first version of dreaming; "a significantly more capable and compute-efficient memory architecture built on top of dreaming"; dreaming "was never sufficient as a standalone memory system"; "memory summary page"; three goals (carry forward; follow preferences, "a vegetarian user asks for meal prep suggestions"; "Stay current over time", Singapore); evals labelled "2024 : Saved memories", "2025 : Saved memories + Dreaming V0", "2026 : Dreaming V3", charts only; "reduced the compute required to serve dreaming to Free users by approximately 5x"; Plus and Pro in the US first | V | Dreaming post (reader copy and full copy) |
+| Test 13 Feb 2024; "Memory updated" notice; "ask it to remember something specific or let it pick up details itself"; updates: 5 Sep 2024 all plans; 10 Apr 2025 chat history (Plus, Pro); 3 Jun 2025 a "lightweight version" for free users | V | "Memory and new controls for ChatGPT" with its dated updates |
+| Release notes: 29 Apr 2024 Plus; 8 May 2025 EU (off by default); 15 Oct 2025 automatic management of saved memories ("how recent a detail is and how often you talk about a topic"), version history; 15 Jan 2026 "can now more reliably find specific details from your past chats… appears as a source"; 5 May 2026 memory sources on all plans, "faster at searching past conversations"; 4 Jun 2026 "Memory that stays more up to date", "twice as much memory capacity"; 12 Jun 2026 memory summary controls | V | ChatGPT release notes |
+| FAQ: sources list; "Don't mention this again" ("reduces future references to the information. It does not delete the original source."); "The memory summary is a high-level view…"; "Does ChatGPT search my history for every response? No. ChatGPT looks for relevant context when it is likely to improve a response."; "Improved Memory continually updates a broader summary…" | V | Memory in ChatGPT (help article; its URL slug is now `memory-in-chatgpt`) |
+| Corrections from the check: "Don't mention this again" is in the FAQ, not the post; the vegetarian example is "meal prep suggestions"; ChatGPT searches past chats since January 2026, so its read path is both kinds (the products map and table were updated) | — | — |
+| Context layout [0]–[6]; 33 facts; ~15 recent-chat entries; "No vector databases. No RAG over conversation history." | R | Manthan Gupta, 2025-12-09 (before the January 2026 change) |
+| Four headings of the injected chat-history summary | R | Simon Willison, 2025-05-21 |
 
 ## OpenAI: Codex (C, commit 3257e1b)
 
@@ -88,7 +87,7 @@ Liquid: the Codex templates contain double-brace placeholders. They are not copi
 | Mistral docs now: Memories is "a legacy Chat feature"; replaced by Knowledge; "recalled automatically when they're relevant"; Le Chat is now Vibe (May 2026) | V | docs.mistral.ai, fetched; help.mistral.ai "Le Chat is now Vibe" (search result) |
 | Perplexity memory 2025-11-26: "Structured preferences…"; "retrieves relevant context from your memory store"; all models; off in incognito | V | perplexity.ai hub blog, fetched |
 | Perplexity "Brain" (2026-06-18) remembers the agent's own work, Max | T | press; not used unless a Perplexity page is found |
-| Meta AI: "Memory updated" notice after a saved detail; saves on its own or on request; delete in the app or by asking | V (via search excerpt) | meta.com help 1152856459900216 did not render; to be re-fetched or marked |
+| Meta AI: "Memory updated" notice after a saved detail; saves on its own or on request; delete in the app or by asking | V (via search excerpt) | meta.com help 1152856459900216 returns 400 to curl; the page Anton saved is about Meta's *business* assistant, a different product; still pending |
 | DeepSeek: no memory feature found in DeepSeek's own pages; only vendor-selling third parties say so | — | left out of the post |
 | Microsoft Copilot | — | left out (Anton) |
 
