@@ -143,10 +143,12 @@ Existing figures are in `agent-memory-eval/docs/figures/` and are copied to `ima
 | trimming | 48 sessions → 2 evidence + 8 distractors | 8 | new |
 | probe-funnel | stored → still current → delivered → answered | 8 | new |
 | decision-guide | which design for which situation | 8 | new |
-| products-map | the products on the two choices | 9 | new (or `map` with a product layer) |
-| chatgpt-timeline | saved memories → chat history → dreaming | 9 | new |
-| claude-code-memory | an index always loaded, topic files read on demand | 9 | new |
-| observer-reflector | Mastra's two background agents and their thresholds | 9 | new |
+| products-map | the products on the two choices | 9 | exists (2026-11-16) |
+| assistants-timeline | when memory arrived, by product (replaced chatgpt-timeline) | 9 | exists (2026-11-16) |
+| chatgpt-context | ChatGPT's context as reverse engineered in Dec 2025 | 9 | exists (2026-11-16) |
+| codex-memory | Codex's two phases and what a session loads | 9 | exists (2026-11-16) |
+| claude-code-memory | an index always loaded, topic files read on demand | 9 | exists (2026-11-16) |
+| observer-reflector | Mastra's two background agents, and the answer prompt in one run | 9 | exists (2026-11-16) |
 
 ## Left out of the series
 

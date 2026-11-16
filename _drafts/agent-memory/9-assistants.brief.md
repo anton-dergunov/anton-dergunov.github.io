@@ -6,89 +6,123 @@ status: draft
 
 # Brief: What ChatGPT, Claude and Gemini ship (part 9)
 
-Shared material is in `series.brief.md`. Source: `v1/2199-01-01-agent-memory-3-frontier-assistants.md` and Anton's 13 notes on it.
+Shared material is in `series.brief.md`. Sources, checks and the Mastra run: `9-assistants.sources.md`. Earlier material: `v1/2199-01-01-agent-memory-3-frontier-assistants.md` and Anton's 13 notes on it. This brief was rewritten on 2026-11-16 from Anton's spoken notes (`~/tmp-spoken-plans/blog/next-part.txt`), starting from the map skeleton, not from v1's order.
 
 ## Reader
 
-The series reader, and also a wider one: anyone who uses these assistants daily and wondered what "memory" means in them. Many readers will arrive here first, so this part is fully self-contained. It is the last part and closes the series.
+The series reader, and a wider one: anyone who uses these assistants or coding agents daily and wondered what "memory" means in them. Many will read only this part, so it stands alone: every mechanism it borrows from another part is explained here in a sentence or two, and the link is further reading. It is the last part and closes the series.
 
 ## The problem
 
-ChatGPT, Claude and Gemini all remember things between conversations now, and each has changed how in the last year. Their makers publish what the user can control, rarely how it works. A reader cannot tell whether these products resemble the memory systems in papers, or what to expect from them.
+ChatGPT, Claude, Gemini and the coding agents from the same companies all carry information from one conversation to the next, and each has changed how in the last two years. Their makers publish what the user can control, rarely how it works, and the products change under any description. A reader cannot tell what these products actually do, whether they resemble the memory systems in papers and open libraries, or what to expect from them.
 
 ## What the reader should leave with
 
-1. The products converged on text, not on vector stores of extracted facts or knowledge graphs. They ship a summary or a list of short entries put into the prompt, plus, at most, a search over past chats.
-2. They disagree about who should write: ChatGPT moved writing into a background process, and Claude's app moved to entries written during the chat. Each choice has a known failure mode.
-3. The problem they name is staleness, a fact that was true and changed. Their answers so far are a background rewrite, a timestamp on each entry, and controls for the user to correct it.
-4. What can be known about a product is limited. Label each source: the vendor's own page, reverse engineering, or a third party.
+1. The products converged on text: a summary, a list of short entries or plain files, put into the prompt, plus, at most, a search over past chats. None ships a vector store of extracted facts or a knowledge graph as its memory.
+2. They disagree about who writes, and each choice has a known failure: ChatGPT and Codex moved writing to a background process; Claude's app moved to the model writing as the user chats; Gemini CLI asks the user to approve each change.
+3. The problem they name is staleness, a fact that was true and changed. Their answers so far: a background rewrite, a timestamp on each entry, and controls for the user.
+4. Where code exists, the mechanism can be read; where it does not, say which kind of source each claim rests on.
 
 ## Outline
 
-| Section | Claim it supports | Evidence or artefact to show | Figure |
+| Section | Claim it supports | Show in full | Figure |
 |---|---|---|---|
-| Opening | The assistants readers use every day, what changed recently, and what this part can and cannot say | Problem above | none |
-| Two questions to ask of any memory | Who writes, and whether everything is inserted or a search selects, in this part's own words with a short example. No reference to "the map" (Anton). | Series terms | none |
-| What can be known | Three kinds of source, labelled; "as of" date | v1 | none |
-| ChatGPT | Saved memories (2024: the model writes during the chat; everything inserted) → referencing chat history (2025) → dreaming as the memory (2026: a background process synthesises a summary). OpenAI's own words on the weakness of notes taken during the conversation. Its examples (the Singapore trip; a vegetarian user asking for meal ideas, the same kind of test this series uses). | v1; check "memory summary page" against the source (Anton: "Check it") | `chatgpt-timeline`; the reverse-engineered context layout drawn as a stack |
-| Claude | The app: from a daily summary to topics written as you chat ("how it reads": say what is documented about reading and what is not). Past-chat search: plain retrieval. Claude Code: an index always loaded plus topic files read on demand, each stamped with a modified time, which addresses the undated-line problem (Anton: rewrite as "it solves this"). The API memory tool: when a developer would use it (Anton: "describe better"), what the application implements, and its pairing with compaction. | v1 | `claude-code-memory` |
-| Gemini | Past chats, renamed "memory"; saved info written by the user; what Personal Intelligence (connected apps) has to do with memory (Anton: "how related?"), or cut | v1 | none |
-| Mastra's Observational Memory | Why it is here `[TODO Anton: why Mastra, and how you found it]`. How the Observer and Reflector interact, as a diagram (Anton). Answer his questions: the observed messages are dropped from the prompt of the model the user talks to, so the chat is compressed automatically; what happens in a new session `[check the Mastra docs]`; why these thresholds (defaults, from the docs). Its LongMemEval figures labelled as the vendor's and not comparable. "The most developed version" scoped or removed (Anton: "why the most?"). | v1; Mastra docs | `observer-reflector` |
-| The products side by side | The table, and the products on the two choices | v1 table | `products-map` |
-| Three observations | Converged on text; disagree on who writes; the named problem is staleness. Each is tied to what the experiment found, stated here in a sentence so it stands alone (e.g. "in a benchmark run in this series, an agent that wrote during its turn often noticed a change and did not write it down"). | v1, findings | none |
-| What to take from the series | A short close: the ideas of the series in a paragraph, and where to read more (the decision guide in part 8, the notebooks) | Series ideas | none |
+| **Opening** (one section, with the two questions) | The engineering problem in general terms. The assistants people use daily all remember now. Two questions place any memory design: **who writes** (the user, the model during its turn, a process after or between conversations) and **how it reads** (everything inserted, or a search selects), each with a one-line example. What this part does; no notebook, because the products cannot be run as libraries, but the open code is linked where it exists, and one open design was run | none | none |
+| **What is known** | The word of caution: four kinds of source, each with a one-letter mark used through the post: **[V]** the vendor's own page, **[C]** code or a prompt the vendor published, **[R]** reverse engineering (people asking the model about its context, or what a session shows from inside), **[T]** a third party. As of November 2026; products change and can run several versions at once | none | none |
+| **ChatGPT and Codex (OpenAI)** | Subsections. **ChatGPT, saved memories (2024)**: the model writes during the chat; everything inserted. **Referencing chat history (2025)**: what reverse engineering found (Gupta's layout; Willison's four headings). **Dreaming (2026)**: OpenAI's own words on why notes taken during the chat failed; its goals; the Singapore example; the memory summary page (re-checked against the saved copy). **Codex**: from the code, a two-phase pipeline (extraction per conversation, then consolidation by an agent with no network) into files; only a summary is loaded; the model writes only when asked; v2's prompts in full | OpenAI quotes; Gupta's layout; Codex v2 Phase 1 and Phase 2 prompts; Codex read prompt (v2) | `chatgpt-context`, `codex-memory` |
+| **Claude (Anthropic)** | Four separate products, each a subsection. **The app**: daily summary (2025) → topics written as you chat (July 2026); what is documented about reading, and what reverse engineering found before the change. **Past-chat search**: retrieval as tool calls. **Claude Code**: CLAUDE.md written by the user; auto memory written by the model; an index loaded at start, topic files read on demand; the `modified` timestamp solves the undated-line problem; the instructions the model gets, in full, seen from inside a session. **The API memory tool**: for a developer building an agent on the API; the application stores the files; the six commands; the instruction the API adds; pairing with context editing and compaction | Claude Code's memory instructions; the memory tool's added system prompt | `claude-code-memory` |
+| **Gemini (Google)** | **The app**: past chats (2025), on by default, renamed "memory" (2026); saved info written by the user; import from another assistant; how it reads is not documented. **Personal Intelligence**: Google's own document: the model searches connected apps and past chats and "packs" what it finds into context: a search that selects. **Gemini CLI**, from the code: `save_memory` (2025) replaced by plain files in four tiers (2026), an index plus topic files like Claude Code; Auto Memory proposes patches from idle sessions, and the user approves each | Gemini CLI's memory instructions; Auto Memory's rules (excerpt) | none |
+| **Other assistants** | One paragraph each, only from [V] or [C] sources: Grok (its published prompt: memory is past chats, shown as referenced chats), Meta AI, Mistral (Le Chat, now Vibe), Perplexity | Grok's memory block | none |
+| **Mastra's Observational Memory: the background rewrite, in open code** | What Mastra is and why it is here: the design the products describe (a background process rewrites a text log that sits in the prompt) in code that can be read and run, with published benchmark numbers. How it works: Observer and Reflector, thresholds and their reason, buffering, the observed messages leave the prompt (the chat is compressed automatically), thread scope (a new thread starts empty unless retrieval mode is on), the prompts. **One run on one benchmark question**: what the log held, where the changed value sat, the wrong answer, the right answer once the tail was observed, what the Reflector kept. Its LongMemEval numbers as the vendor's own | Observer prompt excerpt (state changes, dates); Reflector's consolidation rules; read instructions (KNOWLEDGE UPDATES); one observation block from the run | `observer-reflector` |
+| **The products side by side** | The table (product, who writes, when, read path, what the user sees, source mark), the products on the two questions, and when each feature shipped | table | `products-map`, `assistants-timeline` |
+| **Three observations** | Converged on text; disagree on who writes; the named problem is staleness. Each tied to the series' experiment in a sentence that stands alone. A fourth only if the facts support it: the coding agents converged on the same file layout (index loaded, topic files read on demand) | none | none |
+| **What to take from the series** | The six ideas of the series in a short list; where to read more (the decision guide in part 8, the notebooks, the repository) | none | none |
+| References | Vendor pages, code at pinned commits, reverse engineering, each with its mark | | |
 
 ## Running example
 
-Not used, except the note that OpenAI's post uses a similar vegetarian example (Anton asked whether we use the same one: the series' example is a vegetarian user who becomes pescatarian).
+Not used. The series' example is not traced here. Only the note that OpenAI's dreaming post uses a vegetarian user asking for meal ideas, the same kind of test as the series' example, in neutral words. The Mastra run uses LongMemEval question `6a1eabeb` (a 5K personal best that changes, from part 8), introduced in this part in its own sentences.
 
 ## Numbers
 
 | Number | Out of what | From where | Compared with | So what |
 |---|---|---|---|---|
-| ~33 saved facts, ~15 recent-chat entries | one user's ChatGPT context | Gupta, reverse engineering, Dec 2025 | none | The shape, not the detail; marked unverifiable |
-| 200 lines / 25 KB | the part of MEMORY.md loaded at start | Claude Code docs | none | Why an index plus topic files |
-| 30,000 / 40,000 tokens | Mastra's default thresholds | Mastra docs | none | When the Observer and Reflector run |
-| 94.87% / 84.23% | Mastra on LongMemEval, with gpt-5-mini / gpt-4o | Mastra (vendor) | not comparable with part 8 | Labelled as the vendor's |
+| ~33 saved facts, ~15 recent-chat entries | one user's ChatGPT context | Gupta, Dec 2025 [R] | none | The shape, not the detail |
+| 2,500 tokens | the summary Codex loads into a new session | Codex code [C] | the rest read on demand | Only a summary is inserted |
+| 10,000 bytes | Codex v2's summary cap | Codex prompt [C] | | |
+| 200 lines / 25 KB | the part of `MEMORY.md` Claude Code loads | Claude Code docs [V] | | Why an index plus topic files |
+| 30,000 / 40,000 tokens; 6,000 | Mastra's thresholds; buffering interval | Mastra code and docs [C/V] | | When the Observer and Reflector run |
+| 94.87% / 84.23% | Mastra on LongMemEval_s, gpt-5-mini / gpt-4o answering | Mastra [V] | not comparable with part 8 | The vendor's own |
+| 108,000 tokens → 2,652-token log + 28,703 tokens unobserved; 28,583-token answer prompt; 7 Observer calls | one run, one question | `scripts/mastra/om_summary_output.txt` | the whole history | What the design keeps in the prompt |
+| 4,040 tokens | the answer prompt once the tail was observed | same | 28,583 | |
 
-Every product claim needs a date; re-check all of them before publishing.
+Every product claim needs a date; re-check the dated ones before publishing.
 
 ## Figures to make
 
-`chatgpt-timeline`, `claude-code-memory`, `observer-reflector`, `products-map` (new).
+In `agent-memory-eval/scripts/diagrams/figures/`:
+- `assistants-timeline` (`assistants_timeline.py`): one lane per vendor, 2024–2026, each feature dated, with its source mark. Replaces the planned `chatgpt-timeline`.
+- `products-map` (`products_map.py`): the two questions as a grid; each product placed, with its mark.
+- `chatgpt-context` (`chatgpt_context.py`): the reverse-engineered context layout as a stack, marked [R].
+- `claude-code-memory` (`claude_code_memory.py`): CLAUDE.md and the index loaded at start, topic files read on demand, the `modified` stamp.
+- `codex-memory` (`codex_memory.py`): Phase 1 per conversation → Phase 2 consolidation → files → what the next session gets.
+- `observer-reflector` (`observer_reflector.py`): the context over time with Mastra's defaults, from the run.
+
+Screenshots by Anton (own accounts, no personal data), each credited; list in the hand-over.
 
 ## Left out
 
-- Third-party guides by companies selling memory products.
+- Third-party guides by companies selling memory products (used only to find primary sources).
+- DeepSeek: no memory feature found in DeepSeek's own pages.
+- Microsoft Copilot (Anton worked on it).
+- Leaked system prompts; only prompts a vendor published or that a session shows from inside.
 - Experiment tables (part 8); only sentences that stand alone.
 
 ## Links
 
-- The vendor sources listed in v1 part 3 (OpenAI Dreaming post and FAQ; Anthropic help, blog, release notes, Claude Code docs, memory tool docs; Google posts and help; Mastra post and docs; Gupta's write-up)
+- Repository: https://github.com/anton-dergunov/agent-memory-eval (the Mastra run in `scripts/mastra/`)
+- Sources: `9-assistants.sources.md`
 
-## For search and for employers
+## Title and excerpt
 
 - Title: "What ChatGPT, Claude and Gemini ship"
-- Excerpt: "How the memory in ChatGPT, Claude and Gemini works, as far as their makers say, and how it compares with open memory systems."
+- Excerpt: "How memory works in ChatGPT, Claude, Gemini and their coding agents, from vendor pages, open code and one run, and how it compares with open memory systems."
 
-## Anton's notes on v1, and where each is handled
+## Anton's notes, and where each is handled
+
+On v1 (2026-10):
 
 | Note | Handled by |
 |---|---|
-| "Check it" (memory summary page) | ChatGPT section, re-checked against the source |
-| "Do we happen to use the same example?" | Yes, similar; noted |
-| "Should probably go last" | Now part 9 |
+| "Check it" (memory summary page) | ChatGPT, against the saved copy of OpenAI's post |
+| "Do we happen to use the same example?" | Yes, the same kind; one neutral sentence |
+| "Should probably go last" | Part 9 |
 | "Rewrite: it solves this issue" | Claude Code |
-| "How it reads?" | Claude app |
-| "Describe better… when I use APIs?" | API memory tool |
-| "How related to memory?" (Personal Intelligence) | Explained or cut |
-| "Why this system? How did you find it?" (Mastra) | `[TODO Anton]` |
-| "Is it from the prompt… auto summarized?" | Mastra section |
-| "Why these numbers? … Draw diagram" | `observer-reflector`; defaults from the docs |
-| "Even if I start a new session?" | Mastra section, after checking the docs |
-| "Why the *most*?" | Scoped or removed |
-| "Which map? … references between the parts must be minimal" | No "map" references; the two questions restated here |
+| "How it reads?" | Claude app: documented / reverse engineered before July 2026 / unknown since |
+| "Describe better… when I use APIs?" | The memory tool: who uses it and when |
+| "How related to memory?" (Personal Intelligence) | Gemini: Google's document says the model searches past chats among the sources |
+| "Why this system? How did you find it?" (Mastra) | Motivated in the section's opening; how it was found is not needed |
+| "Is it from the prompt… auto summarized?" | Yes: observed messages leave the prompt |
+| "Why these numbers? … Draw diagram" | `observer-reflector`; the docs' reason; the run |
+| "Even if I start a new session?" | Thread scope: a new thread starts empty |
+| "Why the *most*?" | Dropped |
+| "Which map? … references between the parts must be minimal" | The two questions restated in the opening |
+
+On the brief (2026-11-16, spoken):
+
+| Note | Handled by |
+|---|---|
+| Stand alone; brief reminders of mechanisms from other parts | Every borrowed mechanism explained in a sentence |
+| Opening + two questions in one section; "What is known" as a word of caution | Outline |
+| One-letter marks for the source labels | [V] [C] [R] [T] |
+| App, Claude Code and the API tool are separate things | Subsections |
+| Gemini looks underpowered | Personal Intelligence document, Gemini CLI code |
+| Other assistants, not Copilot | Other assistants section |
+| Mastra: what it is, why here, bigger | Section opening, the run |
+| Timeline; screenshots | `assistants-timeline`; screenshots by Anton |
+| Close summarising the series | What to take from the series |
+| Most effort on research and double-checking | `9-assistants.sources.md` |
 
 ## Open questions for Anton
 
-- Why Mastra, and how you came across it.
+- The OpenAI page copies and the screenshots (list in the hand-over).
