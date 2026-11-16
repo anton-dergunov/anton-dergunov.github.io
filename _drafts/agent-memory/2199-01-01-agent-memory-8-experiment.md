@@ -1,5 +1,5 @@
 ---
-title:     "Five memory systems on a public benchmark"
+title:     "Evaluating memory systems on LongMemEval"
 excerpt:   "Five LLM memory systems and two baselines on LongMemEval's questions about changed facts: accuracy, cost, and why each wrong answer was wrong."
 topic:     llms-and-agents
 date:      2199-01-01
@@ -313,7 +313,7 @@ Running every system on the whole history of all 67 questions would have cost ab
 - it adds **8 of the other sessions**, drawn at random with a fixed seed;
 - it keeps all 10 sessions **in date order, with their original dates**.
 
-The second row of the history figure above shows the result for the 5K question. A trimmed history is about 25,000 tokens long on average (between about 15,000 and 34,000), against about 110,000 for a whole one.
+The second row of the history figure above shows the result for the 5K question. A trimmed history is about 25,000 tokens long on average (between about 15,000 and 34,000), against about 108,000 for a whole one.
 
 Trimming keeps the evidence, but it removes three things that a whole history has:
 
@@ -323,7 +323,7 @@ Trimming keeps the evidence, but it removes three things that a whole history ha
 
 The main run therefore tests mainly the write path: whether a system stores the change, and what it does with the old value. It tests the read path less. And it tests memory where memory is not needed for capacity, so any loss compared with full context is the price of the memory layer.
 
-**The check.** To see whether trimming changed the picture, 25 of the 67 questions were run again with their whole histories, about 48 sessions and 110,000 tokens each. Only four systems were run this way: the two baselines, textual memory and Mem0. Graphiti, Letta and Honcho cost several times more per session, and a whole history has five times as many sessions.
+**The check.** To see whether trimming changed the picture, 25 of the 67 questions were run again with their whole histories, about 48 sessions and 108,000 tokens each. Only four systems were run this way: the two baselines, textual memory and Mem0. Graphiti, Letta and Honcho cost several times more per session, and a whole history has five times as many sessions.
 
 {% include diagram.html name="trimming-check" alt="Two slope charts for four systems, from the trimmed history of 10 sessions to the whole history. Accuracy on the same 25 questions: retrieval 100% to 96%, textual memory 96% to 92%, full context 92% to 84%, Mem0 84% to 84%; the order is the same in both runs. Cost per question: retrieval stays at $0.0016; full context goes from $0.0065 to $0.028; Mem0 from $0.040 to $0.18; textual memory from $0.022 to $0.28." caption="The same 25 questions with 10 sessions and with the whole history. The scores drop by one or two answers and keep their order. The cost of writing memory grows with the history." %}
 
@@ -338,7 +338,7 @@ Three things follow:
 
 - **The order of the systems did not change.** Every score moved by at most two answers, and on 25 questions one answer is 4 points. Retrieval stayed first, then textual memory, then full context and Mem0.
 - **Full context slips but does not collapse.** All four of its wrong answers on whole histories gave the old value, which was in its prompt next to the new one. The 5K question was one of them: with the whole history, the answer was 27:12. In the LongMemEval paper, GPT-4o fell much further, from 0.870 with only the evidence sessions to 0.606 with the S history (p. 6, Fig. 3). Current models read long prompts better, which weakens the case for memory as a way to fit a history into the prompt, at least at this length.
-- **Writing memory costs more as the history grows; reading does not.** Textual memory costs 13 times more per question on whole histories, because it rewrites a growing profile after every session. Mem0 costs about 4.5 times more, because it extracts facts from every session. Retrieval costs the same, because it does nothing until it is asked. What each answer reads stayed flat for Mem0 and retrieval; textual memory's profile grew from about 1,500 to 5,600 tokens.
+- **Writing memory costs more as the history grows; reading does not.** Textual memory costs 13 times more per question on whole histories, because it rewrites a growing profile after every session. Mem0 costs about 4.5 times more, because it extracts facts from every session. Retrieval costs the same, because it does nothing until it is asked. What each answer reads stayed flat for Mem0 and retrieval; textual memory's profile grew from about 1,400 to 5,600 tokens.
 
 ### The other limits
 
@@ -440,19 +440,19 @@ Neither fix changed a setting. Both made the input look like the input each syst
 
 The stored probe answers a question that accuracy cannot: once a fact has changed, what does the memory contain? The shares are of the 58 questions that have probes (57 for Letta, which could not build one history):
 
-| Configuration | New value stored | Old value still stored | Old value still presented as current | Both values reached the answer | Correct when both reached it | Context given to the answer (tokens, est.) |
+| Configuration | New value stored | Old value still stored | Old value still presented as current | Both values reached the answer | Correct when both reached it | Context given to the answer (tokens) |
 |---|--:|--:|--:|--:|--:|--:|
-| Full context | n/a | n/a | n/a | 58 | 52 | 27,890 |
-| Retrieval | n/a | n/a | n/a | 54 | 52 | 5,761 |
-| Textual memory | 98% | 74% | 9% | 39 | 37 | 1,513 |
-| Mem0 | 90% | 93% | 43% | 45 | 41 | 930 |
-| Graphiti | 90% | 81% | 24% | 39 | 37 | 284 |
-| Letta | 49% | 39% | 28% | 15 | 12 | 884 |
-| Letta, persona | 93% | 77% | 11% | 43 | 42 | 1,288 |
-| Honcho, chat | 95% | 93% | 74% | 39 | 33 | 77 |
-| Honcho, representation | 95% | 93% | 74% | 53 | 51 | 935 |
+| Full context | n/a | n/a | n/a | 58 | 52 | 24,609 |
+| Retrieval | n/a | n/a | n/a | 54 | 52 | 5,290 |
+| Textual memory | 98% | 74% | 9% | 39 | 37 | 1,393 |
+| Mem0 | 90% | 93% | 43% | 45 | 41 | 1,026 |
+| Graphiti | 90% | 81% | 24% | 39 | 37 | 354 |
+| Letta | 49% | 39% | 28% | 15 | 12 | 890 |
+| Letta, persona | 93% | 77% | 11% | 43 | 42 | 1,507 |
+| Honcho, chat | 95% | 93% | 74% | 39 | 33 | 78 |
+| Honcho, representation | 95% | 93% | 74% | 53 | 51 | 1,190 |
 
-The context column is an estimate (characters divided by four) of the text that the read path handed to the answering model. Three readings follow from the table.
+The context column is the size of the text that the read path handed to the answering model, counted with the model's tokenizer. Three readings follow from the table.
 
 **1. Few systems resolve the change when they write, and with dates it mostly does not matter.** A system can handle a change at write time, by replacing or closing the old value, or leave both values and let the answering model decide. Most left both. Mem0 still presents the old value as current in 43% of the questions: its current release only adds facts, so both values stay. Honcho does so in 74%: its conclusions stay side by side, and in this experiment its background "dream" recorded no change. Even Graphiti, the system built to close a superseded fact, still presents the old value as current in about a quarter of the questions.
 
@@ -460,7 +460,7 @@ Yet the answers were mostly right. When both values reached the answering model,
 
 **2. The systems that overwrite keep less, not better.** Textual memory rewrites its whole profile after each session, and its rule for changes keeps the old value only as history. It presents the old value as current in only 9% of the questions, the fewest of the configurations that work. Its rewrites often keep the earlier value in the same line ("15 … as of 2023-09-30; previously 12 as of 2023-08-11"), which is why the old value is still *stored* in 74%. Letta's agent also overwrites, but only when it decides to write. It held the new value in only 49% of the questions, because, as the next sections show, it often did not write at the moment the change was mentioned.
 
-**3. What reaches the prompt differs by a factor of about 360, and the shortest form lost answers.** Honcho's chat path hands the answering model a short summary written by its agent, about 77 tokens; full context hands it the whole history, about 28,000 tokens by the same estimate. Accuracy is within the same band. But the same Honcho store scored 87% through the summary and 93% as a list of dated conclusions. The summary is where answers were lost: its agent read both values and declined to choose between them (see the next section).
+**3. What reaches the prompt differs by a factor of about 300, and the shortest form lost answers.** Honcho's chat path hands the answering model a short summary written by its agent, about 78 tokens; full context hands it the whole history, about 24,600 tokens. Accuracy is within the same band. But the same Honcho store scored 87% through the summary and 93% as a list of dated conclusions. The summary is where answers were lost: its agent read both values and declined to choose between them (see the next section).
 
 **Asking for the earlier value.** Eight questions ask for the value *before* the change, and three ask for both. My expectation was that the systems that overwrite would lose the earlier value. It did not show:
 

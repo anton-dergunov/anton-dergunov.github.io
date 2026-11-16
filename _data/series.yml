@@ -13,5 +13,5 @@ agent-memory:
     - "Zep and Graphiti: facts with dates, in a graph"
     - "Letta: an agent that edits its own memory"
     - "Honcho: a reasoner that works in the background"
-    - "Five memory systems on a public benchmark"
+    - "Evaluating memory systems on LongMemEval"
     - "What ChatGPT, Claude and Gemini ship"

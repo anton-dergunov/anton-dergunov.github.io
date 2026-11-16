@@ -4,7 +4,7 @@ type: experiment
 status: agreed
 ---
 
-# Brief: Five memory systems on a public benchmark (part 8)
+# Brief: Evaluating memory systems on LongMemEval (part 8)
 
 Shared material is in `series.brief.md`. Outline rewritten on 2026-11-16 from Anton's spoken notes (`~/tmp-spoken-plans/blog/next-part.txt`) and his comments on the plan. Sources: `agent-memory-eval/docs/experiment.md`, `docs/experiment-results.md`, `docs/findings/*.md`, `results/`, `data/longmemeval_s_cleaned.json`, `~/papers/notes/`. The v1 draft (`v1/…-9-the-experiment.md`) and its 14 notes are material for facts only: no wording and no section order from it.
 
@@ -80,5 +80,5 @@ Version C: one sentence. The benchmark's own 5K question does the work here, fro
 
 ## Title and excerpt
 
-- Title: "Five memory systems on a public benchmark" (slug stays `8-experiment`).
+- Title: "Evaluating memory systems on LongMemEval" (Anton, 2026-11-16; slug stays `8-experiment`).
 - Excerpt: "Five LLM memory systems and two baselines on LongMemEval's questions about changed facts: accuracy, cost, and why each wrong answer was wrong."
