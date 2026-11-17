@@ -350,10 +350,10 @@ Before saving, check for an existing file that already covers it. Update that fi
 Three of its rules are about changed facts:
 
 - **"Update that file rather than creating a duplicate; delete memories that turn out to be wrong."** The old value is replaced, not kept next to the new one.
-- **"Convert relative dates to absolute"** (for project memories). The same rule as in the profile rewrite of [part 3][part-3]: "next week" means nothing months later.
+- **"Convert relative dates to absolute"** (for project memories). Textual memory's rewrite prompt ([part 3][part-3]) has the same rule, for the same reason: "next week" means nothing months later.
 - **Recalled memories "reflect what was true when written".** The model is told to verify a remembered file, function or flag before relying on it.
 
-**The time stamp solves the undated-line problem.** "When Claude writes a memory file that begins with YAML frontmatter, Claude Code records the write time in a `modified` frontmatter field as an ISO 8601 timestamp. The timestamp shows how current the fact is, both to you and to Claude when it reads the memory back" [V]. The stamp is written by Claude Code, not by the model, so it cannot be forgotten. In the series' benchmark, the most common way for an agent's memory to mislead it was a line written without a date: "recently hit 500 followers" reads the same months later, when the user is at 600 ([part 6][part-6]). A file that carries its write time does not have this problem.
+**The time stamp solves the undated-line problem.** "When Claude writes a memory file that begins with YAML frontmatter, Claude Code records the write time in a `modified` frontmatter field as an ISO 8601 timestamp. The timestamp shows how current the fact is, both to you and to Claude when it reads the memory back" [V]. The stamp is written by Claude Code, not by the model, so it cannot be forgotten. In the series' benchmark, an agent's memory most often failed because the agent never wrote the change; the next most common failure was a line written without a date: "recently hit 500 followers" reads the same months later, when the user is at 600 ([part 6][part-6]). A file that carries its write time does not have this problem.
 
 The documentation and the session differ in one detail: the documentation names a `type` field in the frontmatter, and the session's instruction puts `type` under `metadata:`.
 
@@ -470,7 +470,7 @@ Two background agents watch one conversation ([documentation][mastra-docs] [V]; 
 
 **Why these numbers.** The documentation gives the reason for compressing, not for the exact values: "The more raw history it carries, the worse it performs, and most of those tokens are no longer needed to stay on task." Both are settings. Mastra's own benchmark run (below) used 80,000 for the Reflector.
 
-**Nothing is searched.** The log sits at the start of the prompt and changes only when the Observer or the Reflector runs, so the start of the prompt stays the same from turn to turn. A provider can then serve it from its prompt cache, and Mastra reports "97 to 99% prompt cache hit rates" [V]. On the two questions: a background process writes, and everything is inserted, which is the textual-memory design of [part 3][part-3] applied to a running conversation.
+**Nothing is searched.** The log sits at the start of the prompt and changes only when the Observer or the Reflector runs, so the start of the prompt stays the same from turn to turn. A provider can then serve it from its prompt cache, and Mastra reports "97 to 99% prompt cache hit rates" [V]. On the two questions: a background process writes, and everything is inserted, which is the design of textual memory ([part 3][part-3]: one profile, rewritten in the background and inserted whole) applied to a running conversation.
 
 **A new conversation starts empty.** By default the memory belongs to one thread: "Each thread has its own observations." A user who opens a new thread starts with no observations. An older setting shared one log across all of a user's threads; it is now deprecated. Instead, a "retrieval" option adds a recall tool that lets the agent look into the user's other threads, a search that selects [V]. So Observational Memory, as shipped, is first a way to keep one long conversation within the context window, and only with that option a memory across conversations.
 
@@ -517,7 +517,7 @@ When consolidating observations:
 - Condense the wording of older observations more than recent ones, but keep their facts
 ```
 
-**"Keep both the old and new values with their dates and say which is current"** is the same policy as the profile rewrite in [part 3][part-3]. Only when a reflection comes out too large and is retried with stronger instructions does the prompt say "Drop observations that are no longer relevant or have been superseded by newer information" (the third of four compression levels).
+**"Keep both the old and new values with their dates and say which is current"** is the same policy as the rule for changes in textual memory's rewrite prompt ([part 3][part-3]), which also keeps the old value, with its date, as history. Only when a reflection comes out too large and is retried with stronger instructions does the prompt say "Drop observations that are no longer relevant or have been superseded by newer information" (the third of four compression levels).
 
 Finally, the model that answers the user reads the log with these instructions in front of it ([constants.ts][mastra-constants]):
 
@@ -608,10 +608,11 @@ This part closes the series *How LLM agents remember*. Its ideas, in short:
 
 1. **Two paths.** Every memory system has a write path, which turns a conversation into memory, and a read path, which puts what a new request needs into the prompt. The model that answers does not change.
 2. **Two choices.** Most of what a system does well, does badly and costs follows from two choices: who writes the memory, and whether the read path puts all of it into the prompt or a search picks part of it. The products in this part fit the same two choices.
-3. **Storing is not delivering.** Storing a fact and getting it to the answering model are separate problems, and most facts are lost when they are written.
-4. **Feeding matters.** How a system is fed decides whether it remembers at all, and nothing fails loudly when it is fed wrong.
-5. **Cost.** Measured on cost as well as accuracy, simple designs hold up well while the history fits in the prompt.
-6. **Where it breaks.** Each design breaks in its own way. You find out by reading what it stored, not by looking at its score, and the fixes are often small.
+3. **Storing is not delivering, and writing loses the most.** Storing a fact and getting it to the answering model are separate problems. In the series' benchmark, the most common single cause of a wrong answer was a change that was never stored.
+4. **Dates.** When both values of a changed fact reached the answering model, each with its date, it picked the newer one in most cases. With dates, resolving every change at write time becomes an optimisation rather than a requirement.
+5. **Feeding matters.** How a system is fed decides whether it remembers at all, and nothing fails loudly when it is fed wrong.
+6. **Cost.** Measured on cost as well as accuracy, simple designs hold up well while the history fits in the prompt.
+7. **Where it breaks.** Each design breaks in its own way. You find out by reading what it stored, not by looking at its score, and the fixes are often small.
 
 To go further: the decision guide at the end of [part 8][part-8] says which design to start from in which situation; parts [3][part-3] to [7][part-7] take one open system apart each, with a notebook that runs every call; and the [repository][repo] has the notebooks, the experiment and the Observational Memory run from this part.
 

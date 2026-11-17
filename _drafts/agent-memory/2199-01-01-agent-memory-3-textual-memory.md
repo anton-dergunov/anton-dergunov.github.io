@@ -21,14 +21,14 @@ This post first explains how textual memory works: its write path, its read path
 
 ## How textual memory works
 
-{% include diagram.html name="textual" alt="Textual memory's architecture, with the running example. Writing: after each session, one LLM call reads the current profile and the new session and writes the whole profile again. Memory: one text profile under four headings, 153 words after two sessions; the diet line now says pescatarian and keeps the old diet as 'previously'. Reading: no search; the whole profile goes into the prompt, and the answer covers every constraint." caption="Textual memory, with the conversation used in this post. After each session one LLM call rewrites the whole profile. At question time there is no search: the whole profile goes into the prompt." %}
+{% include diagram.html name="textual" alt="Textual memory's architecture, with the running example. Writing: after each session, one LLM call reads the current profile and the new session and writes the whole profile again. Memory: one text profile under four headings, 153 words after two sessions; the line with the changed fact now holds the new value and keeps the old one as 'previously'. Reading: no search; the whole profile goes into the prompt, and the answer covers every constraint." caption="Textual memory, with the conversation used in this post. After each session one LLM call rewrites the whole profile. At question time there is no search: the whole profile goes into the prompt." %}
 
 Like most memory systems, textual memory has two components:
 
 - a **write path**, which stores information after a session;
 - a **read path**, which puts the stored information to the prompt of a later session.
 
-[Part 2][part-2] explains these two paths across all the designs in this series. Textual memory takes the simplest possible approach to both paths.
+[Part 2][part-2] explains these two paths across all the designs in this series. The designs differ mainly in two choices: who writes the memory (nobody, a pipeline of model calls, the answering agent itself, or a background process between conversations), and whether the read path puts the whole memory into the prompt or a search selects part of it. Textual memory takes the simplest possible approach to both paths: one background call writes, and the read path inserts everything.
 
 ### The write path: one call rewrites the whole profile
 
@@ -234,7 +234,7 @@ The vegetarian entry has disappeared, but its history remains:
 - The diet entry now reads "Pescatarian (since June 2026; previously strictly vegetarian since 2018)".
 - The change is also recorded under "Changes over time", this time with an absolute date. The user said "about a month ago" on 20 July, and the rewrite calculated the date as 2026-06-20.
 
-The profile therefore contains one current diet rather than two contradictory entries. In the other systems in this series, handling the same change requires searching for the previous fact and making a separate decision about what to do with it. Here, a single prompt rule is sufficient because the call writing the new diet can already see the old one.
+The profile therefore contains one current diet rather than two contradictory entries. In the pipelines of this series (Mem0 and Graphiti), the call that writes a new fact sees only the stored facts that a search returns, so it can miss the old value. Here, a single prompt rule is sufficient because the call writing the new diet can already see the old one.
 
 {% include diagram.html name="profile-diff" alt="The textual-memory profile after session 1 (91 words) and after session 2 (153 words), under the same four headings. The diet line was replaced, as the prompt asks: pescatarian since June 2026, previously strictly vegetarian since 2018, and the change is recorded again under 'Changes over time' as 2026-06-20. The allergy, cuisine and budget lines survived word for word. Lena, Jonas and their needs, Kreuzberg and the walking distance were added. Four changes nobody asked for are marked: 1, 'moved in May' became 'since 2026-05-01'; 2, 'can't eat shellfish' became 'has a shellfish allergy'; 3, the guess from session 1, 'based in or planning for Berlin', is kept as what the user said before; 4, the March dinner was dropped." caption="The two profiles side by side. The diet line changed as the prompt's rule asks. The numbered marks are changes the rewriter made on its own." %}
 
@@ -269,7 +269,7 @@ September 1st, at 19:30.
 Please confirm if this time works for you.
 ```
 
-The answer successfully receives all six relevant facts:
+The answer successfully receives every relevant fact. Besides the current diet, which is discussed below, these are:
 
 - the peanut allergy;
 - Lena's shellfish restriction;
@@ -369,7 +369,7 @@ In the last situation, the system needs a mechanism to select which information 
 - a daily summary of events;
 - a portrait of the user.
 
-A model generated the portrait by combining observations from the daily summaries into a single description. When answering a question, the entire portrait was added to the prompt alongside conversation turns retrieved through search. Textual memory retains only the portrait.
+A model generated the portrait by combining the daily summaries of the user's personality, each written from that day's dialogue, into a single description. When answering a question, the entire portrait was added to the prompt alongside conversation turns retrieved through search. Textual memory retains only the portrait.
 
 **PersonaMem-v3.** The implementation in this post follows the *Textual Memory* baseline from [PersonaMem-v3][personamem-v3] (2026). PersonaMem-v3 is a benchmark for personal assistants whose users' preferences change over time. It was seeded from more than a million anonymised real engagement histories from social media, chatbots, calendars and companion apps.
 

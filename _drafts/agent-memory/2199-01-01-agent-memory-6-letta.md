@@ -17,7 +17,7 @@ A language model sees only the text in its current prompt. To use what a user sa
 
 The memory systems described earlier in this series share one property: a process outside the conversation writes the memory. After a session, or after each message, a pipeline of model calls reads what was said and stores what it finds. The agent that talks to the user never decides what is kept.
 
-This part looks at the design that does the opposite. In [Letta][letta-repo], which grew out of the [MemGPT][memgpt] paper, the agent that answers the user also manages its memory. A few small blocks of text are part of its prompt on every call, and it edits them itself, with tool calls, in the middle of its turn. Everything said is also kept in a log of messages, which the agent can search with another tool. So, in the terms of this series, the answering agent writes the memory, and the read path inserts the blocks whole while a search reaches the rest.
+This part looks at the design that does the opposite. In [Letta][letta-repo], which grew out of the [MemGPT][memgpt] paper, the agent that answers the user also manages its memory. A few small blocks of text are part of its prompt on every call, and it edits them itself, with tool calls, in the middle of its turn. Everything said is also kept in a log of messages, which the agent can search with another tool. This series places each design by two choices: who writes the memory (nobody, a pipeline, the answering agent, or a background process), and whether the read path inserts the whole memory or a search selects part of it. In Letta, the answering agent writes the memory, and the read path inserts the blocks whole while a search reaches the rest.
 
 This post first explains how Letta works: what the agent sees, the tools it edits its memory with, the search, and Letta's variant that moves the writing to a second agent in the background. It then follows one short test conversation through the agent, one model call at a time. Finally, it examines how the design fails on longer histories, and when it is the right design. The prompts and tool descriptions are Letta's own, read from the source of its server. Every reply below comes from [the notebook for this part][notebook], which drives Letta's prompts and tools from a short local loop, or from a replay of its calls, marked as such. The code is in the [agent-memory-eval repository][repo].
 
@@ -297,7 +297,7 @@ The section on failures shows what these three properties did on long histories.
 
 Writing during the turn has a cost that the user feels: every edit is a model call before the reply. Letta's alternative, named after the [Sleep-time Compute][sleep-time] paper (2025), moves the writing to a second agent. When an agent is created with `enable_sleeptime`, the server sets up two agents that share the same blocks:
 
-- **The primary agent** talks to the user. It keeps `conversation_search`, and loses the tools that edit blocks. It still reads the blocks, because they are in its prompt.
+- **The primary agent** talks to the user. It keeps `conversation_search`, gains `archival_memory_search` (a search over a separate store of passages), and loses the tools that edit blocks. It still reads the blocks, because they are in its prompt.
 - **The sleep-time agent** never talks to the user. It has four tools: `memory_insert`, `memory_replace`, `memory_rethink` (replace a whole block) and `memory_finish_edits` (stop). It also has a block of its own, `memory_persona`.
 
 The server runs the sleep-time agent in the background, by default after every fifth turn of the primary agent, and gives it the messages since its last run. The primary agent does not wait for it.
@@ -498,7 +498,7 @@ They recently moved to Kreuzberg (May), so restaurants within walking distance a
 The user's sister, Lena, is visiting in the autumn with her partner, Jonas. Lena has a shellfish allergy, and Jonas is coeliac.
 ```
 
-**The change needed no search and no comparison.** This is the strength of the design. The old value was already in the agent's prompt, because the whole block always is. The systems in the earlier parts of this series first have to find the stored fact that a new one contradicts, and they can only compare the new fact with what their search returns. Here the agent saw "strict vegetarian" while it read "pescatarian now, not vegetarian", and replaced it.
+**The change needed no search and no comparison.** This is the strength of the design. The old value was already in the agent's prompt, because the whole block always is. The pipelines in the earlier parts of this series (Mem0 and Graphiti) show the model only the stored facts that a search returns, so the fact that a new one contradicts may not be among them. Here the agent saw "strict vegetarian" while it read "pescatarian now, not vegetarian", and replaced it.
 
 Four things about how it got there:
 
@@ -658,7 +658,7 @@ On the experiment's long histories, the shape is the same at a larger scale. Fro
 
 The example showed the design's failures in small form: a fact noted in a reply and not written, an old value overwritten, dates that are relative or wrong, and searches that found nothing. Longer histories show what follows from them.
 
-I ran the real Letta server, version 0.16.8, self-hosted, in the larger experiment of this series, on LongMemEval: a public benchmark of long chat histories in which users state facts and later change them in passing. [Part 8][part-8] describes the experiment. Every request the agent sent and every reply it got was logged, so for each question it is possible to say what the agent did at the moment the changed fact arrived. The setup differed from the notebook in three ways:
+I ran the real Letta server, version 0.16.8, self-hosted, in the larger experiment of this series, on LongMemEval: a public benchmark of long chat histories in which users state facts and later change them in passing. [Part 8][part-8] describes the experiment. Every request the agent sent and every reply it got was logged, so for each question it is possible to say what the agent did at the moment the changed fact arrived. The setup was close to the notebook's, with two differences:
 
 - **Each user message was one agent step**, as in the notebook, but the histories were about ten sessions long, mostly about other things.
 - **The date of each session was put in front of each message**, because the server stamps messages with the time they arrive and cannot import a date.
@@ -772,7 +772,7 @@ MemGPT's benchmark for conversations, Deep Memory Retrieval (DMR), asked a quest
 
 The [notebook][notebook] for this post re-implements Letta's agent loop in a few dozen lines of Python. Everything the model sees is Letta's own text, fetched from Letta's repository at a fixed commit: the base prompts of the default agent and the sleep-time agent, the personas, the layout of the blocks, and the tool descriptions, built from the docstrings of Letta's tool functions the way the server builds them. The tools behave as on a self-hosted 0.16.8 server: an edit returns the whole block, and the search matches the whole query and returns the five newest matches.
 
-I re-implemented the loop rather than running the server so that every call could be printed and read. Three things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives similar replies (the server sends 1.0); the sleep-time agent runs once after each session (the server runs it every five turns); and the primary agent of the sleep-time set-up has only the search tool. The replays in this post are separate runs, at the server's temperature, and they are marked as replays.
+I re-implemented the loop rather than running the server so that every call could be printed and read. Three things are simpler than on the server, and none changes what the notebook shows: the model runs at temperature 0, so that a rerun gives similar replies (the server sends 1.0); the sleep-time agent runs once after each session (the server runs it every five turns); and the primary agent of the sleep-time set-up has only the search over past messages, without the archival search. The replays in this post are separate runs, at the server's temperature, and they are marked as replays.
 
 I used `gemini-3.1-flash-lite` for every agent. It is available on the free tier of the Gemini API, which is enough for the few dozen calls that the notebook makes. All systems in this series use the same model, so that differences in their results come from their designs. In this design that matters most: the memory policy is the model's judgement.
 

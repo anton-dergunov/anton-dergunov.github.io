@@ -16,7 +16,7 @@ tags:
 
 A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. Some stored facts stay true. Others change, and then the newer value has to win.
 
-The earlier parts of this series took five memory systems apart, one per part: textual memory, Mem0, Zep/Graphiti, Letta and Honcho. Each part followed one short test conversation (two sessions and a question) through the system, one model call at a time. The conversation was small on purpose: small enough that every prompt, every stored item and every reply could be printed and read. It shows how each mechanism works. It cannot show how often a mechanism fails, or what it costs, on histories of realistic length.
+The earlier parts of this series took five memory systems apart, one per part: textual memory, Mem0, Zep/Graphiti, Letta and Honcho. Each part followed one short test conversation (two sessions that state facts, and a third with a question) through the system, one model call at a time. The conversation was small on purpose: small enough that every prompt, every stored item and every reply could be printed and read. It shows how each mechanism works. It cannot show how often a mechanism fails, or what it costs, on histories of realistic length.
 
 This part runs the same five systems on a public benchmark, LongMemEval, with real-length chat histories. The questions are of one kind: the user states a fact, later changes it in passing, and then asks about it. This is what the test conversation of the earlier parts did once; here it is done 67 times. Every system runs with the same model, answers the same questions and is scored by the same judge. Two baselines without any memory system run next to them. For every answer, the experiment also records what the system had stored and what reached the answering model, so that each wrong answer can be traced to the step that lost it.
 
@@ -26,7 +26,7 @@ The code, the results for every question and the analysis of every wrong answer 
 
 Most memory systems in this series differ in two choices, and these explain most of the results below:
 
-1. **Who writes the memory:** a pipeline of model calls that runs after the conversation, or the agent itself, in its own turn.
+1. **Who writes the memory:** nobody (the raw history is the memory), a pipeline of model calls that runs after each message or session, the answering agent itself in its own turn, or a background process between conversations.
 2. **How the memory is read:** the whole memory goes into the prompt, or a search selects part of it.
 
 ## Benchmarks for memory systems
@@ -277,7 +277,7 @@ The numbers are also **not comparable to published LongMemEval results**: the hi
 
 ## The systems compared
 
-Seven configurations ran on every question: two baselines and five memory systems. Each memory system is the real software, at its library's defaults, except where the experiment had to change something; each change is listed, with its reason, at the top of that system's module in the [repository][arms].
+Seven systems ran on every question: two baselines and five memory systems. Letta also ran with three added persona lines, and Honcho's store was read in two ways, so the results below have nine configurations, plus two first runs. Each memory system is the real software, at its library's defaults, except where the experiment had to change something; each change is listed, with its reason, at the top of that system's module in the [repository][arms].
 
 | Configuration | Who writes the memory | What is read at question time |
 |---|---|---|
@@ -337,7 +337,7 @@ The main run therefore tests mainly the write path: whether a system stores the 
 Three things follow:
 
 - **The order of the systems did not change.** Every score moved by at most two answers, and on 25 questions one answer is 4 points. Retrieval stayed first, then textual memory, then full context and Mem0.
-- **Full context slips but does not collapse.** All four of its wrong answers on whole histories gave the old value, which was in its prompt next to the new one. The 5K question was one of them: with the whole history, the answer was 27:12. In the LongMemEval paper, GPT-4o fell much further, from 0.870 with only the evidence sessions to 0.606 with the S history (p. 6, Fig. 3). Current models read long prompts better, which weakens the case for memory as a way to fit a history into the prompt, at least at this length.
+- **Full context slips but does not collapse.** All four of its wrong answers on whole histories gave the old value, which was in its prompt next to the new one. The 5K question was one of them: with the whole history, the answer was 27:12. Mem0 gave the same wrong answer there. In the LongMemEval paper, GPT-4o fell much further, from 0.870 with only the evidence sessions to 0.606 with the S history (p. 6, Fig. 3). Current models read long prompts better, which weakens the case for memory as a way to fit a history into the prompt, at least at this length.
 - **Writing memory costs more as the history grows; reading does not.** Textual memory costs 13 times more per question on whole histories, because it rewrites a growing profile after every session. Mem0 costs about 4.5 times more, because it extracts facts from every session. Retrieval costs the same, because it does nothing until it is asked. What each answer reads stayed flat for Mem0 and retrieval; textual memory's profile grew from about 1,400 to 5,600 tokens.
 
 ### The other limits
@@ -539,7 +539,7 @@ LongMemEval, like most benchmarks above, asks whether a fact is recalled. A seco
 - **Sycophancy.** [MemSyco-Bench][memsyco] finds that memory makes models agree with the user more: on objective factual questions, adding memory lowers Qwen3-8B's accuracy from 49.12 to between 26 and 36 (p. 7).
 - **Belief update without a restatement.** [HorizonBench][horizonbench] isolates the update itself: a life event changes a preference, and the user never restates it. The best of 25 models answers 52.8% (p. 2), and when models err on a changed preference, more than a third of the time they pick the value the user first stated (p. 8). This is the same failure as above, without the "by the way" sentence that LongMemEval at least provides.
 
-None of this shows up in an accuracy score on recall questions, including the ones in this experiment.
+None of this shows up in an accuracy score on recall questions, including the ones in this experiment. [DolphinBench][dolphinbench] (2026), from Mem0's authors, takes a step in this direction: it tests memory through tasks that never mention the fact they depend on, and it requires every result to report cost and latency next to accuracy.
 
 ## Where memory systems are heading
 
@@ -581,7 +581,7 @@ The whole experiment cost about $110 on Vertex AI: $93 for the main run (of whic
 
 Model replies vary from run to run, even with the same prompt, and a different model changes more. A rerun will move each score by a few answers, and some failures will change places; the mechanisms described above stay the same.
 
-Each part of this series also has a notebook that runs one system on a short test conversation, with every model call printed; they are linked from the [repository][repo].
+Each of the five system parts of this series also has a notebook that runs its system on a short test conversation, with every model call printed; they are linked from the [repository][repo].
 
 Here are a few experiments worth trying:
 
@@ -609,6 +609,7 @@ Papers:
 - Jiang et al., [PersonaMem-v3: Toward Omni-Platform Personal Intelligence for Holistic User Understanding, Recommendation, and Agentic Tasks][personamem-v3] (2026)
 - Hu et al., [OP-Bench: Benchmarking Over-Personalization for Memory-Augmented Personalized Conversational Agents][op-bench] (2026)
 - Xiang et al., [MemSyco-Bench: Benchmarking Sycophancy in Agent Memory][memsyco] (2026)
+- Rathi et al., [DolphinBench: Mapping the Pareto Frontier of Agent Memory][dolphinbench] (2026)
 - Yan et al., [Memory-R1: Enhancing Large Language Model Agents to Manage and Utilize Memories via Reinforcement Learning][memory-r1] (2025)
 - Wang et al., [SAGE: A Novelty Gate for Efficient Memory Evolution in Agentic LLMs][sage] (2026)
 - Zou et al., [Remember the Decision, Not the Description: A Rate-Distortion Framework for Agent Memory][demem] (2026)
@@ -634,6 +635,7 @@ Other sources:
 [halumem]: https://arxiv.org/abs/2511.03506
 [horizonbench]: https://arxiv.org/abs/2604.17283
 [dynamicmem]: https://arxiv.org/abs/2606.22877
+[dolphinbench]: https://arxiv.org/abs/2609.24971
 [personamem-v3]: https://arxiv.org/abs/2608.21381
 [mirix]: https://arxiv.org/abs/2507.07957
 [mem0]: https://arxiv.org/abs/2504.19413

@@ -17,10 +17,10 @@ A language model sees only the text in its current prompt. To use what a user sa
 
 Most memory systems store what the user said, as facts or as a profile. Two choices shape what they do well, what they do badly and what they cost:
 
-1. **Who writes the memory:** a pipeline of model calls that runs after the conversation, or the agent itself, in its own turn.
+1. **Who writes the memory:** nobody (the raw history is the memory), a pipeline of model calls that runs after each message or session, the answering agent itself in its own turn, or a background process between conversations.
 2. **How the memory is read:** the whole memory goes into the prompt, or a search selects part of it.
 
-This part looks at [Honcho][honcho-repo], from Plastic Labs, which stores more than what was said. Every stored item is a *conclusion* with a level: something the user said, something that follows from it, or a pattern across several such items. A derived conclusion records the ids of the conclusions it was drawn from. Two background jobs write the memory. One extracts what was said as messages arrive. The other, which Honcho calls a *dream*, runs later: two agents with tools look through the store, write new conclusions and delete outdated ones. Reading has two paths: an agent that searches the store and writes an answer, or a list of conclusions with no model call. So, in the terms of this series, a pipeline in the background writes, and the read path selects.
+This part looks at [Honcho][honcho-repo], from Plastic Labs, which stores more than what was said. Every stored item is a *conclusion* with a level: something the user said, something that follows from it, or a pattern across several such items. A derived conclusion records the ids of the conclusions it was drawn from. Two background jobs write the memory. One extracts what was said as messages arrive. The other, which Honcho calls a *dream*, runs later: two agents with tools look through the store, write new conclusions and delete outdated ones. Reading has two paths: an agent that searches the store and writes an answer, or a list of conclusions with no model call. So, in the terms of this series, a background process writes, and the read path selects.
 
 The links between conclusions make one question answerable that a list of facts cannot answer: when a fact stops being true, which conclusions rested on it? This post shows what Honcho does with that question, and what it does not.
 
@@ -81,7 +81,7 @@ The fields that carry the design:
 - **Links:** a derived row lists the ids of its sources, in a separate table (`document_sources`). A deductive row also keeps the text of its premises as the model wrote them, and an inductive row the text of its sources.
 - `message_created_at`: when the conclusion was said or became possible. For an explicit row it is the time of the message, to the minute; for a derived row, the time of its latest source.
 - `times_derived`: how many times the same conclusion was produced again.
-- `deleted_at`: a delete is a soft delete. Reads skip the row, but the row stays, and so do the links that point to it. Here the vegetarian fact, a source of the row above, was deleted by the same dream that wrote the row.
+- `deleted_at`: a delete is a soft delete. Reads skip the row, but the row stays, and so do the links that point to it. Here the outdated fact, a source of the row above, was deleted by the same dream that wrote the row.
 
 ### The levels
 
@@ -698,7 +698,7 @@ Two things in this test press hardest on Honcho's design:
 - **The fact that changes**, and what was concluded from the old value before it changed. Here the levels and the links are supposed to pay off.
 - **The read path.** Both paths select, and what they select includes derived rows.
 
-**What was run.** The test conversation went three times through a self-hosted Honcho 3.3.0 server, set up as in the experiment, with every model role on `gemini-3.1-flash-lite`. The messages were added with their real dates, a minute apart. The real trigger would never start a dream on two short sessions (they give about 15 explicit conclusions, not 50). In real use, though, many other conversations would fall between March and July, so the runs scheduled a dream through the API after each session. The larger experiment scheduled one dream after the whole history. A proxy between the server and the model recorded every request in full. The sections below follow the first run, and say where the other two differed.
+**What was run.** The test conversation went three times through a self-hosted Honcho 3.3.0 server, set up as in the experiment, with every model role on `gemini-3.1-flash-lite`. The messages were added with their real dates, a minute apart. The real trigger would never start a dream on two short sessions (they give 16 explicit conclusions, not 50). In real use, though, many other conversations would fall between March and July, so the runs scheduled a dream through the API after each session. The larger experiment scheduled one dream after the whole history. A proxy between the server and the model recorded every request in full. The sections below follow the first run, and say where the other two differed.
 
 In the sessions below, colours mark how a phrase reached the store: <mark class="hl hl-facts">stored as said</mark>, or <mark class="hl hl-changes">stored with a time that is lost or wrong</mark>. Phrases with no colour were not stored.
 
@@ -758,7 +758,7 @@ The card's rule is that a value which "plausibly changes within six months absen
 
 The induction agent took three rounds and wrote one pattern from three sources: *"Anton consistently prioritizes vegetarian options that include paneer when selecting meals"*, confidence "medium" (the prompt's rule also says medium for three sources).
 
-After dream 1, the vegetarian fact supports three things: a deduction, a pattern and a line on the peer card.
+After dream 1, the outdated fact supports three things: a deduction, a pattern and a line on the peer card.
 
 ### Session 2: the old value and the new one, side by side
 
@@ -815,7 +815,7 @@ Anton resides in Berlin, specifically the Kreuzberg district.
 
 The first is the update the prompt asks for, dated by its sources to 20 July. Its first premise is not the stored text: the model added "(as of March 2026)", and the premise text is whatever the model writes.
 
-**Round 3:** `delete_observations` on one row, the vegetarian fact.
+**Round 3:** `delete_observations` on one row, the outdated fact.
 
 **Round 4:** the peer card, with "Diet: Pescatarian" and a new line, "Location: Berlin, Kreuzberg".
 
@@ -845,11 +845,11 @@ Both carry the old value as if it were current, and nothing in either row says o
 
 | Run | Update written | Deleted by the deduction agent | Live conclusions that still say "vegetarian" |
 |---|---|---|---|
-| 1 | "transitioned from a vegetarian diet to a pescatarian diet in June 2026" | the vegetarian fact | a deduction and a pattern |
-| 2 | "pescatarian, updating from vegetarian" | *"Anton does not eat meat"* (still true) | the vegetarian fact itself, a deduction and a pattern |
-| 3 | "changed from strictly vegetarian to pescatarian" | the vegetarian fact, and *"Anton does not eat meat"* | a deduction and a pattern |
+| 1 | "transitioned from a vegetarian diet to a pescatarian diet in June 2026" | the outdated fact | a deduction and a pattern |
+| 2 | "pescatarian, updating from vegetarian" | *"Anton does not eat meat"* (still true) | the outdated fact itself, a deduction and a pattern |
+| 3 | "changed from strictly vegetarian to pescatarian" | the outdated fact, and *"Anton does not eat meat"* | a deduction and a pattern |
 
-Two of the three runs deleted a fact that had not changed. The user said "Still no meat" in July; the agent read "does not eat meat" as part of the old diet. Run 2 kept the vegetarian fact and deleted the true one. In every run, conclusions drawn from the old value stayed live.
+Two of the three runs deleted a fact that had not changed. The user said "Still no meat" in July; the agent read "does not eat meat" as part of the old diet. Run 2 kept the outdated fact and deleted the true one. In every run, conclusions drawn from the old value stayed live.
 
 ### Session 3: the two read paths
 
@@ -920,7 +920,7 @@ Two of the three runs deleted a fact that had not changed. The user said "Still 
 ```
 <!-- END REPRESENTATION -->
 
-The explicit level is current: the vegetarian row is gone, and the pescatarian row is there with its date. The deductive level has the update, dated 20 July, and also *"likely to order vegetarian Indian food"*, dated 14 March. The inductive level has two patterns; the one about the diet is the stale one, marked "high". Patterns are printed with no date at all, so an answering model cannot tell that this one is older than the update.
+The explicit level is current: the old row is gone, and the row with the new value is there with its date. The deductive level has the update, dated 20 July, and also *"likely to order vegetarian Indian food"*, dated 14 March. The inductive level has two patterns; the one about the diet is the stale one, marked "high". Patterns are printed with no date at all, so an answering model cannot tell that this one is older than the update.
 
 **The dialectic** made one call and no tool calls: the 25 + 25 conclusions of its prefetch were all it used. Its prefetch held the same rows as the representation, in order of similarity, with ids and premises for the derived ones. Its reply:
 
@@ -942,7 +942,7 @@ All six needs are there: pescatarian, the peanut allergy, shellfish for Lena, gl
 
 ### What the links make possible
 
-The notebook for this part runs the same pipeline with Honcho's prompts and tools, from short local functions, and prints every step. Its run behaved like the server runs: dream 2 wrote an update, deleted the vegetarian fact and, as in run 3, the true *"Anton does not eat meat"*, and left two conclusions that cite the deleted fact. It then does three things that Honcho does not.
+The notebook for this part runs the same pipeline with Honcho's prompts and tools, from short local functions, and prints every step. Its run behaved like the server runs: dream 2 wrote an update, deleted the outdated fact and, as in run 3, the true *"Anton does not eat meat"*, and left two conclusions that cite the deleted fact. It then does three things that Honcho does not.
 
 **It lists what rests on a deleted row.** Following the links from the deleted rows takes a few lines, and gives an exact list of five: the two stale conclusions; the two deductions about the change, which cite the old fact on purpose; and a pattern built on one of those. Honcho's scope rule, applied to this list, would delete all five, the update included, because it fails closed. A rule that keeps a conclusion while any of its sources still holds would keep all five, the stale ones included, because each of them also cites a fact that is still true. One rule is too strict and the other too lenient. What the links give is the list itself, computed by code, without asking a model; deciding what to do with each row on it is a further step.
 
@@ -969,7 +969,7 @@ Writing also made 9 embedding calls, in batches: the server embeds new rows and 
 
 {% include diagram.html name="honcho-cost" alt="Nineteen bars, one per model call of the first server run, grouped by step. The deriver read 923 tokens for session 1 and 1,115 for session 2. Dream 1: the deduction agent's four rounds read 2,460 to 3,069 tokens, the induction agent's three 1,028 to 1,705. Dream 2: the deduction agent's five rounds read 2,551 to 4,069, the induction agent's four 1,028 to 2,861. In every round of an agent, the part equal to its first round is sent again; the rest is what it has read since. The dialectic's one call read 4,598 tokens. In all, 49,585 tokens, 44,987 of them for writing." caption="Input tokens of every model call in the first server run. The deriver reads about a thousand tokens per session; each round of a dream agent sends its instructions again, plus everything it has read so far." %}
 
-The deriver is cheap: about a thousand tokens per session, most of them the prompt's rules. The dream is where the cost is. Each round sends the agent's instructions and tool descriptions again (the first deduction call read 2,460 tokens before it had seen a single conclusion), plus every tool result so far, so the later rounds of an agent read the most. The second dream cost more than the first because its tool results were longer, not because it read the whole store: it asked for the newest twenty rows, as the first one did.
+The deriver is cheap: about a thousand tokens per session, most of them the prompt's rules. The dream is where the cost is. Each round sends the agent's instructions and tool descriptions again (the first deduction call read 2,460 tokens before it had seen a single conclusion), plus every tool result so far, so the later rounds of an agent read the most. The second dream cost more than the first because its tool results were longer and its agents took more rounds. Both dreams asked for the newest twenty rows, and in both the store was smaller than that, so each read the whole store; by the second dream it had grown to nineteen rows.
 
 For the same two sessions, the systems in the other parts of this series used:
 
@@ -978,7 +978,7 @@ For the same two sessions, the systems in the other parts of this series used:
 - Zep/Graphiti: 38 model calls and 25 embedding calls, 60,374 tokens read;
 - Letta: the in-line agent, which writes inside its replies, 17 model calls and 47,677 tokens for seven user turns; its sleep-time agent, which does the pipelines' job, 4 calls and 12,775 tokens.
 
-Honcho is near Graphiti and Letta in tokens and second to Graphiti in calls, and it is the only one of these that spends most of its write cost after the conversation, in a separate job that the application can schedule. The size of the store does not drive that cost; the number of dreams and of agent rounds does.
+Honcho is near Graphiti and Letta in tokens and second to Graphiti in calls, and most of its write cost is in a separate job after the conversation, which the application can schedule. Textual memory and Letta's sleep-time agent also write after the conversation, but in one or a few calls. The size of the store does not drive that cost; the number of dreams and of agent rounds does.
 
 ## Where it breaks
 
@@ -1021,7 +1021,7 @@ The pair-level dialectic of 3.3.0 does not. Version 3.5.0 (released 30 October 2
 - *"user is a dancer"*, from attending dance classes on Tuesdays;
 - *"user is currently managing digestive health concerns, possibly related to dairy sensitivity"*, with "possibly" in a deduction.
 
-In the example, *"likely to order vegetarian Indian food"* and *"resides in Berlin"* (from planning a dinner there) are the same kind of row. Each is stored at the level the dialectic is told to treat as following from the facts, and it is shown to every later read. Some of these rows are about health, which makes a wrong inference more than an accuracy problem: the memory now holds a sentence about the person that they never said.
+In the example, *"likely to order vegetarian Indian food"* is the same kind of row. Each is stored at the level the dialectic is told to treat as following from the facts, and it is shown to every later read. Some of these rows are about health, which makes a wrong inference more than an accuracy problem: the memory now holds a sentence about the person that they never said.
 
 **Failure 4: extraction keeps the value and drops the context.** The deriver's rows are short and literal, and the qualifier that decides a question is sometimes not in them. "My new 70-200mm zoom lens" became *"user owns a 70-200mm zoom lens"*, while an earlier *"user recently acquired a 50mm prime lens"* kept its "recently", and the representation's answer to "What type of camera lens did I purchase most recently?" was the 50mm. In another history, the user first said they had misplaced a screwdriver and would buy one, and four days later that they had a spare; the second statement produced no conclusion, and both read paths answered that there was no evidence of a spare.
 
@@ -1039,7 +1039,7 @@ JOIN documents s ON s.id = l.source_id
 WHERE d.deleted_at IS NULL AND s.deleted_at IS NOT NULL;
 ```
 
-In the first server run it returns the stale deduction, the stale pattern and the update; in the third, two deductions, a pattern and the update. In the second, where the agent deleted the true row and kept the vegetarian fact, it returns only the update: the stale rows there rest on a row that is still live, and no query over the links can find them. A non-empty result after a dream is a list of conclusions to review; an empty one does not prove that nothing is stale.
+In the first server run it returns the stale deduction, the stale pattern and the update; in the third, two deductions, a pattern and the update. In the second, where the agent deleted the true row and kept the outdated fact, it returns only the update: the stale rows there rest on a row that is still live, and no query over the links can find them. A non-empty result after a dream is a list of conclusions to review; an empty one does not prove that nothing is stale.
 
 **Compare the two read paths** on questions whose answer changed. Where the dialectic declines and the representation answers, the memory had the value and the read path lost it.
 

@@ -197,15 +197,15 @@ Some designs do both. Claude Code keeps an index file that is always in the prom
 
 The five systems that parts 3 to 7 take apart, and the two baselines of the experiment in part 8, sit in different cells of these two choices.
 
-{% include diagram.html name="map-systems" alt="The five memory systems of this series and the two baselines, on two axes: who writes the memory (nobody, a pipeline, the answering agent, a background process) and whether the read path inserts everything or selects. Nobody writes: full context inserts the whole history; plain retrieval selects with BM25 over the raw turns. A pipeline writes: Mem0 and Zep/Graphiti select. The answering agent writes: Letta inserts its core memory blocks, and its archival store is searched. A background process writes: textual memory inserts one profile; Honcho selects among its conclusions." caption="The systems of this series on the two choices. The cells are not a ranking: inserting is better while everything fits, and selecting is needed when it does not." %}
+{% include diagram.html name="map-systems" alt="The five memory systems of this series and the two baselines, on two axes: who writes the memory (nobody, a pipeline, the answering agent, a background process) and whether the read path inserts everything or selects. Nobody writes: full context inserts the whole history; plain retrieval selects with BM25 over the raw turns. A pipeline writes: Mem0 and Zep/Graphiti select. The answering agent writes: Letta inserts its core memory blocks, and the agent searches its log of past messages. A background process writes: textual memory inserts one profile; Honcho selects among its conclusions." caption="The systems of this series on the two choices. The cells are not a ranking: inserting is better while everything fits, and selecting is needed when it does not." %}
 
 - **Full context** (a baseline): nobody writes, and the whole history goes into the prompt.
 - **Retrieval over the raw turns** (a baseline): nobody writes, and a keyword search (BM25) selects the turns closest to the request.
 - **Textual memory** ([part 3][part-3]): a background call rewrites one profile of the user after each session, and the whole profile is inserted.
 - **Mem0** ([part 4][part-4]): a pipeline extracts short facts into a vector store, and a similarity search selects.
-- **Zep and Graphiti** ([part 5][part-5]): a pipeline writes facts with dates into a graph and closes the facts that a newer one replaces. A search over the graph selects. Of the five systems here, it is the only one that keeps a replaced value as dated history by design.
-- **Letta** ([part 6][part-6]): the answering agent edits memory blocks that are always in the prompt, and can search a larger archive.
-- **Honcho** ([part 7][part-7]): a background reasoner writes conclusions about the user, at stated levels of certainty, and a search or a model that answers questions about the user selects from them.
+- **Zep and Graphiti** ([part 5][part-5]): a pipeline writes facts with dates into a graph and closes the facts that a newer one replaces. A search over the graph selects. Of the five systems here, it is the only one that keeps a replaced value as dated history by construction: the old fact stays in the graph, with an end date. Textual memory also keeps an old value as history, but only because its prompt asks the rewrite to.
+- **Letta** ([part 6][part-6]): the answering agent edits memory blocks that are always in the prompt, and can search the log of past messages.
+- **Honcho** ([part 7][part-7]): a background reasoner writes conclusions about the user, each at a level of reasoning (what the user said, what follows from it, or a pattern across several statements), and a search or a model that answers questions about the user selects from them.
 
 The cells are not a ranking. Inserting is the better choice while the whole memory fits in the prompt and costs little to read. Selecting is needed when it does not.
 
@@ -259,6 +259,8 @@ The Mem0 paper's own table shows it. On LoCoMo, putting the whole conversation i
 
 [MemoryAgentBench][memoryagentbench] (Hu et al., 2025), run by a group unrelated to the systems it tests, finds the same. Agents that read the whole input lead overall: GPT-5-mini scores 60.6, and the best memory agent, HippoRAG-v2, scores 41.6 (p. 8, Table 3). The comparison is not even, though: the memory agents ran on GPT-4o-mini, and some long-context agents on stronger models.
 
+[MemoryTax][memorytax] (Peng, 2026), a short independent study on one LoCoMo conversation, adds the model as a variable. With GPT-4o-mini, Mem0 scored 78% against 74% for the whole conversation; with two stronger models, Mem0 no longer beat it, and building Mem0's memory alone cost more than the whole run with the full conversation (p. 3). The study also swapped the model that reads a store: a stronger reader did not recover what a weaker writer had left out (p. 3). It is one conversation and one run per setting, as its author notes.
+
 Memory starts to win when the history is too long to fit, or too long to be read well. [LongMemEval][longmemeval] (Wu et al., 2024) builds chat histories of about 115,000 tokens, with questions about facts spread across sessions. GPT-4o answers 87.0% of its questions when given only the sessions that hold the answer, and 60.6% when given the whole history (p. 6, Fig. 3). The [Zep][zep] paper reports 71.2% for Zep on the same benchmark, against 60.2% for the whole history, with 1,600 tokens in the prompt instead of 115,000 (p. 7, Table 2); that is the vendor's own run.
 
 *How strong the evidence is:* consistent across papers, but it depends on the length of the history and on the model. LoCoMo's conversations fit easily into a modern context window; LongMemEval's are long enough to hurt.
@@ -285,7 +287,7 @@ When a memory system answers wrongly, the usual cause is not that the search mis
 - for most systems, more than half of the updates are missed, because a fact that was never extracted cannot be updated;
 - no system answers more than 70% of the questions correctly (p. 11, Table 3).
 
-[DynamicMem][dynamicmem] (2026) comes to the same conclusion from the other end: over 93% of the failures it analyses trace to what the memory system retrieved, not to the answering model (p. 3).
+[DynamicMem][dynamicmem] (2026) agrees that the memory, not the answering model, is where most failures lie: over 93% of the failures it analyses trace to what the memory system retrieved (p. 3). It does not separate what was never written from what was written and not found.
 
 *How strong the evidence is:* several independent papers agree, though most use simulated users.
 
@@ -334,7 +336,7 @@ MemoryBank also proposed forgetting after Ebbinghaus's forgetting curve. Each me
 
 An agent that writes its own memory with tool calls is Letta's design ([part 6][part-6]); Letta is the company and framework that grew out of MemGPT.
 
-**After 2023.** The two benchmarks that most papers now use came in 2024: [LoCoMo][locomo] in February and LongMemEval in October. In 2025 came a wave of memory systems with papers, among them Zep in January, A-MEM in February, Mem0 in April, and MemOS and MIRIX in July, each reporting that it beat the others on LoCoMo. In the same year, Memory-R1 and [Mem-α][mem-alpha] began to train the decision about what to write with reinforcement learning. From late 2025, most new papers re-ran existing systems instead of adding one, and their results are the findings above.
+**After 2023.** The two benchmarks that most papers now use came in 2024: [LoCoMo][locomo] in February and LongMemEval in October. In 2025 came a wave of memory systems with papers, among them Zep in January, A-MEM in February, Mem0 in April, and MemOS and MIRIX in July, each reporting that it beat the others, most of them on LoCoMo (Zep on LongMemEval and on MemGPT's DMR benchmark). In the same year, Memory-R1 and [Mem-α][mem-alpha] began to train the decision about what to write with reinforcement learning. From late 2025, most new papers re-ran existing systems instead of adding one, and their results are the findings above.
 
 For further reading, three surveys cover the field from different angles: [Memory for Autonomous LLM Agents][autonomous] (2026) is the shortest, Memory in the Age of AI Agents the fullest, and Rethinking Memory in LLM-based Agents is organised by the six operations.
 
@@ -372,6 +374,7 @@ Papers:
 - Lin et al., [Sleep-time Compute: Beyond Inference Scaling at Test-time][sleep-time] (2025)
 - Suzgun et al., [Dynamic Cheatsheet: Test-Time Learning with Adaptive Memory][dynamic-cheatsheet] (2025)
 - Hu et al., [Evaluating Memory in LLM Agents via Incremental Multi-Turn Interactions][memoryagentbench] (2025)
+- Peng, [MemoryTax: The Bitter Lesson of Agent Memory][memorytax] (2026)
 - Wu et al., [LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory][longmemeval] (2024)
 - Rasmussen et al., [Zep: A Temporal Knowledge Graph Architecture for Agent Memory][zep] (2025)
 - Li et al., [MemOS: A Memory OS for AI System][memos] (2025)
@@ -415,6 +418,7 @@ Papers:
 [sleep-time]: https://arxiv.org/abs/2504.13171
 [dynamic-cheatsheet]: https://arxiv.org/abs/2504.07952
 [memoryagentbench]: https://arxiv.org/abs/2507.05257
+[memorytax]: https://arxiv.org/abs/2610.29823
 [longmemeval]: https://arxiv.org/abs/2410.10813
 [locomo]: https://arxiv.org/abs/2402.17753
 [memos]: https://arxiv.org/abs/2507.03724

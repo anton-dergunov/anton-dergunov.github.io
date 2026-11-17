@@ -15,7 +15,7 @@ tags:
 
 A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. A simple memory system can put everything it has stored into every prompt. That stops working when the stored information no longer fits in the prompt, or when reading all of it on every request costs too much. The memory system then has to select: for each request, it must find the few stored items that the request needs.
 
-This part looks at the best-known design that selects: [Mem0][mem0]. After a conversation, a model call extracts short, standalone facts about the user and stores them in a vector store. When a new request arrives, a similarity search returns the stored facts closest to it. So a pipeline writes the memory, outside the conversation, and a search selects what the answering model reads. Most papers on LLM memory systems compare their system with Mem0, and its API is two calls: `add()` and `search()`.
+This part looks at the best-known design that selects: [Mem0][mem0]. After a conversation, a model call extracts short, standalone facts about the user and stores them in a vector store. When a new request arrives, a similarity search returns the stored facts closest to it. This series places each design by two choices: who writes the memory (nobody, a pipeline, the answering agent, or a background process), and whether the read path inserts the whole memory into the prompt or a search selects part of it. In Mem0, a pipeline writes the memory, outside the conversation, and a search selects what the answering model reads. Most papers on LLM memory systems compare their system with Mem0, and its API is two calls: `add()` and `search()`.
 
 This post explains what happens inside those two calls. It first describes the write path and the read path of the open-source library, with its prompts and the code around them. It then follows one short test conversation through the library, one call at a time. Finally, it examines how the design fails on longer histories and when I would use it. Every prompt and reply below comes from [the notebook for this part][notebook], which runs the real `mem0ai` library, or from a replay of the notebook's calls, marked as such. The code is in the [agent-memory-eval repository][repo].
 
@@ -554,7 +554,7 @@ For comparison, here is what the other systems in this series read in order to s
 - **Textual memory** ([part 3][part-3]), which rewrites one profile after each session, also made two model calls. They read 916 tokens.
 - **Zep/Graphiti** ([part 5][part-5]) made 38 model calls, which read about 60,000 tokens.
 - **Honcho** ([part 7][part-7], from a run of its server) made 18 model calls, 16 of them in two background "dreams", which read 44,987 tokens.
-- **Letta** ([part 6][part-6]) writes inside the agent's own replies, so its write cost cannot be separated from the conversation.
+- **Letta** ([part 6][part-6]) writes inside the agent's own replies: its edits took five extra model calls, which read about 15,000 tokens, while the user waited. Its variant with a background agent took four calls and 12,775 tokens.
 
 ## Where it breaks
 
@@ -601,7 +601,7 @@ The complete account of every wrong answer in the experiment is in [docs/finding
 
 These failures are visible in the store, not in the answers. After a user changes something, list the stored facts for that user and look for two values of the same attribute. `get_all()` returns every fact, and each fact is a readable sentence.
 
-Four changes address the four failures:
+Four changes address failures 1 to 3 and the hard constraint. None of them addresses failure 4:
 
 - **For failure 3, pass the conversation's date.** The prompt builder accepts it, and `add()` does not. My wrapper in the experiment calls the builder with each session's date. To order two sessions on one day, the date needs a time as well.
 - **For failure 1, retire a replaced fact.** The pieces exist. The model already returns a link from the new fact to the fact it updates or contradicts. Code could store the link and mark the older fact as replaced, or return the two facts together with their order. This is my proposal, and I did not test it. The paper's update step is another way. [Memory-R1][memory-r1] (2025) is a third: it keeps the paper's four operations and trains the model that chooses among them with reinforcement learning. The reward is whether a second model then answers a question correctly from the resulting store.
