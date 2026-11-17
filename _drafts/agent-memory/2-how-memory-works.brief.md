@@ -6,97 +6,107 @@ status: draft
 
 # Brief: How agent memory works (part 2)
 
-Shared material is in `series.brief.md`. Source: `v1/2199-01-01-agent-memory-2-the-map.md` and Anton's 10 notes on it, the surveys and papers in `~/papers/library/llm/memory/` (notes in `~/papers/notes/`).
+Rewritten 2026-11-16 from Anton's spoken notes (`~/tmp-spoken-plans/blog/next-part.txt`), which rejected the earlier brief's framing. Shared material is in `series.brief.md`. Sources: the literature review `~/papers/reviews/llm/memory.md`, the surveys and papers in `~/papers/library/llm/memory/` (notes in `~/papers/notes/`), CoALA in `~/papers/library/llm/agents/`. `v1/2199-01-01-agent-memory-2-the-map.md` is material for facts only.
 
 ## Reader
 
-The series reader, who wants the concepts before the systems: an engineer who has heard "agent memory", "RAG" and "long context" and wants to know how they relate. This is the most visual part of the series. Every concept that takes more than a paragraph gets a figure.
+The series reader, who has heard of memory systems for LLM agents and wants to know how they work in general, before meeting any particular architecture. They may have read other posts that classify memory as working, episodic, semantic and procedural, and want to know how that relates to what a system actually does. This part is the overview of the whole area, and the most visual part of the series.
 
 ## The problem
 
-Every memory paper introduces its system with its own name and its own diagram, so the field looks like dozens of unrelated inventions. Underneath, almost all of them are the same loop with different answers to a few questions. Without that frame a reader cannot compare two systems, or tell a memory system from retrieval or from a long prompt.
+New memory systems and memory products appear often, and some disappear as quickly. Each comes with its own names and diagrams. Most of them combine a small set of ideas: where the memory is kept, what is written and when, how a request gets what it needs, and what is paid for at each step. Without those ideas a reader cannot compare two systems, or tell a memory system from retrieval over documents or from a long prompt.
 
 ## What the reader should leave with
 
-1. Every memory system is one loop (write, store, read, use) wrapped around a model that does not change, and papers usually improve one step of it.
-2. Where the memory lives (text, the model's cache, or its weights) decides what is possible. Text is the only form a person can read and delete and any hosted model can use, which is why products use it.
-3. Within text memory, two choices separate the designs: who writes, and whether the read path inserts everything or selects.
-4. Work on the write path is paid once; work on the read path is paid on every request. A paper's cost figure depends on which of the two it reports.
-5. Long context and retrieval over the raw history are not memory, but they are the baselines every memory system has to beat.
+1. Memory can be kept as text outside the model, as internal state of the model, or in its weights. Text is the only form a person can read and correct, and the only one a hosted model accepts, which is why almost every memory system for agents uses it.
+2. The labels "working, episodic, semantic, procedural" come from cognitive science through CoALA; each corresponds to a mechanism.
+3. A text memory has a write path and a read path. The six operations of the Rethinking-Memory survey sit on them. The write path can run in the background; the read path runs while the user waits.
+4. Systems differ in how they answer five design questions. Two of them explain most of a system's behaviour and cost: who writes, and whether the read path inserts the whole memory or selects part of it.
+5. Retrieval over documents and a long context are not memory, but they are the baselines memory must beat. The research finds long context strong, published rankings unstable, most facts lost at write time, and updating the hardest part.
 
 ## Outline
 
-| Section | Claim it supports | Evidence or artefact to show | Figure |
+| Section | Claim | Evidence or artefact | Figure |
 |---|---|---|---|
-| Opening | The field looks like many inventions and is mostly one loop; this part gives the frame for reading any memory system | A short version of the problem above; the notebooks link | none |
-| A model that forgets, and the loop around it | Weights and context are the model's only built-in memories; neither carries over; a memory system is the loop that does | v1 "A stateless model…" | `overview` |
-| Six operations on the loop | The vocabulary from the Rethinking-Memory survey, each with a one-line example from the running conversation | v1 table, turned into a figure. Keep "condensation" (the survey's term) and gloss it: compressing what was retrieved so it fits the prompt (Anton asked whether "compression" is meant) | `operations` |
-| Where memory lives: text, cache or weights | Location decides readability, deletability and whether it works with a hosted API | v1 table, turned into a three-panel figure. Latent memory: Memorizing Transformers, MemoryLLM, Cartridges, each explained in one sentence with a picture of what is stored. "Nobody can read what was stored" explained: the memory is vectors, not sentences. Weights: MEMIT, Memory Layers, Titans, and the model-editing result (an edit does not change the facts that follow from it: "moved to Berlin" vs "nearest airport") | `three-homes` |
-| Who writes | Four writers (nobody, a pipeline, the answering agent, a background process), drawn on a timeline of one turn. Each loses facts in its own way. | v1 "The two axes" | `writers` |
-| Insert or select | Inserting cannot miss but stops at the prompt's size; selecting scales and can leave out the one fact that mattered | v1; the Claude Code example (an always-loaded index plus topic files read on demand) shows both in one design | `insert-vs-select` |
-| The map | The five systems of the series on the two choices, each in one line | The map without products (products are part 9). Scope "the only one that models time explicitly" to "of the five here" (Anton's note) | `map` |
-| When the work is paid for | The write cost is paid once and the read cost on every request; a paper tends to report the budget that flatters it | The Mem0 paper's store sizes (Mem0 about 7K tokens per conversation, Zep more than 600K, both 1–3K in the prompt; p. 14), with the caveat that this is a competitor's measurement. No experiment numbers here. | `cost-timing` |
-| What memory is not | RAG has no write decision; a long context removes the need to select. Both are baselines, and full context is strong. | Mem0 paper: full context 72.90 vs Mem0 66.88 on LoCoMo, but p95 latency 17.12 s vs 1.44 s (p. 11). LongMemEval: GPT-4o 0.870 with only the relevant sessions vs 0.606 with all of them (p. 6, Fig. 3). Explain LoCoMo in one sentence where it first appears. | none, or a small pair |
-| Where the designs came from | Three 2023 papers hold the ideas the later systems build on; each explained enough to be useful | Generative Agents (memory stream, importance × recency × relevance, reflections); MemoryBank (raw turns, event summaries, and a global user portrait written by the LLM, p. 3; the forgetting curve; show a portrait from the paper `[TODO: pull an example from the paper text in ~/papers]`, as Anton asked "how did it look like?"); MemGPT (context as RAM, external stores as disk, with one sentence on why that analogy: the model moves data with function calls, as a program moves pages). Then 2025–2026 in two sentences, with sources for "re-runs do not reproduce the rankings" (MemoryAgentBench, EvoMemBench, AgentMemBench; the Zep vs Mem0 swing). The claim "three papers contain most of the ideas" needs a source, or is reworded as Anton's own reading and marked as such. | `timeline` |
-| What this series runs, and why these five | One idea per system; what was left out and why | v1 table, as prose plus a small table | none |
-| How it was run / Try it | Notebook 00 and the repository | Links | none |
+| Opening (no heading) | A model sees only its prompt; carrying information between conversations needs a memory system that keeps, updates, drops and finds facts. Systems are many and come and go; this part explains the ideas they share. | Repository link line | none |
+| What memory means for an LLM agent | Weights and context are the built-in memories; neither carries over. Definition of memory; the jobs it has. | Plain prose | none |
+| Where memory can be kept: text, cache or weights | The form decides what can be read, corrected and used with a hosted model; text dominates for those reasons. An embedding in a vector store is an index, not latent memory. | Memory in the Age of AI Agents p. 13, p. 30–31; Memorizing Transformers, MemoryLLM, Cartridges; MEMIT, Memory Layers, Titans, Larimar; model-editing result (p. 14) | `three-homes` |
+| Working, episodic, semantic and procedural memory | The labels and what each is mechanically; RAG as a read-only semantic memory; the later surveys' alternatives; what this series covers | CoALA p. 9–10; Rethinking p. 5–6; Age of AI Agents p. 5, p. 31; Externalization | `memory-kinds` |
+| The write path and the read path | Every text memory has both; the six operations; when each runs; what the answering model receives | Rethinking p. 6–7; pseudocode | `operations` |
+| Five design questions | Unit, writer, store shape, read selection, timing, each with examples | SeCom, Memory-R1, Zep, MemGPT, LightMem | none |
+| ↳ Who writes the memory | Four writers, when each runs, how each loses facts | Age of AI Agents p. 61 ("silent failure") | `writers` |
+| ↳ Whether the read path inserts or selects | Inserting cannot miss but has a ceiling; selecting scales and can miss; designs that do both | Claude Code's index and topic files | `insert-vs-select` |
+| ↳ The systems of this series on the two choices | Five systems and two baselines, one line each | Graphiti scoped to "of the five here" | `map-systems` |
+| Write cost and read cost | Paid once vs on every request; store size and prompt size are different numbers | Mem0 paper p. 11 (Table 2), p. 14; LightMem p. 7; Sleep-time Compute | `cost-timing` |
+| Memory, retrieval and long context | The two baselines, and the fair one (same prompt, empty memory) | Age of AI Agents p. 10–11; Dynamic Cheatsheet p. 6 | none |
+| What the research has found | Four labelled findings, each with how strong the evidence is | Mem0 p. 11; LongMemEval p. 6; MemoryAgentBench p. 8; Mem0/MemOS/MIRIX tables; HaluMem p. 11; ForgetEval; A-TMA; model editing p. 14 | small table |
+| Where the designs came from | Three 2023 papers whose ideas later systems reuse, each shown; then 2024–2026 | Generative Agents p. 8–10; MemoryBank p. 3–4 and Fig. 1 (the portrait); MemGPT p. 1–3 | `timeline` |
+| Closing paragraph | What the later parts do | Links | none |
 
 ## Running example
 
-Used lightly: one or two sentences, in the operations figure and the "who writes" section, to make the abstractions concrete ("the July session says pescatarian now"). No transcript.
+Not used in this part (Anton, 2026-11-16). Neutral one-line illustrations instead: a user who moved from Munich to Berlin.
 
 ## Numbers
 
 | Number | Out of what | From where | Compared with | So what |
 |---|---|---|---|---|
-| Mem0 ~7K tokens vs Zep >600K stored; both 1–3K in the prompt | per LoCoMo conversation | Mem0 paper, p. 14 | each other | The store size and the prompt size are unrelated; measured by a competitor |
-| 72.90 vs 66.88 (full context vs Mem0) on LoCoMo; p95 17.12 s vs 1.44 s | LoCoMo, judge score | Mem0 paper, p. 11, Table 2 | the vendor's own system | Full context is a strong baseline, and memory buys speed |
-| 0.870 → 0.606 | GPT-4o accuracy on LongMemEval, relevant sessions only vs whole ~115K-token history | LongMemEval, p. 6, Fig. 3 | itself | Memory starts to win when the model reads a long history badly |
-| 0.97 → 0.01 | downstream facts after a model edit | Model-editing paper, p. 14, Table 4 | before the edit | An edit to the weights does not propagate |
+| 7K vs >600K tokens stored; 1,764 and 3,911 tokens in the prompt; 26K for the whole conversation | per LoCoMo conversation | Mem0 paper p. 14, p. 11 Table 2 | each other | store size and prompt size are different budgets; a competitor's measurement |
+| 72.90 vs 66.88; p95 17.12 s vs 1.44 s | LoCoMo, judge score | Mem0 paper p. 11 Table 2 | the vendor's own system | full context is strong; memory buys speed |
+| 0.870 → 0.606 | GPT-4o, evidence sessions only vs ~115K-token history | LongMemEval p. 6, Fig. 3 | itself | long histories are read badly |
+| Zep 6 points below Mem0, or 17 above | LoCoMo, three papers | Mem0 p. 11, MemOS p. 24, MIRIX p. 11 | each other | published rankings do not transfer |
+| < 60% extraction recall | every system but MemOS | HaluMem p. 11 | the facts it should have stored | most is lost at write time |
+| 0.97 → 0.01 | downstream facts after an edit | Model-editing paper p. 14, Table 4 | before the edit | an edit does not change what follows from it |
+| 23.3 / 36.7 / 50.0 | AIME 2024, Claude 3.5 Sonnet | Dynamic Cheatsheet p. 6, Table 1 | no memory, empty memory, curated | the fair baseline is the empty memory |
 
-Page numbers only where a reader may check a number (Anton's "Keep pages?" note).
-
-## Figures to make
-
-`operations`, `three-homes`, `writers`, `insert-vs-select`, `cost-timing`, `timeline`, all in `agent-memory-eval/scripts/diagrams/figures/`. `overview` and `map` exist. Anton has seen better pictures of latent vs parametric memory elsewhere `[TODO Anton: which ones, to draw ours after them]`.
+Experiment numbers stay in part 8.
 
 ## Left out
 
+- The running example, and the reading guide to the parts (part 1).
 - Products on the map (part 9).
-- Experiment numbers, including "the systems differ by a factor of 360 in what they put into the prompt" (part 8).
-- The claim "So the first row of every results table is the whole history" (Anton: "double check"); part 8 says it where it is true.
-- Skill and procedure memory (ExpeL, ReasoningBank), named once in what is left out.
-
-## Links
-
-- Notebook 00: https://anton-dergunov.github.io/agent-memory-eval/notebooks/00-introduction.html
-- Surveys: Rethinking Memory in LLM-based Agents (2505.00675); Memory in the Age of AI Agents (2512.13564)
-- Papers: Generative Agents, MemoryBank, MemGPT, Mem0, Zep, LongMemEval, MemoryAgentBench, Memorizing Transformers, MemoryLLM, Cartridges, MEMIT, Memory Layers at Scale, Titans, Fundamental Problems With Model Editing
+- Memory of skills and procedures (ExpeL, ReasoningBank), named in the labels section as out of scope.
+- Security and poisoning of memory (one survey, one benchmark): out of scope for an overview of how it works.
 
 ## For search and for employers
 
 - Title: "How agent memory works"
-- Excerpt: "The loop every LLM memory system shares, the two design choices that separate them, and the baselines they must beat, in diagrams."
-- What this post shows about Anton's work: he reads a field widely and reduces it to a frame that others can use.
+- Excerpt: "How memory systems for LLM agents work: where memory can be kept, what happens when it is written and read, the design choices that separate systems, and what the research has found."
+- What this post shows about Anton's work: he reads a field widely and reduces it to a frame others can use, with sources for every claim.
+
+## Anton's spoken notes (2026-11-16), and where each is handled
+
+| Note | Handled by |
+|---|---|
+| Part 2 is an overview of the whole area, for someone who wants to know how memory systems work in general | The reader and the outline above |
+| "Looks like many inventions and is mostly one loop" reads as a strong, angry opinion | Neutral opening: many systems, a few shared ideas |
+| Not a loop: memory runs per session; forgetting is not its only job | Two paths, write and read; the opening names keep, update, drop, find |
+| Classify by form first: text, embeddings, weights; fine-tuning and online learning are options | "Where memory can be kept" comes first after the definition, with the embedding point |
+| Many blogs start with working/episodic/semantic/procedural; maybe introduce it | Its own section, traced to CoALA and mapped to mechanisms |
+| Text memory matters because most people have no access to frontier weights | Said in general terms in the forms section; no mention of earlier work |
+| Titles must be plain and technical | Headings name the content |
+| No diet, no dinner, no running example | Not used in this part |
+| Keep the six operations, with a picture | `operations` figure |
+| "Five questions that separate the designs": title disliked; group the design questions and mark them as design decisions | One section "Five design questions", with the two series axes as subsections |
+| Where memory lives: a picture | `three-homes` figure |
+| "What this series runs" competes with part 1 | Moved to part 1; one closing paragraph here |
+| Part 1 should introduce the series, part 2 explain memory | Part 1 brief to be rewritten in its own session |
 
 ## Anton's notes on v1, and where each is handled
 
 | Note | Handled by |
 |---|---|
-| "Is this the correct word? Not compression?" | Keep "condensation" (the survey's term), glossed as compression at read time |
-| "What is this?" (tiers) | Define, with MemGPT's main memory and external stores as the example, or drop the word |
-| "What does it mean?" (nobody can read) | Explained in the three-homes section |
+| "Is this the correct word? Not compression?" | "Condensation" kept (the survey's term), glossed as compression at read time |
+| "What is this?" (tiers) | Defined with MemGPT's main context and external stores |
+| "What does it mean?" (nobody can read) | Explained in the forms section: the memory is vectors, not sentences |
 | "Keep pages?" | Only where a number can be checked |
-| "Double check it is really so" (first row of every table) | Moved to part 8 |
-| "Why CC said so?" (three papers contain most ideas) | Source it, or mark it as Anton's reading |
-| "How it looked like? This article must be highly readable." (MemoryBank portrait) | Show an example portrait |
-| "Need more references on this claim" (re-runs) | Cite the third-party benchmarks |
-| "Need some context on this here" (MemGPT RAM/disk) | One sentence of context |
+| "Double check it is really so" (first row of every table) | Dropped here; part 8 says it where it is true |
+| "Why CC said so?" (three papers contain most ideas) | Reworded: each idea traced to a later system |
+| "How it looked like?" (MemoryBank portrait) | The portrait from Fig. 1 and the paper's two prompts |
+| "Need more references on this claim" (re-runs) | Finding 2, with the three papers' tables |
+| "Need some context on this here" (MemGPT RAM/disk) | One sentence on paging |
 | "Strong statement… Or the only one here?" | Scoped to "of the five here" |
 
 ## Open questions for Anton
 
-- From part 3 (2026-11-12): Dynamic Cheatsheet's AIME result (7 problems with a plain prompt, 11 with an empty cheatsheet, 15 with a curated one) shows that the fair baseline for any memory is the same prompt with an empty memory. It is true of every design, so it may belong here rather than in part 3. Move it here?
-
-- Which pictures of latent vs parametric memory you liked, so ours can be drawn after them.
-- Whether "three papers from 2023 contain most of the ideas" is your view (then it stays, as an opinion) or should go.
+- None blocking. The plan's follow-ups (series brief idea 1 "One loop", part 9's recap, the `overview` subtitle) are listed in `HANDOFF.md`.
