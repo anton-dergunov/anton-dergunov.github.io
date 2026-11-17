@@ -18,7 +18,7 @@ ChatGPT and Claude now remember things about you between conversations, and doze
 
 ## What the reader should leave with
 
-1. Memory is a loop around a model that forgets: something writes, something is stored, something is read back into the prompt.
+1. A memory system has two paths around a model that does not change: a write path that turns a conversation into memory, and a read path that puts what a new request needs into the prompt.
 2. Two choices explain most of a design: who writes, and whether everything is inserted or a search selects.
 3. Memory systems break in ways that a score hides, and you find out by reading what they stored; this series shows where each one breaks, why, and what fixed it.
 4. On a public benchmark, simple designs held up well and the large differences were in cost (general terms only).

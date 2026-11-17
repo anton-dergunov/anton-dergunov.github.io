@@ -24,7 +24,7 @@ The series name is decided (Anton, 2026-11-01). The earlier drafts in `v1/` are 
 
 ## The ideas of the series
 
-1. **One loop.** Every memory system is the same loop around a model that forgets: write, store, read, use.
+1. **Two paths.** Every memory system has a write path, which turns a conversation into memory, and a read path, which puts what a new request needs into the prompt. The model that answers does not change.
 2. **Two choices.** Most of what a system does well, does badly and costs follows from two choices: who writes the memory, and whether the read path puts all of it into the prompt or a search picks part of it.
 3. **Storing is not delivering.** Storing a fact and getting it to the answering model are separate problems, and most facts are lost at write time.
 4. **Feeding matters.** How a system is fed decides whether it remembers at all, and nothing fails loudly when it is fed wrong.
@@ -36,7 +36,7 @@ The series name is decided (Anton, 2026-11-01). The earlier drafts in `v1/` are 
 | # | Working title | Type | Its job | Ideas |
 |---|---|---|---|---|
 | 1 | Why look inside agent memory | series introduction | Why this is worth understanding; the shape of the answer; a reading guide | 1, 2, 6 (5 in general terms) |
-| 2 | How agent memory works | map | The loop, its operations, where memory can live, the two choices, the baselines, where the designs came from. The most visual part. | 1, 2, 3 |
+| 2 | How agent memory works | map | The write and read paths, their operations, where memory can live, the two choices, the baselines, where the designs came from. The most visual part. | 1, 2, 3 |
 | 3 | Textual memory: one profile, rewritten | system deep-dive | The simplest design: a background rewrite of one profile, inserted whole | 2, 3, 6 |
 | 4 | Mem0: facts in a vector store | system deep-dive | Extraction into short facts, similarity search | 2, 3, 6 |
 | 5 | Zep and Graphiti: facts with dates, in a graph | system deep-dive | A pipeline into a dated graph; closing superseded facts | 2, 3, 4, 6 |
@@ -99,7 +99,7 @@ The series name is decided (Anton, 2026-11-01). The earlier drafts in `v1/` are 
 
 | Term | Definition to reuse |
 |---|---|
-| memory (of an agent) | any mechanism that carries information from one conversation to a later one, outside the model's weights |
+| memory (of an agent) | any mechanism that carries information from one conversation to a later one; part 2 covers all three forms (text, the model's internal state, its weights), and the series is about text |
 | session | one conversation, with a date |
 | write path / read path | what happens when a conversation is turned into memory / when a new request gets what it needs from memory |
 | insert vs select | the whole memory goes into the prompt / a search picks part of it |
@@ -115,14 +115,14 @@ Existing figures are in `agent-memory-eval/docs/figures/` and are copied to `ima
 
 | Figure | Shows | Parts | Status |
 |---|---|---|---|
-| overview | the loop: write, memory, read, use | 1, 2 | exists |
+| overview | the two paths: write, memory, read, and the prompt they feed | 1 | exists |
 | map | the systems on the two choices | 1, 2 | exists |
 | series | the same conversation through five systems | 1 | exists |
 | textual, mem0, graphiti, letta, honcho | each architecture with the example | 3–7 | exist |
 | results | accuracy and cost per arm | 8 (maybe 1) | exists |
 | answering | tokens and cost per answer once memory is built | 8 | exists |
 | conversation | the three sessions on a timeline, and the six needs | 1, 3–7 | new |
-| operations | the six operations placed on the loop | 2 | new |
+| operations | the six operations placed on the write and read paths | 2 | exists (2026-11-16) |
 | three-homes | text vs cache vs weights | 2 | new |
 | writers | when each kind of writer runs, relative to the user's turn | 2 | new |
 | insert-vs-select | the two read paths side by side | 2 | new |

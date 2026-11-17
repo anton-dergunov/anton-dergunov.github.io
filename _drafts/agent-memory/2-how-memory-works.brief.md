@@ -109,4 +109,4 @@ Experiment numbers stay in part 8.
 
 ## Open questions for Anton
 
-- None blocking. The plan's follow-ups (series brief idea 1 "One loop", part 9's recap, the `overview` subtitle) are listed in `HANDOFF.md`.
+- None blocking. The series brief, part 1's brief, part 9's recap and the `overview` figure were changed to "two paths" on 2026-11-17.

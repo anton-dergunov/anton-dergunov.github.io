@@ -606,7 +606,7 @@ A fourth observation follows from the coding agents. **Claude Code and Gemini CL
 
 This part closes the series *How LLM agents remember*. Its ideas, in short:
 
-1. **One loop.** Every memory system is the same loop around a model that forgets: write, store, read, use.
+1. **Two paths.** Every memory system has a write path, which turns a conversation into memory, and a read path, which puts what a new request needs into the prompt. The model that answers does not change.
 2. **Two choices.** Most of what a system does well, does badly and costs follows from two choices: who writes the memory, and whether the read path puts all of it into the prompt or a search picks part of it. The products in this part fit the same two choices.
 3. **Storing is not delivering.** Storing a fact and getting it to the answering model are separate problems, and most facts are lost when they are written.
 4. **Feeding matters.** How a system is fed decides whether it remembers at all, and nothing fails loudly when it is fed wrong.
