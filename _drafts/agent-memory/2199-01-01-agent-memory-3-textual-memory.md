@@ -26,7 +26,7 @@ This post first explains how textual memory works: its write path, its read path
 Like most memory systems, textual memory has two components:
 
 - a **write path**, which stores information after a session;
-- a **read path**, which puts the stored information to the prompt of a later session.
+- a **read path**, which puts the stored information into the prompt of a later session.
 
 [Part 2][part-2] explains these two paths across all the designs in this series. The designs differ mainly in two choices: who writes the memory (nobody, a pipeline of model calls, the answering agent itself, or a background process between conversations), and whether the read path puts the whole memory into the prompt or a search selects part of it. Textual memory takes the simplest possible approach to both paths: one background call writes, and the read path inserts everything.
 
@@ -111,7 +111,7 @@ The system instruction is designed for the test conversation in this post, where
 
 Both design choices are simple, but each choice comes with a cost:
 
-- **The write path rewrites everything.** After every session, the model rewrites every line of the profile, including those lines that did not changed. It uses its own wording for every line, and that wording can change with each rewrite.
+- **The write path rewrites everything.** After every session, the model rewrites every line of the profile, including those lines that did not change. It uses its own wording for every line, and that wording can change with each rewrite.
 - **The read path inserts everything.** Since nothing selects which information goes into the prompt, the entire profile must fit in the prompt.
 
 A memory can also be updated through edits, where the model changes only the lines that need updating. PersonaMem-v3's prompt explicitly describes such operations: ADD, EDIT, REMOVE and MERGE (combining two related lines into one). However, its code still asks the model to output the entire memory again. Letta, covered in [part 6][part-6], performs actual edits: its agent calls tools to insert a line or replace a piece of text. But an edit only protects the lines it leaves untouched. In the notebook for that part, the agent replaced its entire memory in a single edit and reworded a person's shellfish restriction in the same way as the rewrite shown in the example below.

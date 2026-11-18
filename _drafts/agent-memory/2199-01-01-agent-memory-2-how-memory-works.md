@@ -296,6 +296,7 @@ When a memory system answers wrongly, the usual cause is not that the search mis
 Storing a fact is easier than knowing that it is no longer true.
 
 - **Old and new values mixed.** [A-TMA][a-tma] (2026) calls this "ghost memory": the old, the current and an intermediate version of a fact are retrieved together, and the answer mixes them.
+- **Revision.** [EvoMemBench][evomembench] (2026) finds memory methods "better at retention than revision". BM25, Mem0 and A-MEM improve on questions about facts that were kept, but their scores "drop sharply" on questions about facts that later evidence changed (p. 6).
 - **Deletion.** [ForgetEval][forgeteval] (2026) tests whether a memory can be made to forget a fact. Graph memories pass few of its adversarial cases (Graphiti 7%, HippoRAG 9.5%), because turning text into entities loses the exact wording that a targeted deletion needs. One extra model call at the moment a fact changes raises simple stores from 63–68% to 92–93% (p. 7, Table 2). The study has a single author, who also built one of the systems it tests.
 - **Two answers to what an update should do.** Some systems mark the old fact as replaced and keep it, with dates: Zep does this, and can then answer questions about the past. Others remove the old fact, which keeps it out of the prompt and is what a request to delete requires. Among the papers I read, none compares the two on the same task.
 
@@ -382,6 +383,7 @@ Papers:
 - Chen et al., [HaluMem: Evaluating Hallucinations in Memory Systems of Agents][halumem] (2025)
 - Xie et al., [DynamicMem: A Long-Horizon Memory Benchmark in Real-World Settings][dynamicmem] (2026)
 - Shi et al., [A-TMA: Decoupling State-Aware Memory Failures in Long-Term Agent Memory][a-tma] (2026)
+- Wang et al., [EvoMemBench: Benchmarking Agent Memory from a Self-Evolving Perspective][evomembench] (2026)
 - Yang, [Control-Plane Placement Shapes Forgetting: An Architectural Study of Agent Memory Across Thirteen System Configurations][forgeteval] (2026)
 - Park et al., [Generative Agents: Interactive Simulacra of Human Behavior][generative-agents] (2023)
 - Zhong et al., [MemoryBank: Enhancing Large Language Models with Long-Term Memory][memorybank] (2023)
@@ -426,6 +428,7 @@ Papers:
 [halumem]: https://arxiv.org/abs/2511.03506
 [dynamicmem]: https://arxiv.org/abs/2606.22877
 [a-tma]: https://arxiv.org/abs/2607.01935
+[evomembench]: https://arxiv.org/abs/2605.18421
 [forgeteval]: https://arxiv.org/abs/2606.15903
 [generative-agents]: https://arxiv.org/abs/2304.03442
 [memorybank]: https://arxiv.org/abs/2305.10250

@@ -14,7 +14,7 @@ tags:
   - evaluation
 ---
 
-A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. Some stored facts stay true. Others change, and then the newer value has to win.
+A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. Some stored facts change, and whether a memory system then keeps the newer value cannot be seen from the outside: it has to be measured.
 
 The earlier parts of this series took five memory systems apart, one per part: textual memory, Mem0, Zep/Graphiti, Letta and Honcho. Each part followed one short test conversation (two sessions that state facts, and a third with a question) through the system, one model call at a time. The conversation was small on purpose: small enough that every prompt, every stored item and every reply could be printed and read. It shows how each mechanism works. It cannot show how often a mechanism fails, or what it costs, on histories of realistic length.
 
@@ -377,7 +377,7 @@ The columns: *USD per question* is what the system spent on model calls to write
 
 What the table shows:
 
-- **Eight configurations form one band**, from 82% to 97%, and their intervals overlap. As the previous section explained, the order inside the band is not a result.
+- **Eight configurations form one band**, from 82% to 97%. Their intervals overlap except at the two ends of the band (Graphiti's 71–89% and retrieval's 90–99%), and as the previous section explained, no pair differs once the test is corrected for the number of comparisons. The order inside the band is not a result.
 - **Retrieval over raw turns is at the top of the band and the bottom of the cost column.** It writes nothing, so it cannot lose an update at write time; the revision is still in its index, word for word.
 - **Letta at its defaults is the one working configuration clearly below the others.** With three lines added to its persona, it joins the band (see "Telling Letta's agent what to do").
 - **The large differences are in cost and in what has to run.** Graphiti spends about 30 times what textual memory spends, and more than 300 times what retrieval spends, for no gain in accuracy here, and it needs a graph database. Textual memory and retrieval need nothing but the model.

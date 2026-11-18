@@ -90,7 +90,7 @@ Each part is written to be read on its own. Read in order, they go from concepts
 
 **[Part 4, Mem0: facts in a vector store.][part-4]** A pipeline extracts short facts from each conversation, and a similarity search picks the facts for a new request. The part shows what happens between `add()` and `search()`: the update step that the paper describes and the current release removed, the links between facts that the library drops, and what a similarity cut leaves out.
 
-**[Part 5, Zep and Graphiti: facts with dates, in a graph.][part-5]** A pipeline of four model calls per message builds a knowledge graph, and every fact in it carries the dates when it was true. A contradicted fact is closed, not deleted, so old values stay as history. It is the most expensive design here in model calls, and its search can return the closed fact instead of the one that replaced it.
+**[Part 5, Zep and Graphiti: facts with dates, in a graph.][part-5]** A pipeline of four steps of model calls for every message builds a knowledge graph, and every fact in it carries the dates when it was true. A contradicted fact is closed, not deleted, so old values stay as history. It is the most expensive design here in model calls, and its search can return the closed fact instead of the one that replaced it.
 
 **[Part 6, Letta: an agent that edits its own memory.][part-6]** The opposite choice: the agent that answers the user also decides what to remember, and edits small blocks of text that are in every prompt. Whatever is in the blocks always reaches the model. But the agent often does not write, and three lines in its instructions changed that more than anything else.
 
@@ -110,7 +110,7 @@ The details are in the parts. In short:
 
 [LongMemEval][longmemeval] (Wu et al., 2024) is a public benchmark of long chat histories between a user and an assistant, with questions about what the user said. The series used its 67 questions about a fact that the user stated and later changed in passing. Each history was cut to 10 sessions, about 25,000 tokens, so it still fits into the prompt of a current model.
 
-On these questions, eight configurations of the systems and baselines scored between 82% and 97%. With only 67 questions, the intervals of these scores overlap, so their order is not a result. Reading the whole history, with no memory system, scored 90%.
+On these questions, eight configurations of the systems and baselines scored between 82% and 97% (all but Letta at its defaults, at 69%). With only 67 questions, the intervals of these scores overlap except at the two ends of the band, and no pair differs once the test is corrected for the number of comparisons, so their order is not a result. Reading the whole history, with no memory system, scored 90%.
 
 The costs were far apart. A keyword search over the raw messages, which writes no memory at all, was at the top of the range and cost $0.002 per question. The knowledge graph (Zep and Graphiti) cost $0.64 per question, more than 300 times as much, for no gain in accuracy here.
 
@@ -122,7 +122,7 @@ These histories fit into the prompt, and each history had one question. A check 
 
 When a memory system answered wrongly, the most common single cause was that the change had never been stored: 4 of Mem0's 11 wrong answers, 6 of Graphiti's 12, and 14 of Letta's 21. The change was usually one clause in a message about something else, such as "By the way, I just finished my 5th project since starting painting classes". A keyword search over the raw messages cannot lose a fact this way, because it writes nothing.
 
-Larger studies point the same way. [HaluMem][halumem] (2025) scores each step of the write path, and most systems it tests extract fewer than 60% of the facts they should. [PersonaMem-v3][personamem-v3] (2026) finds that a text memory that is rewritten as it grows drops or rewords about 14% of its lines at each update, although most of the content survives in other words (p. 22). The same study also finds that, on its tasks, the larger problem is how the answering model judges the evidence it is given, rather than whether the evidence reaches it (p. 23): storing a fact is only the first step.
+Larger studies point the same way. [HaluMem][halumem] (2025) scores each step of the write path, and most systems it tests extract fewer than 60% of the facts they should. [PersonaMem-v3][personamem-v3] (2026) finds that a text memory that is rewritten as it grows drops or rewords about 14% of its lines at each update, although most of the content survives in other words (§4.5, p. 19). The same study also finds that, on its tasks, the larger problem is how the answering model judges the evidence it is given, rather than whether the evidence reaches it (p. 23): storing a fact is only the first step.
 
 ### Finding 3: with dates, a memory does not have to resolve every change
 
@@ -148,7 +148,7 @@ None of these shows in a score. Each one was found by reading what the system st
 
 ### Finding 6: the products converged on text
 
-None of the assistants ships a vector store of facts or a knowledge graph as its memory. They ship a summary, a list of short entries or plain Markdown files, put into the prompt, and often a search over past chats. They disagree about who should write: ChatGPT and Codex moved the writing into a background process, while the Claude app moved toward writing during the conversation. The problem they all describe is staleness: a fact that was true, and then changed. And the coding agents arrived at the same layout: a short index loaded into every session, and topic files read only when the index points to them.
+None of the assistants ships a vector store of facts or a knowledge graph as its memory. They ship a summary, a list of short entries or plain Markdown files, put into the prompt, and often a search over past chats. They disagree about who should write: ChatGPT moved the writing into a background process, and Codex's memory has worked that way from the start, while the Claude app moved toward writing during the conversation. The problem that the vendors who explain their design describe is staleness: a fact that was true, and then changed. And the coding agents arrived at the same layout: a short index loaded into every session, and topic files read only when the index points to them.
 
 ### No single winner
 

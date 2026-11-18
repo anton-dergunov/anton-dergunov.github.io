@@ -1081,7 +1081,7 @@ On LongMemEval with `gpt-4o` answering, the paper reports 71.2% against 60.2% fo
 
 **Storing dated facts is not answering from the right one.** [A-TMA][a-tma] (2026) names the failure "ghost memory": old, current and transitional versions of a fact are retrieved together and reach the answer model with no mark of which is which (p. 1). It adds a layer that labels each retrieved fact as current, historical or transitional. With Graphiti/Zep as the host, the F1 score on LoCoMo's questions about time (the word overlap between an answer and the reference answer) rose from 0.0295 to 0.1705 (p. 11, Tables 3–4). Failure 3 above is one form of this: the closed fact was returned with its dates, and it took a place the hard constraint needed.
 
-**Updates, in an independent comparison.** [Are We Ready For An Agent-Native Memory System?][agent-native] (2026) runs fourteen memory systems under one protocol. Two of its results bear on this design:
+**Updates, in an independent comparison.** [Are We Ready For An Agent-Native Memory System?][agent-native] (2026) runs twelve memory systems and two baselines under one protocol. Two of its results bear on this design:
 
 - **Updates.** On questions asked after facts changed, Zep scored best: 44.4 by exact substring match, against 20.0 for the whole history in the prompt and 15.6 for Mem0 (p. 9, Table 2).
 - **Cost.** Zep was also among the slowest. It passed 84 on the paper's utility score only at 155 seconds per query (p. 11, Fig. 11).

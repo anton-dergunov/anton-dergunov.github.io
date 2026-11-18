@@ -13,14 +13,9 @@ tags:
   - memory
 ---
 
-A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. Some stored facts stay true. Others change, and then the newer value has to win.
+A language model sees only the text in its current prompt. To use what a user said in earlier sessions, an LLM agent needs a memory system: something that stores information from those sessions and puts it into a later prompt. Not everything that matters about a user is something they said: some of it follows from what they said, and it has to change when the facts underneath it change.
 
-Most memory systems store what the user said, as facts or as a profile. Two choices shape what they do well, what they do badly and what they cost:
-
-1. **Who writes the memory:** nobody (the raw history is the memory), a pipeline of model calls that runs after each message or session, the answering agent itself in its own turn, or a background process between conversations.
-2. **How the memory is read:** the whole memory goes into the prompt, or a search selects part of it.
-
-This part looks at [Honcho][honcho-repo], from Plastic Labs, which stores more than what was said. Every stored item is a *conclusion* with a level: something the user said, something that follows from it, or a pattern across several such items. A derived conclusion records the ids of the conclusions it was drawn from. Two background jobs write the memory. One extracts what was said as messages arrive. The other, which Honcho calls a *dream*, runs later: two agents with tools look through the store, write new conclusions and delete outdated ones. Reading has two paths: an agent that searches the store and writes an answer, or a list of conclusions with no model call. So, in the terms of this series, a background process writes, and the read path selects.
+Most memory systems store what the user said, as facts or as a profile. This part looks at [Honcho][honcho-repo], from Plastic Labs, which stores more than what was said. Every stored item is a *conclusion* with a level: something the user said, something that follows from it, or a pattern across several such items. A derived conclusion records the ids of the conclusions it was drawn from. Two background jobs write the memory. One extracts what was said as messages arrive. The other, which Honcho calls a *dream*, runs later: two agents with tools look through the store, write new conclusions and delete outdated ones. Reading has two paths: an agent that searches the store and writes an answer, or a list of conclusions with no model call. This series places each design by two choices: who writes the memory (nobody, a pipeline, the answering agent, or a background process), and whether the read path inserts the whole memory or a search selects part of it. In Honcho, a background process writes, and the read path selects.
 
 The links between conclusions make one question answerable that a list of facts cannot answer: when a fact stops being true, which conclusions rested on it? This post shows what Honcho does with that question, and what it does not.
 
